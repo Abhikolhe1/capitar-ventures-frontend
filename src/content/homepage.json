@@ -1,0 +1,135 @@
+{
+  "global": {
+    "brandLogo": {
+      "url": "/assets/capitar/logo.svg"
+    },
+    "navigation": [
+      {
+        "label": "Our Offerings",
+        "enabled": false,
+        "showIndicator": true
+      },
+      {
+        "label": "Portfolio",
+        "enabled": false
+      },
+      {
+        "label": "About Us",
+        "enabled": false
+      },
+      {
+        "label": "News & Insights",
+        "enabled": false
+      }
+    ],
+    "headerCta": {
+      "label": "Get In Touch",
+      "enabled": false
+    }
+  },
+  "hero": {
+    "enabled": true,
+    "announcementText": "Meet us at Global Fintech Fest 2026",
+    "announcementLink": {
+      "label": "Learn More",
+      "enabled": false
+    },
+    "heading": "We back founders\nwith conviction &\nprecision.",
+    "emphasisText": "conviction &",
+    "backgroundImage": {
+      "url": "/assets/capitar/hero-poster.webp"
+    },
+    "backgroundVideo": {
+      "url": "/assets/capitar/hero.mp4"
+    },
+    "primaryCta": {
+      "label": "Explore Portfolio",
+      "enabled": false
+    },
+    "trustedClientsTitle": "Our Trusted Clients",
+    "trustedClients": [
+      {
+        "name": "Qubehealth",
+        "logo": {
+          "url": "/assets/capitar/qubehealth.png"
+        },
+        "width": 129,
+        "height": 30.786
+      },
+      {
+        "name": "Pidge",
+        "logo": {
+          "url": "/assets/capitar/pidge.png"
+        },
+        "width": 75,
+        "height": 25.82
+      },
+      {
+        "name": "Craev",
+        "logo": {
+          "url": "/assets/capitar/craev.png"
+        },
+        "width": 83,
+        "height": 27.752
+      },
+      {
+        "name": "Qubehealth",
+        "logo": {
+          "url": "/assets/capitar/qubehealth.png"
+        },
+        "width": 129,
+        "height": 30.786
+      },
+      {
+        "name": "mPokket",
+        "logo": {
+          "url": "/assets/capitar/mpokket.png"
+        },
+        "width": 121,
+        "height": 39.879
+      }
+    ]
+  },
+  "portfolioProofPoints": {
+    "enabled": true,
+    "sectionLabel": "PORTFOLIO & PROOF POINTS",
+    "heading": "We work alongside early-stage founders with non-dilutive capital, experienced advice and a clear view of what the business needs next.",
+    "mutedText": "a clear view of what the business needs next.",
+    "backgroundLeft": {
+      "url": "/assets/capitar/proof-grid-left.svg"
+    },
+    "backgroundRight": {
+      "url": "/assets/capitar/proof-grid-right.svg"
+    },
+    "metrics": [
+      {
+        "value": 30,
+        "prefix": "",
+        "valueSuffix": "",
+        "suffix": "+",
+        "label": "Companies Backed"
+      },
+      {
+        "value": 400,
+        "prefix": "₹",
+        "valueSuffix": "",
+        "suffix": "cr+",
+        "label": "Capital Deployed"
+      },
+      {
+        "value": 50,
+        "prefix": "",
+        "valueSuffix": "%",
+        "suffix": "+",
+        "label": "First Institutional Partner"
+      },
+      {
+        "value": 2,
+        "prefix": "<",
+        "valueSuffix": "",
+        "suffix": "wks",
+        "label": "Term Sheet to Disbursement"
+      }
+    ]
+  }
+}

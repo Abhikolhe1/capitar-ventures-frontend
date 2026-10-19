@@ -15,6 +15,7 @@ import { AuthGuard, GuestGuard } from 'src/auth/guard';
 // ----------------------------------------------------------------------
 
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
+export const HomePage = lazy(() => import('src/pages/home/home-page'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
@@ -42,6 +43,7 @@ const renderFallback = () => (
 );
 
 export const routesSection: RouteObject[] = [
+  { path: '/', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><HomePage /></Suspense> },
   {
     element: (
       <AuthGuard>
@@ -53,7 +55,7 @@ export const routesSection: RouteObject[] = [
       </AuthGuard>
     ),
     children: [
-      { index: true, element: <DashboardPage /> },
+      { path: 'dashboard', element: <DashboardPage /> },
       { path: 'user', element: <UserPage /> },
       { path: 'products', element: <ProductsPage /> },
       { path: 'blog', element: <BlogPage /> },
