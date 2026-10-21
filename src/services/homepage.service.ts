@@ -4,6 +4,7 @@ import type {
   HeroContent,
   GlobalContent,
   HomepageContent,
+  CaseStudyContent,
   CapitalEfficiencyContent,
   CapitarDifferenceContent,
   PortfolioProofPointsContent,
@@ -11,7 +12,7 @@ import type {
 
 import axios from 'axios';
 
-const cmsOrigin = (import.meta.env.VITE_CMS_URL || 'http://localhost:1340').replace(/\/$/, '');
+const cmsOrigin = (import.meta.env.VITE_CMS_URL || 'http://localhost:3035').replace(/\/$/, '');
 const client = axios.create({ baseURL: `${cmsOrigin}/api`, timeout: 5000 });
 type RecordValue = Record<string, unknown>;
 const record = (value: unknown): RecordValue => {
@@ -172,7 +173,22 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
       };
     } catch { capitarDifference = undefined; }
   }
-  return { global, hero, portfolioProofPoints, capitalEfficiency, capitarDifference };
+  let caseStudy: CaseStudyContent | undefined;
+  const caseValue = record(record(homepageValue).data).caseStudy;
+  if (caseValue) {
+    try {
+      const value = record(caseValue), title = string(value.heading)?.trim(), sectionLabel = string(value.sectionLabel)?.trim();
+      if (!title || !sectionLabel) throw new Error('Invalid case study section');
+      caseStudy = { enabled: value.enabled !== false, heading: title, sectionLabel, description: string(value.description),
+        items: Array.isArray(value.items) ? value.items.flatMap(entry => {
+          try { const item = record(entry), name = string(item.name)?.trim();
+            return name ? [{ name, number: string(item.number), description: string(item.description), image: media(item.image), logo: media(item.logo), metricValue: string(item.metricValue), metricSuffix: string(item.metricSuffix), metricLabel: string(item.metricLabel), link: link(item.link) }] : [];
+          } catch { return []; }
+        }) : [],
+      };
+    } catch { caseStudy = undefined; }
+  }
+  return { global, hero, portfolioProofPoints, capitalEfficiency, capitarDifference, caseStudy };
 }
 export async function fetchHomepage(signal?: AbortSignal) {
   const [global, homepage] = await Promise.all([

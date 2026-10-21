@@ -95,6 +95,7 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
         </Box>
         {data.benefits.length > 0 && (
           <Box
+            data-capital-grid
             sx={{
               display: 'grid',
               gridTemplateColumns: {

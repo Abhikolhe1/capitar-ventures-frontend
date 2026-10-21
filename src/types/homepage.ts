@@ -52,6 +52,7 @@ export type HomepageContent = {
   portfolioProofPoints?: PortfolioProofPointsContent;
   capitalEfficiency?: CapitalEfficiencyContent;
   capitarDifference?: CapitarDifferenceContent;
+  caseStudy?: CaseStudyContent;
 };
 export type CapitalBenefitContent = {
   title: string;
@@ -84,3 +85,6 @@ export type CapitarDifferenceContent = {
   cardBackground?: Media;
   items: DifferenceCardContent[];
 };
+
+export type CaseStudyItemContent = { name: string; number?: string; description?: string; image?: Media; logo?: Media; metricValue?: string; metricSuffix?: string; metricLabel?: string; link?: ContentLink };
+export type CaseStudyContent = { enabled: boolean; sectionLabel: string; heading: string; description?: string; items: CaseStudyItemContent[] };

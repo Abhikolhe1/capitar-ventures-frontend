@@ -69,6 +69,7 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
         <BenefitImage media={data.icon} icon />
       </Box>
       <Box
+        data-capital-copy
         sx={{
           position: 'relative',
           zIndex: 1,

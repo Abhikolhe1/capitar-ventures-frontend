@@ -7,6 +7,7 @@ import { useRef, type ReactNode } from 'react';
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 
 import { websiteTheme } from 'src/theme/website-theme';
+import { homepageViewportStyles } from 'src/theme/homepage-viewport';
 
 import { Header } from 'src/components/website/header';
 
@@ -54,7 +55,7 @@ export function MainLayout({
           Skip to content
         </Box>
         <Header data={global} />
-        <Box component="main" id="main-content" aria-busy={loading}>
+        <Box component="main" id="main-content" aria-busy={loading} sx={homepageViewportStyles}>
           {children}
         </Box>
       </Box>

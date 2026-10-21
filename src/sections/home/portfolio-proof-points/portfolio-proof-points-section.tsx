@@ -1,7 +1,5 @@
 import type { PortfolioProofPointsContent } from 'src/types/homepage';
 
-import { useRef } from 'react';
-
 import { Box, Stack, Typography } from '@mui/material';
 
 import { websiteTokens } from 'src/theme/website-theme';
@@ -9,17 +7,12 @@ import { websiteTokens } from 'src/theme/website-theme';
 import { SectionBadge } from 'src/components/website/section-badge';
 
 import { ProofMetric } from './proof-metric';
-import { usePortfolioAnimation } from './use-portfolio-animation';
 
 export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPointsContent }) {
-  const scope = useRef<HTMLElement>(null);
-  // Media URL/focus refreshes do not restart completed counters.
-  const signature = JSON.stringify(data && { enabled: data.enabled, metrics: data.metrics, heading: data.heading });
-  usePortfolioAnimation(scope, signature);
   if (!data?.enabled) return null;
   const mutedIndex = data.mutedText ? data.heading.indexOf(data.mutedText) : -1;
   return (
-    <Box component="section" ref={scope} id="portfolio-proof-points" aria-labelledby="proof-heading" sx={{
+    <Box component="section" id="portfolio-proof-points" aria-labelledby="proof-heading" sx={{
       position: 'relative', overflow: 'hidden', bgcolor: websiteTokens.proof.background,
       color: websiteTokens.proof.ink, minHeight: { lg: 685 },
     }}>

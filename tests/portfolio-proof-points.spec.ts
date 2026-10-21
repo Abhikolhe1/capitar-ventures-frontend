@@ -25,18 +25,18 @@ test('published proof content and responsive geometry match the section structur
     const geometry = await section.evaluate(el => ({ top: el.getBoundingClientRect().top + scrollY, height: el.getBoundingClientRect().height, hero: document.querySelector('section')!.getBoundingClientRect().height, clipped: [...el.querySelectorAll('dt,h2')].some(node => node.scrollWidth > node.clientWidth + 1) }));
     expect(geometry.top).toBeCloseTo(geometry.hero, 0);
     expect(geometry.clipped).toBeFalsy();
-    if (width === 1440) expect(geometry.height).toBe(685);
+    if (width === 1440) expect(geometry.height).toBe(900);
     await section.screenshot({ path: `test-results/proof-${width}.png` });
   }
   expect(errors).toEqual([]);
 });
 
-test('counters play once, preserve accessible final values, and survive refresh', async ({ page }) => {
+test('metrics show final values before scrolling and retain them through refresh', async ({ page }) => {
   await page.route('**/api/homepage', route => route.fulfill({ json: { data: fallback } }));
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await expect(page.locator('#main-content')).toHaveAttribute('aria-busy', 'false');
-  await expect(page.locator('[data-proof-number]').first()).toHaveText('0');
+  await expect(page.locator('[data-proof-number]').first()).toHaveText(String(fallback.portfolioProofPoints.metrics[0].value));
   await page.locator('#portfolio-proof-points').scrollIntoViewIfNeeded();
   await expect(page.locator('[data-proof-number]').nth(1)).toHaveText('400');
   await page.mouse.wheel(0, -2000);

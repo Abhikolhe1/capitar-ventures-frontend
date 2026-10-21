@@ -95,17 +95,60 @@
     "sectionLabel": "THE CAPITAR DIFFERENCE",
     "heading": "Think like founders.\nSolve like partners.",
     "description": "Combining a founder mindset with custom-\ntailored capital structures.",
-    "cta": { "label": "About Us", "enabled": false },
-    "cardBackground": { "url": "/assets/capitar/difference-card-background.svg", "width": 366, "height": 440 },
+    "cta": {
+      "label": "About Us",
+      "enabled": false
+    },
+    "cardBackground": {
+      "url": "/assets/capitar/difference-card-background.svg",
+      "width": 366,
+      "height": 440
+    },
     "items": [
-      { "number": "01", "title": "Seed to Series B\nCoverage", "description": "Right-sized capital tailored for early post-Seed momentum to Series B scaling.",
-        "image": { "url": "/assets/capitar/difference-art-1.webp", "width": 327, "height": 288, "alternativeText": "Four blue cubes beneath layered translucent squares." } },
-      { "number": "02", "title": "Custom-Structured\nSolutions", "description": "Bespoke debt structures engineered specifically for your cash flows and burn rate.",
-        "image": { "url": "/assets/capitar/difference-art-2.webp", "width": 327, "height": 288, "alternativeText": "A blue cube with floating translucent layers." } },
-      { "number": "03", "title": "Founder-First\nMindset", "description": "Evaluating startups with commercial empathy, speed, and zero friction.",
-        "image": { "url": "/assets/capitar/difference-art-3.webp", "width": 327, "height": 288, "alternativeText": "An open translucent cube surrounding a blue center." } },
-      { "number": "04", "title": "High-Velocity\nExecution", "description": "Fast decisions and seamless deployment so your team can execute with confidence.",
-        "image": { "url": "/assets/capitar/difference-art-4.webp", "width": 327, "height": 288, "alternativeText": "Parallel blue and translucent panels arranged in depth." } }
+      {
+        "number": "01",
+        "title": "Seed to Series B\nCoverage",
+        "description": "Right-sized capital tailored for early post-Seed momentum to Series B scaling.",
+        "image": {
+          "url": "/assets/capitar/difference-art-1.webp",
+          "width": 327,
+          "height": 288,
+          "alternativeText": "Four blue cubes beneath layered translucent squares."
+        }
+      },
+      {
+        "number": "02",
+        "title": "Custom-Structured\nSolutions",
+        "description": "Bespoke debt structures engineered specifically for your cash flows and burn rate.",
+        "image": {
+          "url": "/assets/capitar/difference-art-2.webp",
+          "width": 327,
+          "height": 288,
+          "alternativeText": "A blue cube with floating translucent layers."
+        }
+      },
+      {
+        "number": "03",
+        "title": "Founder-First\nMindset",
+        "description": "Evaluating startups with commercial empathy, speed, and zero friction.",
+        "image": {
+          "url": "/assets/capitar/difference-art-3.webp",
+          "width": 327,
+          "height": 288,
+          "alternativeText": "An open translucent cube surrounding a blue center."
+        }
+      },
+      {
+        "number": "04",
+        "title": "High-Velocity\nExecution",
+        "description": "Fast decisions and seamless deployment so your team can execute with confidence.",
+        "image": {
+          "url": "/assets/capitar/difference-art-4.webp",
+          "width": 327,
+          "height": 288,
+          "alternativeText": "Parallel blue and translucent panels arranged in depth."
+        }
+      }
     ]
   },
   "capitalEfficiency": {
@@ -113,27 +156,67 @@
     "sectionLabel": "CAPITAL EFFICIENCY",
     "heading": "Fuel growth.\nProtect your cap table.",
     "description": "Scaling fast shouldn’t mean giving away too much of your company.",
-    "backgroundImage": { "url": "/assets/capitar/capital-background.svg" },
+    "backgroundImage": {
+      "url": "/assets/capitar/capital-background.svg"
+    },
     "benefits": [
       {
-        "title": "Accelerate growth", "description": "Invest in expansion without\nimmediately triggering an equity round.", "layout": "standard", "artworkWidth": 93.66,
-        "icon": { "url": "/assets/capitar/capital-growth-icon.svg" },
-        "artwork": { "url": "/assets/capitar/capital-growth-art.webp", "width": 1063, "height": 464, "alternativeText": "Illustrative growth chart with rising bars and a profit increase of 65%." }
+        "title": "Accelerate growth",
+        "description": "Invest in expansion without\nimmediately triggering an equity round.",
+        "layout": "standard",
+        "artworkWidth": 93.66,
+        "icon": {
+          "url": "/assets/capitar/capital-growth-icon.svg"
+        },
+        "artwork": {
+          "url": "/assets/capitar/capital-growth-art.webp",
+          "width": 1063,
+          "height": 464,
+          "alternativeText": "Illustrative growth chart with rising bars and a profit increase of 65%."
+        }
       },
       {
-        "title": "Protect your cap table", "description": "Access high-impact growth capital\nwith significantly less dilution.", "layout": "standard", "artworkWidth": 74.83,
-        "icon": { "url": "/assets/capitar/capital-dilution-icon.svg" },
-        "artwork": { "url": "/assets/capitar/capital-dilution-art.webp", "width": 849, "height": 435, "alternativeText": "Illustrative semicircular chart showing 20% less dilution." }
+        "title": "Protect your cap table",
+        "description": "Access high-impact growth capital\nwith significantly less dilution.",
+        "layout": "standard",
+        "artworkWidth": 74.83,
+        "icon": {
+          "url": "/assets/capitar/capital-dilution-icon.svg"
+        },
+        "artwork": {
+          "url": "/assets/capitar/capital-dilution-art.webp",
+          "width": 849,
+          "height": 435,
+          "alternativeText": "Illustrative semicircular chart showing 20% less dilution."
+        }
       },
       {
-        "title": "Maximize runway", "description": "Stretch your runway to\nnegotiate your next equity round\nfrom strength.", "layout": "wide",
-        "icon": { "url": "/assets/capitar/capital-runway-icon.svg" },
-        "artwork": { "url": "/assets/capitar/capital-runway-art.svg", "width": 480, "height": 204, "alternativeText": "Illustration: runway extends from 8.5 to 11.2 months, while monthly burn reduces from ₹4.2L to ₹3.1L." }
+        "title": "Maximize runway",
+        "description": "Stretch your runway to\nnegotiate your next equity round\nfrom strength.",
+        "layout": "wide",
+        "icon": {
+          "url": "/assets/capitar/capital-runway-icon.svg"
+        },
+        "artwork": {
+          "url": "/assets/capitar/capital-runway-art.svg",
+          "width": 480,
+          "height": 204,
+          "alternativeText": "Illustration: runway extends from 8.5 to 11.2 months, while monthly burn reduces from ₹4.2L to ₹3.1L."
+        }
       },
       {
-        "title": "Capitalize on momentum", "description": "Seize immediate market opportunities\nwithout equity drag.", "layout": "tall",
-        "icon": { "url": "/assets/capitar/capital-momentum-icon.svg" },
-        "artwork": { "url": "/assets/capitar/capital-momentum-art.webp", "width": 1135, "height": 996, "alternativeText": "Capital illustration with stacked coins, rising bars and an arrow toward a business target." }
+        "title": "Capitalize on momentum",
+        "description": "Seize immediate market opportunities\nwithout equity drag.",
+        "layout": "tall",
+        "icon": {
+          "url": "/assets/capitar/capital-momentum-icon.svg"
+        },
+        "artwork": {
+          "url": "/assets/capitar/capital-momentum-art.webp",
+          "width": 1135,
+          "height": 996,
+          "alternativeText": "Capital illustration with stacked coins, rising bars and an arrow toward a business target."
+        }
       }
     ]
   },
@@ -176,6 +259,66 @@
         "valueSuffix": "",
         "suffix": "wks",
         "label": "Term Sheet to Disbursement"
+      }
+    ]
+  },
+  "caseStudy": {
+    "enabled": true,
+    "sectionLabel": "CASE STUDY",
+    "heading": "What founder-first capital\nactually looks like.",
+    "description": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital.",
+    "items": [
+      {
+        "name": "Qubehealth",
+        "number": "01",
+        "description": "Strategic capital helping founders reach their next growth milestone.",
+        "image": {
+          "url": "/assets/capitar/case-qubehealth.webp",
+          "alternativeText": "A family spending time together in a bright living room."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-qubehealth-logo.webp",
+          "alternativeText": "Qubehealth"
+        },
+        "metricValue": "₹400",
+        "metricSuffix": "cr",
+        "metricLabel": "Companies backed"
+      },
+      {
+        "name": "mPokket",
+        "number": "02",
+        "image": {
+          "url": "/assets/capitar/case-mpokket.webp",
+          "alternativeText": "People meeting across a table."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-mpokket-logo.webp",
+          "alternativeText": "mPokket"
+        }
+      },
+      {
+        "name": "Craev",
+        "number": "03",
+        "image": {
+          "url": "/assets/capitar/case-craev.webp",
+          "alternativeText": "A family spending time together in a bright living room."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-craev-logo.webp",
+          "alternativeText": "Craev"
+        }
+      },
+      {
+        "name": "Pidge",
+        "number": "04",
+        "image": {
+          "url": "/assets/capitar/case-pidge.webp",
+          "alternativeText": "A person speaking at an event."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-pidge-logo.webp",
+          "alternativeText": "Pidge"
+        }
       }
     ]
   }
