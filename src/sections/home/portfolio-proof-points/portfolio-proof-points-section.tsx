@@ -1,5 +1,7 @@
 import type { PortfolioProofPointsContent } from 'src/types/homepage';
 
+import { useRef } from 'react';
+
 import { Box, Stack, Typography } from '@mui/material';
 
 import { websiteTokens } from 'src/theme/website-theme';
@@ -7,12 +9,15 @@ import { websiteTokens } from 'src/theme/website-theme';
 import { SectionBadge } from 'src/components/website/section-badge';
 
 import { ProofMetric } from './proof-metric';
+import { useProofTextFill } from './use-proof-text-fill';
 
 export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPointsContent }) {
+  const scope = useRef<HTMLElement>(null);
+  useProofTextFill(scope, JSON.stringify({ enabled: data?.enabled, heading: data?.heading, mutedText: data?.mutedText }));
   if (!data?.enabled) return null;
   const mutedIndex = data.mutedText ? data.heading.indexOf(data.mutedText) : -1;
   return (
-    <Box component="section" id="portfolio-proof-points" aria-labelledby="proof-heading" sx={{
+    <Box component="section" ref={scope} id="portfolio-proof-points" aria-labelledby="proof-heading" sx={{
       position: 'relative', overflow: 'hidden', bgcolor: websiteTokens.proof.background,
       color: websiteTokens.proof.ink, minHeight: { lg: 685 },
     }}>
@@ -27,7 +32,13 @@ export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPoi
             maxWidth: 908, m: 0, fontWeight: 400, fontSize: { xs: 32, sm: 42, md: 50 },
             lineHeight: 1, letterSpacing: 0, textAlign: 'center',
           }}>
-            {mutedIndex >= 0 ? <>{data.heading.slice(0, mutedIndex)}<Box component="span" sx={{ color: websiteTokens.proof.mutedInk }}>{data.mutedText}</Box>{data.heading.slice(mutedIndex + data.mutedText!.length)}</> : data.heading}
+            {Array.from(data.heading.matchAll(/\S+|\s+/g), match => {
+              const text = match[0], index = match.index || 0;
+              if (/^\s+$/.test(text)) return text;
+              const muted = mutedIndex >= 0 && index >= mutedIndex && index < mutedIndex + data.mutedText!.length;
+              const color = muted ? websiteTokens.proof.mutedInk : websiteTokens.proof.ink;
+              return <Box key={index} component="span" data-proof-word data-proof-color={color} sx={{ color, display: 'inline-block' }}>{text}</Box>;
+            })}
           </Typography>
         </Stack>
         {!!data.metrics.length && <Box component="dl" sx={{
