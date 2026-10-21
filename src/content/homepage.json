@@ -90,6 +90,24 @@
       }
     ]
   },
+  "capitarDifference": {
+    "enabled": true,
+    "sectionLabel": "THE CAPITAR DIFFERENCE",
+    "heading": "Think like founders.\nSolve like partners.",
+    "description": "Combining a founder mindset with custom-\ntailored capital structures.",
+    "cta": { "label": "About Us", "enabled": false },
+    "cardBackground": { "url": "/assets/capitar/difference-card-background.svg", "width": 366, "height": 440 },
+    "items": [
+      { "number": "01", "title": "Seed to Series B\nCoverage", "description": "Right-sized capital tailored for early post-Seed momentum to Series B scaling.",
+        "image": { "url": "/assets/capitar/difference-art-1.webp", "width": 327, "height": 288, "alternativeText": "Four blue cubes beneath layered translucent squares." } },
+      { "number": "02", "title": "Custom-Structured\nSolutions", "description": "Bespoke debt structures engineered specifically for your cash flows and burn rate.",
+        "image": { "url": "/assets/capitar/difference-art-2.webp", "width": 327, "height": 288, "alternativeText": "A blue cube with floating translucent layers." } },
+      { "number": "03", "title": "Founder-First\nMindset", "description": "Evaluating startups with commercial empathy, speed, and zero friction.",
+        "image": { "url": "/assets/capitar/difference-art-3.webp", "width": 327, "height": 288, "alternativeText": "An open translucent cube surrounding a blue center." } },
+      { "number": "04", "title": "High-Velocity\nExecution", "description": "Fast decisions and seamless deployment so your team can execute with confidence.",
+        "image": { "url": "/assets/capitar/difference-art-4.webp", "width": 327, "height": 288, "alternativeText": "Parallel blue and translucent panels arranged in depth." } }
+    ]
+  },
   "capitalEfficiency": {
     "enabled": true,
     "sectionLabel": "CAPITAL EFFICIENCY",

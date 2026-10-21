@@ -51,6 +51,7 @@ export type HomepageContent = {
   hero: HeroContent;
   portfolioProofPoints?: PortfolioProofPointsContent;
   capitalEfficiency?: CapitalEfficiencyContent;
+  capitarDifference?: CapitarDifferenceContent;
 };
 export type CapitalBenefitContent = {
   title: string;
@@ -67,4 +68,19 @@ export type CapitalEfficiencyContent = {
   description?: string;
   backgroundImage?: Media;
   benefits: CapitalBenefitContent[];
+};
+export type DifferenceCardContent = {
+  number?: string;
+  title: string;
+  description?: string;
+  image?: Media;
+};
+export type CapitarDifferenceContent = {
+  enabled: boolean;
+  sectionLabel: string;
+  heading: string;
+  description?: string;
+  cta?: ContentLink;
+  cardBackground?: Media;
+  items: DifferenceCardContent[];
 };

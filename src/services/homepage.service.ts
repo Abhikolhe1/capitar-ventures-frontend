@@ -5,6 +5,7 @@ import type {
   GlobalContent,
   HomepageContent,
   CapitalEfficiencyContent,
+  CapitarDifferenceContent,
   PortfolioProofPointsContent,
 } from 'src/types/homepage';
 
@@ -151,7 +152,27 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
       };
     } catch { capitalEfficiency = undefined; }
   }
-  return { global, hero, portfolioProofPoints, capitalEfficiency };
+  let capitarDifference: CapitarDifferenceContent | undefined;
+  const differenceValue = record(record(homepageValue).data).capitarDifference;
+  if (differenceValue) {
+    try {
+      const difference = record(differenceValue);
+      const differenceHeading = string(difference.heading)?.trim();
+      const sectionLabel = string(difference.sectionLabel)?.trim();
+      if (!differenceHeading || !sectionLabel) throw new Error('Invalid difference section');
+      capitarDifference = {
+        enabled: difference.enabled !== false, heading: differenceHeading, sectionLabel,
+        description: string(difference.description), cta: link(difference.cta), cardBackground: media(difference.cardBackground),
+        items: Array.isArray(difference.items) ? difference.items.flatMap(value => {
+          try {
+            const item = record(value), title = string(item.title)?.trim();
+            return title ? [{ title, number: string(item.number), description: string(item.description), image: media(item.image) }] : [];
+          } catch { return []; }
+        }) : [],
+      };
+    } catch { capitarDifference = undefined; }
+  }
+  return { global, hero, portfolioProofPoints, capitalEfficiency, capitarDifference };
 }
 export async function fetchHomepage(signal?: AbortSignal) {
   const [global, homepage] = await Promise.all([

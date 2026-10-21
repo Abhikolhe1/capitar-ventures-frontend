@@ -9,6 +9,11 @@ export const websiteTokens = {
   border: 'rgba(255,255,255,0.08)',
   gutter: { xs: 3, sm: 6, lg: '100px' },
   maxWidth: 1441,
+  difference: {
+    background: '#F8F9FA', card: '#0B0F2D', ink: '#121212', mutedInk: 'rgba(18,18,18,0.8)',
+    radius: '21.0929px', border: '2.10929px solid #F0F0F0',
+    shadow: '0 5.09px 11.44px rgba(26,103,231,0.10), 0 20.34px 20.34px rgba(26,103,231,0.09), 0 47.04px 27.97px rgba(26,103,231,0.05), 0 82.64px 33.06px rgba(26,103,231,0.01)',
+  },
   capital: {
     background: '#0B0F2D', ink: '#193969', mutedInk: 'rgba(25,57,105,0.8)',
     badgeBorder: 'rgba(217,217,217,0.7)',
