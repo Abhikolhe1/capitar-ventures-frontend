@@ -25,6 +25,119 @@
     "headerCta": {
       "label": "Get In Touch",
       "enabled": false
+    },
+    "footer": {
+      "enabled": true,
+      "logoMonochrome": true,
+      "address": "4th Floor, 417, Lodha Supremus, 11th Road Of Mahakali Caves Road, Near Tunga International, Andheri East, Mumbai, Maharashtra, 400093",
+      "email": "ACCOUNT@CAPITAR.COM",
+      "phone": "+91 9876543221",
+      "aiText": "Capitar Venture is leading venture debt\nin Mumbai. See it yourself",
+      "aiLinks": [
+        {
+          "label": "ChatGPT",
+          "enabled": false,
+          "icon": {
+            "url": "/assets/images/Frame.png",
+            "width": 23,
+            "height": 23,
+            "alternativeText": "ChatGPT"
+          }
+        },
+        {
+          "label": "Perplexity",
+          "enabled": false,
+          "icon": {
+            "url": "/assets/images/Frame (2).png",
+            "width": 22,
+            "height": 22,
+            "alternativeText": "Perplexity"
+          }
+        },
+        {
+          "label": "Claude",
+          "enabled": false,
+          "icon": {
+            "url": "/assets/images/Vector.png",
+            "width": 20,
+            "height": 20,
+            "alternativeText": "Claude"
+          }
+        },
+        {
+          "label": "Gemini",
+          "enabled": false,
+          "icon": {
+            "url": "/assets/images/Mask group.png",
+            "width": 22,
+            "height": 22,
+            "alternativeText": "Gemini"
+          }
+        }
+      ],
+      "navigation": [
+        {
+          "label": "Home",
+          "href": "/",
+          "enabled": true
+        },
+        {
+          "label": "About Us",
+          "enabled": false
+        },
+        {
+          "label": "Insights",
+          "href": "#insights-news",
+          "enabled": true
+        },
+        {
+          "label": "Portfolio",
+          "href": "#portfolio-proof-points",
+          "enabled": true
+        },
+        {
+          "label": "Our Offerings",
+          "href": "#capital-efficiency",
+          "enabled": true
+        }
+      ],
+      "socialLabel": "Social",
+      "socialLinks": [
+        {
+          "label": "Linked In",
+          "enabled": false
+        },
+        {
+          "label": "Facebook",
+          "enabled": false
+        }
+      ],
+      "legalLinks": [
+        {
+          "label": "DISCLAIMER",
+          "enabled": false
+        },
+        {
+          "label": "IMPRINT",
+          "enabled": false
+        },
+        {
+          "label": "PRIVACY",
+          "enabled": false
+        }
+      ],
+      "copyright": "© 2025 — COPYRIGHT",
+      "ctaHeading": "Interested in learning more\nabout us?",
+      "cta": {
+        "label": "Let’s Connect",
+        "enabled": false
+      },
+      "backgroundImage": {
+        "url": "/assets/capitar/hero-poster.webp"
+      },
+      "backgroundVideo": {
+        "url": "/assets/capitar/hero.mp4"
+      }
     }
   },
   "hero": {
@@ -259,6 +372,231 @@
         "valueSuffix": "",
         "suffix": "wks",
         "label": "Term Sheet to Disbursement"
+      }
+    ]
+  },
+  "team": {
+    "enabled": true,
+    "sectionLabel": "CAPITAR TEAM",
+    "heading": "The people behind every\ngrowth decision",
+    "description": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital.",
+    "members": [
+      {
+        "name": "Rahul Mahipal",
+        "role": "Managing Partner",
+        "portraitPositionY": 32,
+        "description": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital.",
+        "portrait": {
+          "url": "/assets/images/4b4a17e26c457d60888c06b071f1bec93ba71ba1.jpg",
+          "alternativeText": "Rahul Mahipal",
+          "width": 736,
+          "height": 1308
+        }
+      },
+      {
+        "name": "Ananya Mehta",
+        "role": "Managing Partner",
+        "portrait": {
+          "url": "/assets/images/adea1a34430ae3847fccc2457514d3b6af2f7c0c.jpg",
+          "alternativeText": "Ananya Mehta",
+          "width": 736,
+          "height": 898
+        },
+        "description": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital."
+      },
+      {
+        "name": "Dishit Gosalia",
+        "role": "Principal",
+        "portrait": {
+          "url": "/assets/images/33c905d66210d69573b732d18cfcd0e94d8a73b5.jpg",
+          "alternativeText": "Dishit Gosalia",
+          "width": 736,
+          "height": 1087
+        },
+        "description": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital."
+      },
+      {
+        "name": "Ananya Mehta",
+        "role": "Managing Partner",
+        "portrait": {
+          "url": "/assets/images/adea1a34430ae3847fccc2457514d3b6af2f7c0c.jpg",
+          "alternativeText": "Ananya Mehta",
+          "width": 736,
+          "height": 898
+        },
+        "description": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital."
+      }
+    ]
+  },
+  "insightsNews": {
+    "enabled": true,
+    "insights": {
+      "label": "Insights",
+      "sectionLabel": "INSIGHTS",
+      "heading": "Considered thinking on Indian\nventure debt.",
+      "emptyMessage": "No articles yet.",
+      "cta": {
+        "label": "Read All Articles",
+        "enabled": false
+      },
+      "items": [
+        {
+          "category": "FUNDAMENTALS",
+          "title": "What Is Venture Debt, Really?",
+          "description": "A plain-language explanation of how venture debt works and when it can make sense.",
+          "image": {
+            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
+            "alternativeText": "A founder speaking with a colleague across a table.",
+            "width": 735,
+            "height": 477
+          }
+        },
+        {
+          "category": "DECISION FRAMEWORK",
+          "title": "Debt vs Equity: A Founder’s Decision",
+          "description": "How founders can think about the trade-offs between debt and another equity round.",
+          "image": {
+            "url": "/assets/images/078f23cc556cd6cf3530928d24eba9d8e13b3d61.jpg",
+            "alternativeText": "A speaker explaining ideas to a group in a workshop.",
+            "width": 736,
+            "height": 414
+          }
+        },
+        {
+          "category": "STRUCTURES",
+          "title": "Understanding Warrants in Venture Debt",
+          "description": "A plain-language explanation of how venture debt works and when it can make sense.",
+          "image": {
+            "url": "/assets/images/630e3da0f16196816295d235821d7aef8c48b3aa.png",
+            "alternativeText": "Modern buildings against a blue sky.",
+            "width": 736,
+            "height": 1108
+          }
+        }
+      ]
+    },
+    "news": {
+      "label": "News",
+      "sectionLabel": "NEWS",
+      "heading": "Considered thinking on Indian\nventure debt.",
+      "emptyMessage": "No articles yet.",
+      "cta": {
+        "label": "Read All Articles",
+        "enabled": false
+      },
+      "items": [
+        {
+          "category": "FUNDAMENTALS",
+          "title": "What Is Venture Debt, Really?",
+          "description": "A plain-language explanation of how venture debt works and when it can make sense.",
+          "image": {
+            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
+            "alternativeText": "A founder speaking with a colleague across a table.",
+            "width": 735,
+            "height": 477
+          }
+        },
+        {
+          "category": "DECISION FRAMEWORK",
+          "title": "Debt vs Equity: A Founder’s Decision",
+          "description": "How founders can think about the trade-offs between debt and another equity round.",
+          "image": {
+            "url": "/assets/images/078f23cc556cd6cf3530928d24eba9d8e13b3d61.jpg",
+            "alternativeText": "A speaker explaining ideas to a group in a workshop.",
+            "width": 736,
+            "height": 414
+          }
+        },
+        {
+          "category": "STRUCTURES",
+          "title": "Understanding Warrants in Venture Debt",
+          "description": "A plain-language explanation of how venture debt works and when it can make sense.",
+          "image": {
+            "url": "/assets/images/630e3da0f16196816295d235821d7aef8c48b3aa.png",
+            "alternativeText": "Modern buildings against a blue sky.",
+            "width": 736,
+            "height": 1108
+          }
+        }
+      ]
+    }
+  },
+  "testimonials": {
+    "enabled": true,
+    "sectionLabel": "CLIENT TESTIMONIALS",
+    "heading": "What founders say about us",
+    "items": [
+      {
+        "quote": "They tailor their solutions to our specific needs, goals, and growth priorities.",
+        "name": "Denis Slavska",
+        "role": "CTO",
+        "company": "Pidge",
+        "location": "New York City, New York",
+        "companyLogo": {
+          "url": "/assets/capitar/pidge.png",
+          "alternativeText": "Pidge"
+        },
+        "companyLogoMonochrome": true,
+        "portrait": {
+          "url": "/assets/images/575977a9314c750e61f2c501bebca1878cee0c9a.png",
+          "alternativeText": "Denis Slavska",
+          "width": 1200,
+          "height": 1800
+        }
+      },
+      {
+        "quote": "Working with them was a great experience, from start to finish.",
+        "name": "Jahan Melad",
+        "role": "Project Manager",
+        "company": "mPokket",
+        "location": "New York City, New York",
+        "companyLogo": {
+          "url": "/assets/capitar/mpokket.png",
+          "alternativeText": "mPokket"
+        },
+        "companyLogoMonochrome": true,
+        "portrait": {
+          "url": "/assets/images/cc4fb6c453e3b762507923b0ecc467924a15f90f.png",
+          "alternativeText": "Jahan Melad",
+          "width": 1200,
+          "height": 1600
+        }
+      },
+      {
+        "quote": "They tailor their solutions to our specific needs, goals, and growth priorities.",
+        "name": "Denis Slavska",
+        "role": "CTO",
+        "company": "Pidge",
+        "location": "New York City, New York",
+        "companyLogo": {
+          "url": "/assets/capitar/pidge.png",
+          "alternativeText": "Pidge"
+        },
+        "companyLogoMonochrome": true,
+        "portrait": {
+          "url": "/assets/images/575977a9314c750e61f2c501bebca1878cee0c9a.png",
+          "alternativeText": "Denis Slavska",
+          "width": 1200,
+          "height": 1800
+        }
+      },
+      {
+        "quote": "Working with them was a great experience, from start to finish.",
+        "name": "Jahan Melad",
+        "role": "Project Manager",
+        "company": "mPokket",
+        "location": "New York City, New York",
+        "companyLogo": {
+          "url": "/assets/capitar/mpokket.png",
+          "alternativeText": "mPokket"
+        },
+        "companyLogoMonochrome": true,
+        "portrait": {
+          "url": "/assets/images/cc4fb6c453e3b762507923b0ecc467924a15f90f.png",
+          "alternativeText": "Jahan Melad",
+          "width": 1200,
+          "height": 1600
+        }
       }
     ]
   },

@@ -15,7 +15,7 @@ export function useHomepage() {
       fetchHomepage(controller.signal)
         .then((data) => {
           if (!controller.signal.aborted) {
-            setContent(data);
+            setContent({ ...data, global: { ...data.global, footer: data.global.footer ?? fallback.global.footer }, team: data.team ?? fallback.team, insightsNews: data.insightsNews ?? fallback.insightsNews, testimonials: data.testimonials ?? fallback.testimonials });
             setUnavailable(false);
           }
         })

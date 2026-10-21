@@ -10,6 +10,7 @@ import { websiteTheme } from 'src/theme/website-theme';
 import { homepageViewportStyles } from 'src/theme/homepage-viewport';
 
 import { Header } from 'src/components/website/header';
+import { Footer } from 'src/components/website/footer';
 
 import { useHeroAnimation } from 'src/sections/home/hero/use-hero-animation';
 
@@ -58,6 +59,7 @@ export function MainLayout({
         <Box component="main" id="main-content" aria-busy={loading} sx={homepageViewportStyles}>
           {children}
         </Box>
+        <Footer data={global.footer} brandLogo={global.brandLogo} />
       </Box>
     </ThemeProvider>
   );

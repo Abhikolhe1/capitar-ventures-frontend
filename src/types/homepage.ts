@@ -15,6 +15,27 @@ export type GlobalContent = {
   brandLogo?: Media;
   navigation: ContentLink[];
   headerCta?: ContentLink;
+  footer?: FooterContent;
+};
+export type FooterShortcut = ContentLink & { icon?: Media };
+export type FooterContent = {
+  enabled: boolean;
+  brandLogo?: Media;
+  logoMonochrome?: boolean;
+  address?: string;
+  email?: string;
+  phone?: string;
+  aiText?: string;
+  aiLinks: FooterShortcut[];
+  navigation: ContentLink[];
+  socialLabel?: string;
+  socialLinks: ContentLink[];
+  legalLinks: ContentLink[];
+  copyright?: string;
+  ctaHeading: string;
+  cta?: ContentLink;
+  backgroundImage?: Media;
+  backgroundVideo?: Media;
 };
 export type HeroContent = {
   enabled: boolean;
@@ -53,6 +74,60 @@ export type HomepageContent = {
   capitalEfficiency?: CapitalEfficiencyContent;
   capitarDifference?: CapitarDifferenceContent;
   caseStudy?: CaseStudyContent;
+  team?: TeamContent;
+  insightsNews?: InsightsNewsContent;
+  testimonials?: TestimonialsContent;
+};
+export type TestimonialContent = {
+  quote: string;
+  name: string;
+  role?: string;
+  company?: string;
+  location?: string;
+  portrait?: Media;
+  companyLogo?: Media;
+  companyLogoMonochrome?: boolean;
+};
+export type TestimonialsContent = {
+  enabled: boolean;
+  sectionLabel: string;
+  heading: string;
+  items: TestimonialContent[];
+};
+export type EditorialCardContent = {
+  category: string;
+  title: string;
+  description?: string;
+  image?: Media;
+  href?: string;
+};
+export type EditorialTabContent = {
+  label: string;
+  sectionLabel: string;
+  heading: string;
+  emptyMessage?: string;
+  cta?: ContentLink;
+  items: EditorialCardContent[];
+};
+export type InsightsNewsContent = {
+  enabled: boolean;
+  insights: EditorialTabContent;
+  news: EditorialTabContent;
+};
+export type TeamMemberContent = {
+  name: string;
+  role: string;
+  description?: string;
+  portrait?: Media;
+  portraitPositionY?: number;
+  linkedinUrl?: string;
+};
+export type TeamContent = {
+  enabled: boolean;
+  sectionLabel: string;
+  heading: string;
+  description?: string;
+  members: TeamMemberContent[];
 };
 export type CapitalBenefitContent = {
   title: string;

@@ -77,7 +77,7 @@ test('delayed CMS updates appear without restarting entrance; CTA is configurabl
   await expect(page.locator('h1')).toHaveCSS('opacity', '1');
   await page.getByRole('link', { name: 'Explore Portfolio' }).click();
   await expect(page).toHaveURL('http://127.0.0.1:3039/');
-});
+});-
 
 test('refresh replays a single entrance with header following heading', async ({ page }) => {
   await page.goto('/');

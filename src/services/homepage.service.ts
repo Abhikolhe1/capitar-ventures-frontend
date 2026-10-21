@@ -2,9 +2,14 @@ import type {
   Media,
   ContentLink,
   HeroContent,
+  TeamContent,
   GlobalContent,
+  FooterContent,
   HomepageContent,
   CaseStudyContent,
+  EditorialTabContent,
+  InsightsNewsContent,
+  TestimonialsContent,
   CapitalEfficiencyContent,
   CapitarDifferenceContent,
   PortfolioProofPointsContent,
@@ -60,6 +65,29 @@ function link(value: unknown): ContentLink | undefined {
     showIndicator: item.showIndicator === true,
   };
 }
+function footer(value: unknown): FooterContent | undefined {
+  if (!value) return undefined;
+  const links = (items: unknown) => Array.isArray(items) ? items.flatMap(item => {
+    try { const normalized = link(item); return normalized ? [normalized] : []; } catch { return []; }
+  }) : [];
+  const empty = { enabled: false, aiLinks: [], navigation: [], socialLinks: [], legalLinks: [], ctaHeading: '' };
+  try {
+    const item = record(value);
+    return {
+      enabled: item.enabled !== false, brandLogo: media(item.brandLogo), logoMonochrome: item.logoMonochrome === true,
+      address: string(item.address), email: string(item.email), phone: string(item.phone), aiText: string(item.aiText),
+      aiLinks: Array.isArray(item.aiLinks) ? item.aiLinks.flatMap(shortcut => {
+        try {
+          const normalized = link(shortcut);
+          return normalized ? [{ ...normalized, icon: media(record(shortcut).icon) }] : [];
+        } catch { return []; }
+      }) : [],
+      navigation: links(item.navigation), socialLabel: string(item.socialLabel), socialLinks: links(item.socialLinks),
+      legalLinks: links(item.legalLinks), copyright: string(item.copyright), ctaHeading: string(item.ctaHeading) || '', cta: link(item.cta),
+      backgroundImage: media(item.backgroundImage), backgroundVideo: media(item.backgroundVideo),
+    };
+  } catch { return empty; }
+}
 export function normalizeContent(globalValue: unknown, homepageValue: unknown): HomepageContent {
   const g = record(record(globalValue).data),
     h = record(record(record(homepageValue).data).hero);
@@ -70,6 +98,7 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
     brandLogo: media(g.brandLogo),
     navigation: g.navigation.map(link).filter((v): v is ContentLink => !!v),
     headerCta: link(g.headerCta),
+    footer: footer(g.footer),
   };
   const hero: HeroContent = {
     enabled: h.enabled !== false,
@@ -188,7 +217,79 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
       };
     } catch { caseStudy = undefined; }
   }
-  return { global, hero, portfolioProofPoints, capitalEfficiency, capitarDifference, caseStudy };
+  let team: TeamContent | undefined;
+  const teamValue = record(record(homepageValue).data).team;
+  if (teamValue) {
+    try {
+      const item = record(teamValue);
+      const teamHeading = string(item.heading)?.trim();
+      const sectionLabel = string(item.sectionLabel)?.trim();
+      if (!teamHeading || !sectionLabel || !Array.isArray(item.members)) throw new Error('Invalid team section');
+      team = {
+        enabled: item.enabled !== false, heading: teamHeading, sectionLabel, description: string(item.description),
+        members: item.members.flatMap(value => {
+          try {
+            const member = record(value), name = string(member.name)?.trim(), role = string(member.role)?.trim();
+            if (!name || !role) return [];
+            let linkedinUrl: string | undefined;
+            try {
+              const url = new URL(string(member.linkedinUrl) || '');
+              if (url.protocol === 'https:' && (url.hostname === 'linkedin.com' || url.hostname.endsWith('.linkedin.com'))) linkedinUrl = url.href;
+            } catch { /* Missing or invalid profile links remain non-interactive. */ }
+            const portraitPositionY = typeof member.portraitPositionY === 'number' && Number.isFinite(member.portraitPositionY) ? Math.max(0, Math.min(100, member.portraitPositionY)) : 50;
+            return [{ name, role, description: string(member.description), portrait: media(member.portrait), portraitPositionY, linkedinUrl }];
+          } catch { return []; }
+        }),
+      };
+    } catch { team = { enabled: false, sectionLabel: '', heading: '', members: [] }; }
+  }
+  let insightsNews: InsightsNewsContent | undefined;
+  const editorialValue = record(record(homepageValue).data).insightsNews;
+  if (editorialValue) {
+    const normalizeTab = (tabValue: unknown, label: string): EditorialTabContent => {
+      const empty = { label, sectionLabel: label.toUpperCase(), heading: label, items: [] };
+      try {
+        const tab = record(tabValue);
+        const tabHeading = string(tab.heading)?.trim();
+        if (!tabHeading) return empty;
+        return {
+          label: string(tab.label)?.trim() || label,
+          sectionLabel: string(tab.sectionLabel)?.trim() || label.toUpperCase(),
+          heading: tabHeading, emptyMessage: string(tab.emptyMessage), cta: link(tab.cta),
+          items: Array.isArray(tab.items) ? tab.items.flatMap(value => {
+            try {
+              const item = record(value), title = string(item.title)?.trim();
+              return title ? [{ title, category: string(item.category) || '', description: string(item.description), image: media(item.image), href: safeHref(item.href) }] : [];
+            } catch { return []; }
+          }) : [],
+        };
+      } catch { return empty; }
+    };
+    try {
+      const editorial = record(editorialValue);
+      insightsNews = { enabled: editorial.enabled !== false, insights: normalizeTab(editorial.insights, 'Insights'), news: normalizeTab(editorial.news, 'News') };
+    } catch {
+      insightsNews = { enabled: false, insights: normalizeTab(null, 'Insights'), news: normalizeTab(null, 'News') };
+    }
+  }
+  let testimonials: TestimonialsContent | undefined;
+  const testimonialsValue = record(record(homepageValue).data).testimonials;
+  if (testimonialsValue) {
+    try {
+      const section = record(testimonialsValue);
+      const sectionHeading = string(section.heading)?.trim(), sectionLabel = string(section.sectionLabel)?.trim();
+      if (!sectionHeading || !sectionLabel || !Array.isArray(section.items)) throw new Error('Invalid testimonials section');
+      testimonials = { enabled: section.enabled !== false, heading: sectionHeading, sectionLabel,
+        items: section.items.flatMap(value => {
+          try {
+            const item = record(value), name = string(item.name)?.trim(), quote = string(item.quote)?.trim();
+            return name && quote ? [{ name, quote, role: string(item.role), company: string(item.company), location: string(item.location), portrait: media(item.portrait), companyLogo: media(item.companyLogo), companyLogoMonochrome: item.companyLogoMonochrome === true }] : [];
+          } catch { return []; }
+        }),
+      };
+    } catch { testimonials = { enabled: false, sectionLabel: '', heading: '', items: [] }; }
+  }
+  return { global, hero, portfolioProofPoints, capitalEfficiency, capitarDifference, caseStudy, team, insightsNews, testimonials };
 }
 export async function fetchHomepage(signal?: AbortSignal) {
   const [global, homepage] = await Promise.all([
