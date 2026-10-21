@@ -45,5 +45,45 @@ export const homepageViewportStyles = {
       '& [data-case-metric]': { height: 'clamp(80px,14svh,125px)', p: 'clamp(8px,1.5svh,14px)' },
       '& [data-case-metric] > span:first-of-type': { fontSize: 'clamp(26px,4.4svh,40px)' },
     },
+    '& > #team, & > #insights-news, & > #client-testimonials': {
+      height: '100svh', minHeight: 0, boxSizing: 'border-box',
+      display: 'flex', flexDirection: 'column', justifyContent: 'safe center',
+      py: 'clamp(20px,4svh,60px)',
+      '& > div': { width: '100%', flexShrink: 0 },
+      '& h2': { fontSize: 'clamp(28px,4.7svh,42px)' },
+    },
+    '& > #team': {
+      '& .team-heading-row > div:last-child': { mt: 'clamp(12px,2svh,22px)', mb: 'clamp(16px,3svh,40px)' },
+      '& ul': { '--team-card-width': 'min(398.03px,calc((100svh - 230px) * 398.03 / 447.79))' },
+    },
+    '& > #insights-news': {
+      '& [data-editorial-header]': { mb: 'clamp(16px,3svh,48px)' },
+      '& h2': { minHeight: 0, mt: 'clamp(12px,2svh,22px)' },
+      '& ul': { minHeight: 0 },
+      '& article': { height: 'clamp(280px,calc(100svh - 270px),445px)' },
+      '& [data-editorial-controls]': { mt: 'clamp(16px,3svh,32px)' },
+    },
+    '& > #client-testimonials': {
+      '& [data-testimonials-header]': { mb: 'clamp(16px,3svh,36px)' },
+      '& h2': { mt: 'clamp(12px,2svh,22px)' },
+      '& article': { height: 'clamp(340px,calc(100svh - 230px),523.4px)', minHeight: 0, gap: 'clamp(20px,5.5svh,52px)', p: 'clamp(20px,3.5svh,32px)' },
+    },
+  },
+};
+
+// Footer lives outside main, so it shares the viewport rule through its own sx.
+export const footerViewportStyles = {
+  '@media (min-width:900px)': {
+    height: '100svh', boxSizing: 'border-box', display: 'flex',
+    flexDirection: 'column', justifyContent: 'safe center',
+    '& > div:last-child': { width: '100%', flexShrink: 0, py: 'clamp(20px,5svh,68.5px)' },
+    '& [data-footer-panel]': { minHeight: 'min(523px,calc(100svh - 80px))', p: 'clamp(24px,5svh,40px)' },
+    '& [data-footer-grid]': { gridTemplateColumns: 'minmax(0,336fr) minmax(0,424fr) minmax(0,352fr)', gap: 'clamp(24px,4vw,66px)' },
+    '& [data-footer-grid] > div:first-child, & [data-footer-grid] > div:nth-child(2)': { pb: '64px' },
+    '& [data-footer-cta]': { gridColumn: 'auto', height: 'clamp(300px,calc(100svh - 180px),440px)' },
+    '& [data-footer-legal]': { position: 'absolute', left: 'clamp(24px,5svh,40px)', bottom: 24, mt: 0 },
+  },
+  '@media (min-width:1200px)': {
+    '& [data-footer-grid]': { gap: '66px' },
   },
 };

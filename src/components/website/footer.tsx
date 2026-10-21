@@ -10,6 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
+import { footerViewportStyles } from 'src/theme/homepage-viewport';
 
 import { HeroBackgroundVideo } from 'src/sections/home/hero/hero-background-video';
 
@@ -324,7 +325,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
       component="footer"
       id="site-footer"
       aria-label="Capitar Ventures footer"
-      sx={{ position: 'relative', bgcolor: '#0B0F2D', color: '#37373D', overflow: 'hidden' }}
+      sx={{ position: 'relative', bgcolor: '#0B0F2D', color: '#37373D', overflow: 'hidden', ...footerViewportStyles }}
     >
       {background()}
       <Box
@@ -359,6 +360,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
           }}
         >
           <Box
+            data-footer-grid
             sx={{
               display: 'grid',
               gridTemplateColumns: {
@@ -509,6 +511,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
             </Box>
           </Box>
           <Box
+            data-footer-legal
             sx={{
               display: 'flex',
               flexWrap: 'wrap',

@@ -22,3 +22,30 @@ test('phone sections retain natural readable height',async({page})=>{
  expect((await page.locator('#case-study').boundingBox())!.height).toBeGreaterThan(812);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);
 });
+
+test('Team, editorial, testimonials and footer fill a desktop viewport with visible controls', async ({ page }) => {
+ await page.emulateMedia({ reducedMotion: 'reduce' });
+ await page.goto('/');
+ await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
+ for (const [width, height] of [[1440, 900], [1280, 720], [1024, 600], [900, 600], [1280, 500]]) {
+  await page.setViewportSize({ width, height });
+  await page.evaluate(() => document.fonts.ready);
+  for (const id of ['team', 'insights-news', 'client-testimonials', 'site-footer']) {
+   const section = page.locator('#' + id);
+   await section.scrollIntoViewIfNeeded();
+   const geometry = await section.evaluate(el => {
+    const bounds = el.getBoundingClientRect();
+    const outside = [...el.querySelectorAll('h2,h3,p,article,button')].filter(node => {
+     const rect = node.getBoundingClientRect();
+     return getComputedStyle(node).visibility !== 'hidden' && rect.width > 0 && rect.height > 0 &&
+      rect.right > bounds.left && rect.left < bounds.right &&
+      (rect.top < bounds.top - 1 || rect.bottom > bounds.bottom + 1);
+    }).map(node => node.textContent);
+    return { height: bounds.height, outside, overflow: document.documentElement.scrollWidth > innerWidth };
+   });
+   expect(geometry.height, `${id} at ${width}x${height}`).toBeCloseTo(height, 0);
+   expect(geometry.outside, id).toEqual([]);
+   expect(geometry.overflow, id).toBeFalsy();
+  }
+ }
+});

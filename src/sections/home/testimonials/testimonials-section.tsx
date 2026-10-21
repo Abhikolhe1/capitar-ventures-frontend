@@ -247,6 +247,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
     >
       <Box sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto' }}>
         <Box
+          data-testimonials-header
           sx={{
             px: { xs: 3, sm: 6, md: '60px' },
             mb: '36px',

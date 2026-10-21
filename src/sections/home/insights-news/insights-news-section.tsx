@@ -249,6 +249,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
     >
       <Box sx={{ position: 'relative', zIndex: 1, maxWidth: websiteTokens.maxWidth, mx: 'auto' }}>
         <Box
+          data-editorial-header
           sx={{
             px: { xs: 3, sm: 6, md: '60px' },
             mb: '48px',
@@ -386,6 +387,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
             )}
           </Box>
           <Box
+            data-editorial-controls
             sx={{
               position: 'relative',
               px: { xs: 3, sm: 6, md: '60px' },

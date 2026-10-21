@@ -33,11 +33,11 @@ test('footer matches the recording dimensions, follows main, and copies contact 
     return { width: outer.width, height: outer.height, panelWidth: panel.width, panelHeight: panel.height, left: panel.left - outer.left, top: panel.top - outer.top, ctaWidth: cta.width, ctaHeight: cta.height, afterMain: element.previousElementSibling?.tagName === 'MAIN' };
   });
   expect(dimensions.width).toBe(1441);
-  expect(dimensions.height).toBeCloseTo(640, 1);
+  expect(dimensions.height).toBeCloseTo(950, 1);
   expect(dimensions.panelWidth).toBeCloseTo(1324, 1);
   expect(dimensions.panelHeight).toBeCloseTo(523, 1);
   expect(dimensions.left).toBeCloseTo(58.5, 1);
-  expect(dimensions.top).toBeCloseTo(68.5, 1);
+  expect(dimensions.top).toBeCloseTo((950 - dimensions.panelHeight) / 2, 1);
   expect(dimensions.ctaWidth).toBeCloseTo(352, 1);
   expect(dimensions.ctaHeight).toBe(440);
   expect(dimensions.afterMain).toBeTruthy();
