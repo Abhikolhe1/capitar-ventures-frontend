@@ -50,4 +50,21 @@ export type HomepageContent = {
   global: GlobalContent;
   hero: HeroContent;
   portfolioProofPoints?: PortfolioProofPointsContent;
+  capitalEfficiency?: CapitalEfficiencyContent;
+};
+export type CapitalBenefitContent = {
+  title: string;
+  description?: string;
+  layout: 'standard' | 'wide' | 'tall';
+  artworkWidth?: number;
+  icon?: Media;
+  artwork?: Media;
+};
+export type CapitalEfficiencyContent = {
+  enabled: boolean;
+  sectionLabel: string;
+  heading: string;
+  description?: string;
+  backgroundImage?: Media;
+  benefits: CapitalBenefitContent[];
 };

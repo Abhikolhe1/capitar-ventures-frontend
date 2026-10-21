@@ -9,6 +9,10 @@ export const websiteTokens = {
   border: 'rgba(255,255,255,0.08)',
   gutter: { xs: 3, sm: 6, lg: '100px' },
   maxWidth: 1441,
+  capital: {
+    background: '#0B0F2D', ink: '#193969', mutedInk: 'rgba(25,57,105,0.8)',
+    badgeBorder: 'rgba(217,217,217,0.7)',
+  },
   proof: {
     background: '#F8F9FA',
     ink: '#121212',

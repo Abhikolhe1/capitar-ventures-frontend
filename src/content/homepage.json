@@ -90,6 +90,35 @@
       }
     ]
   },
+  "capitalEfficiency": {
+    "enabled": true,
+    "sectionLabel": "CAPITAL EFFICIENCY",
+    "heading": "Fuel growth.\nProtect your cap table.",
+    "description": "Scaling fast shouldn’t mean giving away too much of your company.",
+    "backgroundImage": { "url": "/assets/capitar/capital-background.svg" },
+    "benefits": [
+      {
+        "title": "Accelerate growth", "description": "Invest in expansion without\nimmediately triggering an equity round.", "layout": "standard", "artworkWidth": 93.66,
+        "icon": { "url": "/assets/capitar/capital-growth-icon.svg" },
+        "artwork": { "url": "/assets/capitar/capital-growth-art.webp", "width": 1063, "height": 464, "alternativeText": "Illustrative growth chart with rising bars and a profit increase of 65%." }
+      },
+      {
+        "title": "Protect your cap table", "description": "Access high-impact growth capital\nwith significantly less dilution.", "layout": "standard", "artworkWidth": 74.83,
+        "icon": { "url": "/assets/capitar/capital-dilution-icon.svg" },
+        "artwork": { "url": "/assets/capitar/capital-dilution-art.webp", "width": 849, "height": 435, "alternativeText": "Illustrative semicircular chart showing 20% less dilution." }
+      },
+      {
+        "title": "Maximize runway", "description": "Stretch your runway to\nnegotiate your next equity round\nfrom strength.", "layout": "wide",
+        "icon": { "url": "/assets/capitar/capital-runway-icon.svg" },
+        "artwork": { "url": "/assets/capitar/capital-runway-art.svg", "width": 480, "height": 204, "alternativeText": "Illustration: runway extends from 8.5 to 11.2 months, while monthly burn reduces from ₹4.2L to ₹3.1L." }
+      },
+      {
+        "title": "Capitalize on momentum", "description": "Seize immediate market opportunities\nwithout equity drag.", "layout": "tall",
+        "icon": { "url": "/assets/capitar/capital-momentum-icon.svg" },
+        "artwork": { "url": "/assets/capitar/capital-momentum-art.webp", "width": 1135, "height": 996, "alternativeText": "Capital illustration with stacked coins, rising bars and an arrow toward a business target." }
+      }
+    ]
+  },
   "portfolioProofPoints": {
     "enabled": true,
     "sectionLabel": "PORTFOLIO & PROOF POINTS",

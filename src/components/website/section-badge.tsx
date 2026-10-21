@@ -8,6 +8,8 @@ type Props = {
   text: string;
   color?: string;
   borderColor?: string;
+  minWidth?: number;
+  fontWeight?: number;
   ref?: Ref<HTMLSpanElement>;
 };
 
@@ -15,6 +17,8 @@ export function SectionBadge({
   text,
   color = websiteTokens.proof.badgeInk,
   borderColor = websiteTokens.red,
+  minWidth = 249,
+  fontWeight = 500,
   ref,
 }: Props) {
   return (
@@ -24,8 +28,8 @@ export function SectionBadge({
       sx={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         border: '1px solid', borderColor, color, borderRadius: '500px',
-        px: '12px', minHeight: 29, minWidth: 249, maxWidth: '100%',
-        fontSize: 16, fontWeight: 500, lineHeight: '27px', textAlign: 'center',
+        px: '12px', minHeight: 29, minWidth, maxWidth: '100%',
+        fontSize: 16, fontWeight, lineHeight: '27px', textAlign: 'center',
       }}
     >
       {text}

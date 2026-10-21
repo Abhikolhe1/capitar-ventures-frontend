@@ -3,7 +3,7 @@ import fs from 'node:fs';
 const fallback = JSON.parse(fs.readFileSync(new URL('../src/content/homepage.json', import.meta.url), 'utf8'));
 
 const cms = 'http://localhost:3035/api';
-test('published CMS data, all media, and responsive layouts', async ({ page, request }) => {
+test('published CMS data, above-the-fold media, and responsive layouts', async ({ page, request }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   const global = await request.get(`${cms}/global`);
@@ -16,7 +16,8 @@ test('published CMS data, all media, and responsive layouts', async ({ page, req
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
-    await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0));
+    // Below-fold lazy illustrations are decoded after scrolling in their section's dedicated test.
+    await page.waitForFunction(() => [...document.images].filter(image => image.loading !== 'lazy').every(image => image.complete && image.naturalWidth > 0));
     await page.waitForFunction(() => !!document.querySelector('[data-entrance="header"]') && getComputedStyle(document.querySelector('[data-entrance="header"]')!).opacity === '1');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     expect(await page.evaluate(() => document.fonts.check('72px "LT Superior"'))).toBeTruthy();
@@ -33,11 +34,15 @@ test('published CMS data, all media, and responsive layouts', async ({ page, req
   expect(errors).toEqual([]);
 });
 
-test('reduced motion skips entrance; background plays continuously', async ({ page }) => {
+test('requested entrance and background play with the browser reduced-motion setting', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
+  await page.waitForFunction(() => {
+    const heading = document.querySelector('h1');
+    return heading && Number(getComputedStyle(heading).opacity) < 0.95;
+  });
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.locator('header')).toHaveCSS('opacity', '1');
+  await expect(page.locator('[data-entrance="header"]')).toHaveCSS('opacity', '1');
   await page.waitForFunction(() => {
     const video = document.querySelector('video');
     return video && !video.paused && video.currentTime > 0.1;

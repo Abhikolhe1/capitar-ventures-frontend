@@ -4,6 +4,7 @@ import type {
   HeroContent,
   GlobalContent,
   HomepageContent,
+  CapitalEfficiencyContent,
   PortfolioProofPointsContent,
 } from 'src/types/homepage';
 
@@ -126,7 +127,31 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
       portfolioProofPoints = undefined;
     }
   }
-  return { global, hero, portfolioProofPoints };
+  let capitalEfficiency: CapitalEfficiencyContent | undefined;
+  const capitalValue = record(record(homepageValue).data).capitalEfficiency;
+  if (capitalValue) {
+    try {
+      const capital = record(capitalValue);
+      const capitalHeading = string(capital.heading)?.trim();
+      const sectionLabel = string(capital.sectionLabel)?.trim();
+      if (!capitalHeading || !sectionLabel) throw new Error('Invalid capital section');
+      capitalEfficiency = {
+        enabled: capital.enabled !== false, heading: capitalHeading, sectionLabel,
+        description: string(capital.description), backgroundImage: media(capital.backgroundImage),
+        benefits: Array.isArray(capital.benefits) ? capital.benefits.flatMap(value => {
+          try {
+            const benefit = record(value), title = string(benefit.title)?.trim();
+            return title ? [{ title, description: string(benefit.description),
+              artworkWidth: typeof benefit.artworkWidth === 'number' && Number.isFinite(benefit.artworkWidth) ? Math.min(100, Math.max(20, benefit.artworkWidth)) : 94,
+              layout: benefit.layout === 'wide' || benefit.layout === 'tall' ? benefit.layout : 'standard',
+              icon: media(benefit.icon), artwork: media(benefit.artwork),
+            } as CapitalEfficiencyContent['benefits'][number]] : [];
+          } catch { return []; }
+        }) : [],
+      };
+    } catch { capitalEfficiency = undefined; }
+  }
+  return { global, hero, portfolioProofPoints, capitalEfficiency };
 }
 export async function fetchHomepage(signal?: AbortSignal) {
   const [global, homepage] = await Promise.all([

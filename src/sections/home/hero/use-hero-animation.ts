@@ -6,14 +6,13 @@ export function useHeroAnimation(scope: RefObject<HTMLDivElement | null>, ready:
   useLayoutEffect(() => {
     if (!ready || !scope.current) return undefined;
     const context = gsap.context(() => {
-      const mm = gsap.matchMedia();
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // The requested homepage entrance plays on every load, including OS reduce mode.
         const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
         timeline
           .fromTo(
             '[data-entrance="heading"]',
             { autoAlpha: 0, y: 30 },
-            { autoAlpha: 1, y: 0, duration: 1.1 },
+            { autoAlpha: 1, y: 0, duration: 1.1, clearProps: 'transform' },
             0.15
           )
           .fromTo(
@@ -24,9 +23,9 @@ export function useHeroAnimation(scope: RefObject<HTMLDivElement | null>, ready:
           )
           .fromTo(
             '[data-entrance="header"]',
-            { autoAlpha: 0 },
-            { autoAlpha: 1, duration: 0.8 },
-            0.8
+            { autoAlpha: 0, y: -60 },
+            { autoAlpha: 1, y: 0, duration: 0.9, clearProps: 'transform' },
+            0.55
           )
           .fromTo(
             '[data-entrance="clients"]',
@@ -40,14 +39,7 @@ export function useHeroAnimation(scope: RefObject<HTMLDivElement | null>, ready:
             { autoAlpha: 1, duration: 1.2 },
             0.45
           );
-        return () => {
-          timeline.kill();
-        };
-      });
-      mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set('[data-entrance]', { autoAlpha: 1, clearProps: 'transform' });
-      });
-      return () => mm.revert();
+      return () => timeline.kill();
     }, scope);
     return () => context.revert();
   }, [scope, ready]);

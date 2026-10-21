@@ -1,3 +1,7 @@
+# Follow-up: visible load animation
+
+The user explicitly requested the missing Framer-style entrance after browser inspection established that OS reduced motion suppressed it. The Hero entrance now plays under that setting as requested; Section2 retains its own reduced-motion behavior. Heading fades/rises30px at0.15s, content24px at0.3s, header slides from-60px at0.55s, clients18px at0.7s; background video stays continuous. Header scrolling still targets the outer wrapper independently. Final transforms clear on header/heading. The timeline remains scoped and cleans up on Strict Mode remounts. Desktop1440/mobile390 observations show partial heading opacity and translation during entry and header/heading opacity1 with no transform on completion. Evidence: scratch/entrance-fix. Four targeted browser regressions plus an explicit partial-visibility assertion passed. Timings are fitted to observed Framer behavior, not an exact exported animation specification.
+
 ## Client logo correction
 
 The previous connector image assets did not preserve the Figma image crops when forced into width/height boxes. Re-exported the four individual logo nodes at 2x with their Figma crop/filter treatment. Replaced the local fallback PNGs and local CMS media while retaining media IDs and content relations; new URLs invalidate cached originals. Rendering now uses object-fit: contain. The repair can be repeated using backend scripts/repair-client-logo-assets.cjs.

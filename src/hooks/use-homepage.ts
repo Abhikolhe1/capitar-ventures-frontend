@@ -6,7 +6,7 @@ import fallback from 'src/content/homepage.json';
 import { fetchHomepage } from 'src/services/homepage.service';
 
 export function useHomepage() {
-  const [content, setContent] = useState<HomepageContent>(fallback);
+  const [content, setContent] = useState<HomepageContent>(fallback as HomepageContent);
   const [loading, setLoading] = useState(true);
   const [unavailable, setUnavailable] = useState(false);
   useEffect(() => {
