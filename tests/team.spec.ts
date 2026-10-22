@@ -88,7 +88,8 @@ test('hovering the portrait or lower overlay reveals details without changing th
   await page.goto('/');
   const section = page.locator('#team');
   await section.scrollIntoViewIfNeeded();
-  await expect(section).toHaveAttribute('data-team-entered', 'true');
+  await expect(section.locator('[data-scroll-reveal="team-track"]')).toHaveCSS('opacity', '1');
+  await expect(section.locator('[data-scroll-reveal="team-track"]')).toHaveCSS('transform', 'none');
   await expect(section.locator('li').first()).toHaveCSS('opacity', '1');
   const photo = section.locator('.team-portrait');
   const card = section.getByRole('article');
