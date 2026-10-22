@@ -37,6 +37,7 @@ export function MainLayout({
           bgcolor: 'background.default',
           position: 'relative',
           minHeight: '100vh',
+          '& main > section': { scrollMarginTop: '96px' },
           '@media (prefers-reduced-motion: reduce)': {
             '& [data-entrance]': { visibility: 'visible' },
           },

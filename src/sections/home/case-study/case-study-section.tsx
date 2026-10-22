@@ -28,7 +28,7 @@ export function CaseStudySection({ data }: { data?: CaseStudyContent }) {
         <Box component="ul" data-case-deck aria-label="Selected case study" sx={{ p: 0, m: 0, mt: 3 }}>
           {data.items[active] && <CaseStudyCard item={data.items[active]} index={active} active onSelect={() => {}} />}
         </Box>
-        <Box component="ul" aria-label="Choose a case study" sx={{ display: 'flex', gap: '12px', overflowX: 'auto', overscrollBehaviorX: 'contain', scrollSnapType: 'x mandatory', p: 0, m: 0, mt: 3, mr: '-20px', pr: '20px', pb: 0.5, '& > li': { flex: '0 0 160px', scrollSnapAlign: 'start' } }}>
+        <Box component="ul" data-case-thumbnails data-scroll-native aria-label="Choose a case study" sx={{ display: 'flex', gap: '12px', overflowX: 'auto', overscrollBehaviorX: 'contain', scrollSnapType: 'x mandatory', p: 0, m: 0, mt: 3, mr: '-20px', pr: '20px', pb: 0.5, '& > li': { flex: '0 0 160px', scrollSnapAlign: 'start' } }}>
           {data.items.map((item,index) => index !== active && <CaseStudyCard key={item.name+index} item={item} index={index} active={false} onSelect={() => setSelected(index)} />)}
         </Box>
       </> : <Box component="ul" data-case-deck aria-label="Case studies" sx={{ display: { xs: 'grid', md: 'flex' }, gridTemplateColumns: 'repeat(3,minmax(0,1fr))', flexWrap: 'nowrap', gap: { xs: '12px', sm: '20px' }, p: 0, m: 0, mt: { xs: '24px', md: '53.2px' }, minHeight: { md: 484 }, mr: { lg: '10px' } }}>

@@ -24,7 +24,8 @@ export function useSmoothScroll() {
         syncTouch: false,
         anchors: false,
         // Preserve native scrolling inside modal content and longer testimonial quotes.
-        prevent: (node) => bodyLocked || node.tagName === 'BLOCKQUOTE',
+        prevent: (node) => bodyLocked || node.tagName === 'BLOCKQUOTE'
+          || node.hasAttribute('data-scroll-native') || node.hasAttribute('data-lenis-prevent'),
       });
       // MUI's Drawer/Dialog locks body overflow; smoothing must honor that lock too.
       const syncBodyLock = () => {

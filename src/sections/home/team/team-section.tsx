@@ -50,7 +50,7 @@ function TeamCard({ member }: { member: TeamMemberContent }) {
         <Box className="team-card-content" sx={{ position: 'absolute', bottom: { xs: 20, md: 24 }, left: { xs: 20, md: 24 }, right: 20 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Typography component="h3" sx={{ color: '#FFF', fontFamily: 'Georgia, "Times New Roman", serif', fontSize: { xs: 23, lg: 26 }, lineHeight: 1.2, fontWeight: 600 }}>{member.name}</Typography>
+            <Typography component="h3" sx={{ color: '#FFF', fontSize: { xs: 16, sm: 23, lg: 26 }, letterSpacing: '-0.02em', lineHeight: 1.2, fontWeight: 600 }}>{member.name}</Typography>
             <Typography sx={{ mt: '6px', color: '#FFF', fontSize: 14, lineHeight: 1.4 }}>{member.role}</Typography>
           </Box>
           <Box component={member.linkedinUrl ? 'a' : 'span'} href={member.linkedinUrl} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} aria-label={member.linkedinUrl ? `${member.name} on LinkedIn` : undefined} aria-hidden={!member.linkedinUrl || undefined} sx={{ width: 44, height: 44, display: 'grid', placeItems: 'center', flexShrink: 0, '&:focus-visible': { outline: '2px solid white', borderRadius: '4px' } }}>

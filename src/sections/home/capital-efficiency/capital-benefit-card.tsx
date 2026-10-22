@@ -39,6 +39,7 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
       data-capital-card
       data-layout={data.layout}
       sx={{
+        '--capital-art-width': `${data.artworkWidth || 94}%`,
         position: 'relative',
         minWidth: 0,
         bgcolor: websiteTokens.white,
@@ -62,7 +63,7 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
           '& h3': { fontSize: 20, lineHeight: 1.2, mb: '8px' },
           '& p': { fontSize: 14, lineHeight: 1.4, mr: 0, maxWidth: '100%', whiteSpace: 'normal' },
           '& [data-capital-art]': { order: 1, position: 'relative', top: 'auto', bottom: 'auto', right: 'auto', width: '100%', maxWidth: 'none', mt: 0, transform: 'none' },
-          '& [data-capital-art] img': { width: '100%', height: 'auto', maxHeight: tall ? 190 : 210, objectFit: 'contain' },
+          '& [data-capital-art] img': { width: '100%', height: 'auto', maxHeight: 'none', objectFit: 'contain' },
         },
       }}
     >

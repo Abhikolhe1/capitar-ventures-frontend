@@ -83,7 +83,6 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
           title={item.title}
           sx={{
             mt: '20px',
-            fontFamily: 'Georgia, "Times New Roman", serif',
             fontSize: { xs: 24, sm: 28 },
             lineHeight: 1.2,
             fontWeight: 400,

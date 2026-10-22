@@ -5,6 +5,8 @@ import { useRef } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+import { useSectionReveal } from 'src/hooks/use-section-reveal';
+
 import { websiteTokens } from 'src/theme/website-theme';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -16,6 +18,7 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
   const scope = useRef<HTMLElement>(null);
   const signature = JSON.stringify(data);
   useCapitalAnimation(scope, signature);
+  useSectionReveal(scope, signature);
   if (!data?.enabled) return null;
   return (
     <Box
@@ -62,7 +65,7 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
           width: { xs: 'calc(100% - 40px)', sm: 'calc(100% - 96px)', lg: 'calc(100% - 123px)' },
         }}
       >
-        <Box sx={{ textAlign: 'center', mx: 'auto', maxWidth: 620 }}>
+        <Box data-scroll-reveal="capital-heading" sx={{ textAlign: 'center', mx: 'auto', maxWidth: 620 }}>
           <SectionBadge compactMobile
             text={data.sectionLabel}
             color={websiteTokens.white}

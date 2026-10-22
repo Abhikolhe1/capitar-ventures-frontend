@@ -17,7 +17,7 @@ export function useCaseStudyAnimation(scope: RefObject<HTMLElement | null>, sign
         if (entered.current) return;
         gsap.timeline({ defaults: { ease: 'power3.out' }, scrollTrigger: { trigger: scope.current, start: 'top 80%', once: true, onEnter: () => { entered.current = true; } } })
           .fromTo('[data-case-header]', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1.1, clearProps: 'transform' }, 0)
-          .fromTo('[data-case-deck]', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.9, clearProps: 'transform' }, 0.15);
+          .fromTo('[data-case-deck], [data-case-thumbnails]', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.9, clearProps: 'transform' }, 0.15);
       });
     }, scope);
     const cancelRefresh = scheduleScrollRefresh();

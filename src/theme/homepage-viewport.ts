@@ -25,7 +25,7 @@ export const homepageViewportStyles = {
       '& [data-capital-copy]': { minWidth: 0 },
       '& [data-layout=tall] [data-capital-copy]': { pt: 0, mt: 'auto' },
       '& [data-layout=wide] [data-capital-copy]': { width: '40%', mt: 'auto' },
-      '& [data-capital-art]': { height: '45%', width: '92%' },
+      '& [data-capital-art]': { height: '56%', width: 'var(--capital-art-width,94%)' },
       '& [data-capital-art] img': { width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'right bottom' },
       '& [data-layout=wide] [data-capital-art]': { height: '90%', width: '52%', top: '50%', right: '3%', transform: 'translateY(-50%)', position: 'absolute' },
       '& [data-layout=tall] [data-capital-art]': { height: 'calc(100% - 160px)', width: '100%', maxWidth: 'none' },

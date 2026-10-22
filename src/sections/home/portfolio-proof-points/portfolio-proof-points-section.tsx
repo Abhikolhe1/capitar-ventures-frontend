@@ -4,6 +4,8 @@ import { useRef } from 'react';
 
 import { Box, Stack, Typography } from '@mui/material';
 
+import { useSectionReveal } from 'src/hooks/use-section-reveal';
+
 import { websiteTokens } from 'src/theme/website-theme';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -13,6 +15,7 @@ import { useProofTextFill } from './use-proof-text-fill';
 
 export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPointsContent }) {
   const scope = useRef<HTMLElement>(null);
+  useSectionReveal(scope, JSON.stringify(data));
   useProofTextFill(scope, JSON.stringify({ enabled: data?.enabled, heading: data?.heading, mutedText: data?.mutedText }));
   if (!data?.enabled) return null;
   const mutedIndex = data.mutedText ? data.heading.indexOf(data.mutedText) : -1;
@@ -41,7 +44,7 @@ export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPoi
             })}
           </Typography>
         </Stack>
-        {!!data.metrics.length && <Box component="dl" sx={{
+        {!!data.metrics.length && <Box component="dl" data-scroll-reveal="proof-metrics" sx={{
           display: 'grid', gridTemplateColumns: { xs: 'repeat(2,minmax(0,1fr))', sm: 'repeat(2,minmax(0,1fr))', md: data.metrics.length === 4 ? '182fr 334fr 260fr 266fr' : `repeat(${data.metrics.length},minmax(0,1fr))` },
           m: 0, mt: { xs: 6, md: '86px' }, columnGap: { sm: 6, md: 'clamp(32px,5.97223vw,86px)' }, rowGap: { xs: '56px', sm: 6 },
           position: 'relative',

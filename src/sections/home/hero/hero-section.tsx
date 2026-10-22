@@ -115,7 +115,8 @@ export function HeroSection({ data }: { data: HeroContent }) {
           '@media (min-width: 900px) and (max-height: 560px)': { pt: '96px', gap: 1.5, pb: 2 },
         }}
       >
-        {data.announcementText && (
+        {/* Announcement banner temporarily disabled.
+        data.announcementText && (
           <Stack
             data-entrance="content"
             direction="row"
@@ -153,7 +154,8 @@ export function HeroSection({ data }: { data: HeroContent }) {
               </Box>
             )}
           </Stack>
-        )}
+        )
+        */}
         <Typography
           data-entrance="heading"
           id="hero-heading"
