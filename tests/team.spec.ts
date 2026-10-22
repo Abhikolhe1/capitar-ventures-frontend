@@ -35,11 +35,18 @@ test('team matches the supplied content, scrolls, and fits desktop and mobile', 
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     const track = section.getByRole('list', { name: 'Capitar team members' });
-    await expect(section.getByRole('button', { name: 'Previous team members' })).toBeDisabled();
-    await section.getByRole('button', { name: 'Next team members' }).click();
-    await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeGreaterThan(50);
-    await expect(section.getByRole('button', { name: 'Previous team members' })).toBeEnabled();
-    await section.getByRole('button', { name: 'Previous team members' }).click();
+    if (width < 600) {
+      await expect(section.getByRole('button', { name: 'Next team members', includeHidden: true })).toBeHidden();
+      await track.evaluate(element => element.scrollBy({ left: element.clientWidth, behavior: 'instant' }));
+      await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeGreaterThan(50);
+      await track.evaluate(element => element.scrollTo({ left: 0, behavior: 'instant' }));
+    } else {
+      await expect(section.getByRole('button', { name: 'Previous team members' })).toBeDisabled();
+      await section.getByRole('button', { name: 'Next team members' }).click();
+      await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeGreaterThan(50);
+      await expect(section.getByRole('button', { name: 'Previous team members' })).toBeEnabled();
+      await section.getByRole('button', { name: 'Previous team members' }).click();
+    }
     await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeLessThan(3);
     await expect(section.getByRole('link')).toHaveCount(0);
     await expect(section.getByRole('img')).toHaveCount(4);

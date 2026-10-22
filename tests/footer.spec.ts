@@ -91,8 +91,11 @@ test('normal motion reuses the hero animation and falls back if the CMS video fa
   }
   for (const surface of ['outer', 'cta']) {
     const background = footer.locator(`[data-footer-background="${surface}"]`);
-    const poster = (await background.locator('img').boundingBox())!;
-    const moving = (await background.locator('video').boundingBox())!;
+    // Measure both layers in one frame while smooth scrolling is still settling.
+    const { poster, moving } = await background.evaluate(element => ({
+      poster: element.querySelector('img')!.getBoundingClientRect().toJSON(),
+      moving: element.querySelector('video')!.getBoundingClientRect().toJSON(),
+    }));
     expect(moving.x).toBeCloseTo(poster.x, 1);
     expect(moving.y).toBeCloseTo(poster.y, 1);
     expect(moving.width).toBeCloseTo(poster.width, 1);

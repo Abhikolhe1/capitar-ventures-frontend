@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
+import { editorialMobileStyles } from 'src/theme/later-section-mobile';
 
 import { SectionBadge } from 'src/components/website/section-badge';
 
@@ -37,6 +38,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
   const body = (
     <>
       <Box
+        data-editorial-copy
         sx={{
           px: '24px',
           py: '18px',
@@ -50,6 +52,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
           sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}
         >
           <Typography
+            data-editorial-category
             sx={{
               color: '#CC2334',
               fontSize: 16,
@@ -225,6 +228,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
       id="insights-news"
       aria-labelledby="editorial-heading"
       sx={{
+        ...editorialMobileStyles,
         bgcolor: '#111129',
         color: '#F9FAFB',
         position: 'relative',
@@ -438,6 +442,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               </Button>
             )}
             <Box
+              data-editorial-arrows
               sx={{
                 display: 'flex',
                 gap: '10px',
