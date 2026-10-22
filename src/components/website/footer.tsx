@@ -145,6 +145,10 @@ function NumberedLinks({ items, label }: { items: ContentLink[]; label: string }
               fontSize: 14,
               lineHeight: 1.4,
               overflowWrap: 'anywhere',
+              transition: 'background-color 160ms ease, color 160ms ease',
+              '&:hover, &:focus-within': { bgcolor: '#000', color: '#FFF' },
+              '& a:hover': { color: 'inherit' },
+              '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
             }}
           >
             <Box aria-hidden="true">{index + 1}</Box>
@@ -209,7 +213,7 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
               color: expanded ? '#121212' : 'white',
               fontSize: 12,
               overflow: 'hidden',
-              transition: 'background-color 180ms ease, border-color 180ms ease',
+              transition: 'background-color 350ms ease, border-color 350ms ease',
               '&:focus-visible': { outline: '2px solid #193969', outlineOffset: 3 },
               '@media (prefers-reduced-motion: reduce)': {
                 transition: 'none',
@@ -250,7 +254,7 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
                 opacity: expanded ? 1 : 0,
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
-                transition: 'max-width 220ms ease, opacity 160ms ease',
+                transition: 'max-width 450ms ease-in-out, opacity 350ms ease-in-out',
               }}
             >
               <Box component="span" sx={{ display: 'block', pl: '6px', pr: '10px' }}>
@@ -281,7 +285,13 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
   if (!data?.enabled) return null;
   const poster = data.backgroundImage?.url || fallback.hero.backgroundImage.url;
   const src = data.backgroundVideo?.url || fallback.hero.backgroundVideo.url;
-  const logo = data.brandLogo?.url || brandLogo?.url;
+  const logo = data.brandLogo?.url || fallback.global.footer.brandLogo.url || brandLogo?.url;
+  const logoMonochrome = data.brandLogo ? data.logoMonochrome : fallback.global.footer.logoMonochrome;
+  const navigation = data.navigation.map((item) =>
+    item.label.trim().toLowerCase() === 'about us' && !item.href
+      ? { ...item, href: '#capitar-difference', enabled: true }
+      : item
+  );
   const aiLinks = data.aiLinks.map((item) => ({
     ...item,
     icon:
@@ -391,7 +401,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                     sx={{
                       display: 'block',
                       objectFit: 'contain',
-                      filter: data.logoMonochrome ? 'brightness(0)' : undefined,
+                      filter: logoMonochrome ? 'brightness(0)' : undefined,
                     }}
                   />
                 </Box>
@@ -439,7 +449,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               {!!aiLinks.length && <AiShortcuts items={aiLinks} />}
             </Box>
             <Box sx={{ minWidth: 0, pt: { lg: '16px' }, pb: { lg: '64px' } }}>
-              <NumberedLinks items={data.navigation} label="Footer navigation" />
+              <NumberedLinks items={navigation} label="Footer navigation" />
               {!!data.socialLinks.length && (
                 <Box sx={{ mt: '56px' }}>
                   <Typography sx={{ color: '#B94C62', fontSize: 16, lineHeight: '22px' }}>
@@ -481,8 +491,11 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               </Typography>
               {data.cta && (
                 <Box
+                  data-footer-connect
                   sx={{
                     position: 'relative',
+                    mt: 'auto',
+                    flexShrink: 0,
                     bgcolor: '#F9FAFB',
                     borderRadius: '8px',
                     color: '#121212',
@@ -491,6 +504,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                     fontSize: 16,
                     '& > *': {
                       display: 'flex',
+                      alignItems: 'flex-end',
                       justifyContent: 'space-between',
                       width: '100%',
                       minHeight: 68,

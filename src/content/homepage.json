@@ -28,7 +28,11 @@
     },
     "footer": {
       "enabled": true,
-      "logoMonochrome": true,
+      "brandLogo": {
+        "url": "/assets/icons/footer/footer_icon.png",
+        "alternativeText": "Capitar Ventures"
+      },
+      "logoMonochrome": false,
       "address": "4th Floor, 417, Lodha Supremus, 11th Road Of Mahakali Caves Road, Near Tunga International, Andheri East, Mumbai, Maharashtra, 400093",
       "email": "ACCOUNT@CAPITAR.COM",
       "phone": "+91 9876543221",
@@ -83,7 +87,8 @@
         },
         {
           "label": "About Us",
-          "enabled": false
+          "enabled": true,
+          "href": "#capitar-difference"
         },
         {
           "label": "Insights",
@@ -472,6 +477,17 @@
             "width": 736,
             "height": 1108
           }
+        },
+        {
+          "category": "GROWTH STRATEGY",
+          "title": "Planning Your Next Stage of Growth",
+          "description": "A practical look at preparing your capital strategy for the next growth milestone.",
+          "image": {
+            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
+            "alternativeText": "A founder speaking with a colleague across a table.",
+            "width": 735,
+            "height": 477
+          }
         }
       ]
     },
@@ -516,6 +532,17 @@
             "alternativeText": "Modern buildings against a blue sky.",
             "width": 736,
             "height": 1108
+          }
+        },
+        {
+          "category": "GROWTH STRATEGY",
+          "title": "Planning Your Next Stage of Growth",
+          "description": "A practical look at preparing your capital strategy for the next growth milestone.",
+          "image": {
+            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
+            "alternativeText": "A founder speaking with a colleague across a table.",
+            "width": 735,
+            "height": 477
           }
         }
       ]

@@ -247,10 +247,12 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
         },
       }}
     >
-      <Box sx={{ position: 'relative', zIndex: 1, maxWidth: websiteTokens.maxWidth, mx: 'auto' }}>
+      <Box sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
         <Box
           data-editorial-header
           sx={{
+            maxWidth: websiteTokens.maxWidth,
+            mx: 'auto',
             px: { xs: 3, sm: 6, md: '60px' },
             mb: '48px',
             display: 'flex',
@@ -356,12 +358,13 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               display: 'flex',
               gap: '20px',
               m: 0,
-              px: { xs: 3, sm: 6, md: '60px' },
+              pl: { xs: 3, sm: 6, md: `max(60px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 60px))` },
+              pr: 0,
               pb: 1,
               minHeight: { xs: 420, sm: 445 },
               overflowX: 'auto',
               scrollSnapType: 'x mandatory',
-              scrollPaddingInlineStart: { xs: '24px', sm: '48px', md: '60px' },
+              scrollPaddingInlineStart: { xs: '24px', sm: '48px', md: `max(60px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 60px))` },
               overscrollBehaviorX: 'contain',
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -389,6 +392,8 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
           <Box
             data-editorial-controls
             sx={{
+              maxWidth: websiteTokens.maxWidth,
+              mx: 'auto',
               position: 'relative',
               px: { xs: 3, sm: 6, md: '60px' },
               mt: '32px',
@@ -438,7 +443,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
                 sx={{
                   width: 80,
                   height: 44,
-                  borderRadius: '99px 0 0 99px',
+                  borderRadius: '99px 0 0 99px', justifyContent: 'flex-start', px: '18px',
                   bgcolor: '#F9FAFB',
                   color: '#111129',
                   '&:hover': { bgcolor: '#E3E4E8' },
@@ -454,7 +459,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
                 sx={{
                   width: 80,
                   height: 44,
-                  borderRadius: '0 99px 99px 0',
+                  borderRadius: '0 99px 99px 0', justifyContent: 'flex-end', px: '18px',
                   bgcolor: '#F9FAFB',
                   color: '#111129',
                   '&:hover': { bgcolor: '#E3E4E8' },

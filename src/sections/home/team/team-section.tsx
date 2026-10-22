@@ -104,21 +104,22 @@ export function TeamSection({ data }: { data?: TeamContent }) {
       '@keyframes team-enter': { from: { opacity: 0, transform: 'translateY(20px)' }, to: { opacity: 1, transform: 'none' } },
       '@media (prefers-reduced-motion: no-preference)': { '&[data-team-entered="true"] .team-heading-row': { animation: 'team-enter 650ms ease-out both' }, '&[data-team-entered="true"] li': { animation: 'team-enter 700ms ease-out both' }, '& li:nth-of-type(2)': { animationDelay: '90ms' }, '& li:nth-of-type(3)': { animationDelay: '180ms' } },
     }}>
-      <Box sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto', pl: { xs: 3, sm: 6, lg: '52px' } }}>
-        <Box className="team-heading-row" sx={{ pr: { xs: 3, sm: 6, lg: '66px' } }}>
+      <Box sx={{ width: '100%' }}>
+        <Box className="team-heading-row" sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto', pl: { xs: 3, sm: 6, lg: '52px' }, pr: { xs: 3, sm: 6, lg: '66px' } }}>
           <SectionBadge text={data.sectionLabel} minWidth={0} fontWeight={400} />
           <Box sx={{ mt: '22px', mb: { xs: 4, md: '40px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.35fr 1fr auto' }, alignItems: 'end', gap: { xs: 3, md: 5 } }}>
             <Typography id="team-heading" component="h2" sx={{ m: 0, maxWidth: 480, fontSize: { xs: 32, sm: 38, lg: 42 }, fontWeight: 400, lineHeight: 1.2, letterSpacing: '-0.035em', whiteSpace: 'pre-line' }}>{data.heading}</Typography>
             {data.description && <Typography sx={{ maxWidth: 390, fontSize: 16, lineHeight: 1.4 }}>{data.description}</Typography>}
             <Box aria-label="Team carousel controls" sx={{ display: 'flex', gap: '10px', justifySelf: { xs: 'end', md: 'auto' } }}>
-              <IconButton disabled={!position.previous} aria-label="Previous team members" onClick={() => move(-1)} sx={{ width: 80, height: 44, borderRadius: '99px 0 0 99px', bgcolor: '#0B0F2D', color: 'white', '&:hover': { bgcolor: '#242447' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: 'rgba(255,255,255,.35)' } }}><Arrow /></IconButton>
-              <IconButton disabled={!position.next} aria-label="Next team members" onClick={() => move(1)} sx={{ width: 80, height: 44, borderRadius: '0 99px 99px 0', bgcolor: '#0B0F2D', color: 'white', '&:hover': { bgcolor: '#242447' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: 'rgba(255,255,255,.35)' } }}><Arrow forward /></IconButton>
+              <IconButton disabled={!position.previous} aria-label="Previous team members" onClick={() => move(-1)} sx={{ width: 80, height: 44, borderRadius: '99px 0 0 99px', justifyContent: 'flex-start', px: '18px', bgcolor: '#0B0F2D', color: 'white', '&:hover': { bgcolor: '#242447' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: 'rgba(255,255,255,.35)' } }}><Arrow /></IconButton>
+              <IconButton disabled={!position.next} aria-label="Next team members" onClick={() => move(1)} sx={{ width: 80, height: 44, borderRadius: '0 99px 99px 0', justifyContent: 'flex-end', px: '18px', bgcolor: '#0B0F2D', color: 'white', '&:hover': { bgcolor: '#242447' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: 'rgba(255,255,255,.35)' } }}><Arrow forward /></IconButton>
             </Box>
           </Box>
         </Box>
         <Box ref={track} component="ul" tabIndex={0} aria-label="Capitar team members" onScroll={update} sx={{
           '--team-card-width': { xs: '82%', sm: '44%', md: '398.03px' },
-          display: 'flex', gap: '22px', m: 0, p: 0, pr: { xs: 3, sm: 6, lg: '52px' }, pb: 1,
+          display: 'flex', gap: '22px', m: 0, p: 0, pl: { xs: 3, sm: 6, lg: `max(52px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 52px))` }, pb: 1,
+          scrollPaddingInlineStart: { xs: '24px', sm: '48px', lg: `max(52px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 52px))` },
           overflowX: 'auto', scrollSnapType: 'x mandatory', overscrollBehaviorX: 'contain', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' },
           '&:focus-visible': { outline: `2px solid ${websiteTokens.red}`, outlineOffset: 4 },
         }}>{data.members.map((member, index) => <TeamCard key={`${member.name}-${index}`} member={member} />)}</Box>

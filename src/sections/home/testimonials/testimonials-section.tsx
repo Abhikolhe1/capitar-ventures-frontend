@@ -291,7 +291,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
               sx={{
                 width: 80,
                 height: 44,
-                borderRadius: '99px 0 0 99px',
+                borderRadius: '99px 0 0 99px', justifyContent: 'flex-start', px: '18px',
                 bgcolor: '#100A42',
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
@@ -307,7 +307,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
               sx={{
                 width: 80,
                 height: 44,
-                borderRadius: '0 99px 99px 0',
+                borderRadius: '0 99px 99px 0', justifyContent: 'flex-end', px: '18px',
                 bgcolor: '#100A42',
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
