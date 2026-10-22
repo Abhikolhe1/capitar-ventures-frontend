@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { useRef, useLayoutEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
+
 gsap.registerPlugin(ScrollTrigger);
 
 // Animate groups, not carousel slides, so horizontal scrolling and focus stay stable.
@@ -26,8 +28,7 @@ export function useSectionReveal(scope: RefObject<HTMLElement | null>, signature
         });
       });
     }, scope);
-    let active = true;
-    void document.fonts.ready.then(() => { if (active) ScrollTrigger.refresh(); });
-    return () => { active = false; media.revert(); context.revert(); };
+    const cancelRefresh = scheduleScrollRefresh();
+    return () => { cancelRefresh(); media.revert(); context.revert(); };
   }, [scope, signature]);
 }

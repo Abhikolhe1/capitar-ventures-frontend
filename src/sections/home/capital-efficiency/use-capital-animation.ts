@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { useRef, useLayoutEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useCapitalAnimation(scope: RefObject<HTMLElement | null>, signature: string) {
@@ -13,8 +15,7 @@ export function useCapitalAnimation(scope: RefObject<HTMLElement | null>, signat
     const mm = gsap.matchMedia();
     const context = gsap.context(() => {
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        let active = true;
-        void document.fonts.ready.then(() => { if (active) ScrollTrigger.refresh(); });
+        const cancelRefresh = scheduleScrollRefresh();
         gsap.utils
           .toArray<HTMLElement>('[data-capital-card]', scope.current)
           .forEach((card, index) => {
@@ -38,7 +39,7 @@ export function useCapitalAnimation(scope: RefObject<HTMLElement | null>, signat
               }
             );
           });
-        return () => { active = false; };
+        return cancelRefresh;
       });
     }, scope);
     return () => {

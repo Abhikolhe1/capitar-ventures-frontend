@@ -6,6 +6,8 @@ import { useRef, type ReactNode } from 'react';
 
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 
+import { useSmoothScroll } from 'src/hooks/use-smooth-scroll';
+
 import { websiteTheme } from 'src/theme/website-theme';
 import { homepageViewportStyles } from 'src/theme/homepage-viewport';
 
@@ -24,6 +26,7 @@ export function MainLayout({
   children: ReactNode;
 }) {
   const scope = useRef<HTMLDivElement>(null);
+  useSmoothScroll();
   useHeroAnimation(scope, true);
   return (
     <ThemeProvider theme={websiteTheme}>
