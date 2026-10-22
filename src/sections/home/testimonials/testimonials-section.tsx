@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
+import { testimonialsMobileStyles } from 'src/theme/later-section-mobile';
 
 import { SectionBadge } from 'src/components/website/section-badge';
 
@@ -67,6 +68,7 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
         }}
       >
         <Box
+          data-testimonial-identity
           sx={{
             height: 72,
             flexShrink: 0,
@@ -83,11 +85,13 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
               alt={item.portrait.alternativeText || item.name}
               loading="lazy"
               onError={() => setPortraitFailed(true)}
+              data-testimonial-portrait
               sx={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', objectPosition: '50% 20%', flexShrink: 0 }}
             />
           ) : (
             <Box
               aria-hidden="true"
+              data-testimonial-portrait
               sx={{
                 width: 72,
                 height: 72,
@@ -105,6 +109,7 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
           )}
           {(item.companyLogo || item.company) && (
             <Box
+              data-testimonial-logo
               sx={{
                 display: 'grid',
                 placeItems: 'center',
@@ -244,6 +249,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
       id="client-testimonials"
       aria-labelledby="testimonials-heading"
       sx={{
+        ...testimonialsMobileStyles,
         bgcolor: '#FFF',
         color: '#121212',
         pt: { xs: '48px', md: '60px' },

@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
+import { teamMobileStyles } from 'src/theme/later-section-mobile';
 
 import { SectionBadge } from 'src/components/website/section-badge';
 
@@ -53,7 +54,7 @@ function TeamCard({ member }: { member: TeamMemberContent }) {
             <Typography component="h3" sx={{ color: '#FFF', fontFamily: websiteTokens.serifFontFamily, fontSize: { xs: 16, sm: 23.8 }, letterSpacing: '-0.02em', lineHeight: 1.2, fontWeight: 600 }}>{member.name}</Typography>
             <Typography sx={{ mt: '6px', color: '#FFF', fontSize: 14, lineHeight: 1.4 }}>{member.role}</Typography>
           </Box>
-          <Box component={member.linkedinUrl ? 'a' : 'span'} href={member.linkedinUrl} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} aria-label={member.linkedinUrl ? `${member.name} on LinkedIn` : undefined} aria-hidden={!member.linkedinUrl || undefined} sx={{ width: 44, height: 44, display: 'grid', placeItems: 'center', flexShrink: 0, '&:focus-visible': { outline: '2px solid white', borderRadius: '4px' } }}>
+          <Box data-team-linkedin component={member.linkedinUrl ? 'a' : 'span'} href={member.linkedinUrl} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} aria-label={member.linkedinUrl ? `${member.name} on LinkedIn` : undefined} aria-hidden={!member.linkedinUrl || undefined} sx={{ width: 44, height: 44, display: 'grid', placeItems: 'center', flexShrink: 0, '&:focus-visible': { outline: '2px solid white', borderRadius: '4px' } }}>
             <Box component="img" src="/assets/images/Frame 2147239325.png" alt="" width={21} height={21} />
           </Box>
           </Box>
@@ -92,6 +93,7 @@ export function TeamSection({ data }: { data?: TeamContent }) {
   return (
     <Box ref={section} component="section" id="team" aria-labelledby="team-heading" sx={{
       bgcolor: '#F8F9FA', color: '#121212', py: { xs: 6, md: '42px' }, overflow: 'hidden',
+      ...teamMobileStyles,
     }}>
       <Box sx={{ width: '100%' }}>
         <Box data-scroll-reveal="team-heading" className="team-heading-row" sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto', pl: { xs: 3, sm: 6, lg: '53px' }, pr: { xs: 3, sm: 6, lg: '66px' } }}>

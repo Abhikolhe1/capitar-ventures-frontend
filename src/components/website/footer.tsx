@@ -13,6 +13,7 @@ import { useSectionReveal } from 'src/hooks/use-section-reveal';
 import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 import { footerViewportStyles } from 'src/theme/homepage-viewport';
+import { footerMobileStyles } from 'src/theme/later-section-mobile';
 
 import { HeroBackgroundVideo } from 'src/sections/home/hero/hero-background-video';
 
@@ -134,10 +135,10 @@ function CopyContact({ label, value, href }: { label: string; value: string; hre
   );
 }
 
-function NumberedLinks({ items, label }: { items: ContentLink[]; label: string }) {
+function FooterLinkList({ items, label }: { items: ContentLink[]; label: string }) {
   return (
     <Box component="nav" aria-label={label}>
-      <Box component="ol" sx={{ listStyle: 'none', m: 0, p: 0, borderTop: '1px solid #E7E7EC' }}>
+      <Box component="ul" sx={{ listStyle: 'none', m: 0, p: 0, borderTop: '1px solid #E7E7EC' }}>
         {items.map((item, index) => (
           <Box
             key={`${index}-${item.label}`}
@@ -158,7 +159,7 @@ function NumberedLinks({ items, label }: { items: ContentLink[]; label: string }
               '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
             }}
           >
-            <Box aria-hidden="true">{index + 1}</Box>
+            <Box aria-hidden="true">&bull;</Box>
             <FooterLink item={item} />
           </Box>
         ))}
@@ -280,6 +281,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
   useSectionReveal(root, JSON.stringify(data));
   const [visible, setVisible] = useState(false);
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const mobile = useMediaQuery('(max-width:599.95px)');
   useEffect(() => {
     const element = root.current;
     if (!element) return undefined;
@@ -326,7 +328,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
         sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', bgcolor: '#0B0F2D' }}
       >
         <Box component="img" src={poster} alt="" loading="lazy" sx={mediaFraming} />
-        {visible && !reducedMotion && (
+        {visible && !reducedMotion && !mobile && (
           <HeroBackgroundVideo
             src={src}
             fallbackSrc={fallback.hero.backgroundVideo.url}
@@ -343,7 +345,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
       component="footer"
       id="site-footer"
       aria-label="Capitar Ventures footer"
-      sx={{ position: 'relative', bgcolor: '#0B0F2D', color: '#37373D', overflow: 'hidden', ...footerViewportStyles }}
+      sx={{ position: 'relative', bgcolor: '#0B0F2D', color: '#37373D', overflow: 'hidden', ...footerViewportStyles, ...footerMobileStyles }}
     >
       {background()}
       <Box
@@ -355,6 +357,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
         }}
       />
       <Box
+        data-footer-shell
         sx={{
           position: 'relative',
           maxWidth: websiteTokens.maxWidth,
@@ -390,11 +393,12 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               gap: { xs: '40px', lg: '66px' },
             }}
           >
-            <Box sx={{ minWidth: 0, pb: { lg: '64px' } }}>
+            <Box data-footer-company sx={{ minWidth: 0, pb: { lg: '64px' } }}>
               {logo && (
                 <Box
                   component="a"
                   href="/"
+                  data-footer-brand
                   aria-label="Capitar Ventures home"
                   sx={{
                     display: 'inline-flex',
@@ -430,7 +434,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                   {data.address}
                 </Typography>
               )}
-              <Box sx={{ mt: '28px', display: 'grid', gap: '12px' }}>
+              <Box data-footer-contact sx={{ mt: '28px', display: 'grid', gap: '12px' }}>
                 {data.email && (
                   <CopyContact label="Email" value={data.email} href={`mailto:${data.email}`} />
                 )}
@@ -444,6 +448,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               </Box>
               {data.aiText && (
                 <Typography
+                  data-footer-ai-copy
                   sx={{
                     mt: '32px',
                     fontSize: 14,
@@ -457,14 +462,14 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               )}
               {!!aiLinks.length && <AiShortcuts items={aiLinks} />}
             </Box>
-            <Box sx={{ minWidth: 0, pt: { lg: '16px' }, pb: { lg: '64px' } }}>
-              <NumberedLinks items={navigation} label="Footer navigation" />
+            <Box data-footer-links sx={{ minWidth: 0, pt: { lg: '16px' }, pb: { lg: '64px' } }}>
+              <FooterLinkList items={navigation} label="Footer navigation" />
               {!!data.socialLinks.length && (
-                <Box sx={{ mt: '56px' }}>
+                <Box data-footer-social sx={{ mt: '56px' }}>
                   <Typography sx={{ color: '#B94C62', fontSize: 16, lineHeight: '22px' }}>
                     {data.socialLabel || 'Social'}
                   </Typography>
-                  <NumberedLinks items={data.socialLinks} label="Social links" />
+                  <FooterLinkList items={data.socialLinks} label="Social links" />
                 </Box>
               )}
             </Box>
@@ -561,7 +566,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               sx={{ display: 'flex', flexWrap: 'wrap', columnGap: '32px', rowGap: 1 }}
             >
               {data.legalLinks.map((item, index) => (
-                <FooterLink key={`${index}-${item.label}`} item={item} underline />
+                <Box key={`${index}-${item.label}`} component="span" data-legal-label={item.label.trim().toLowerCase()}><FooterLink item={item} underline /></Box>
               ))}
             </Box>
           </Box>
