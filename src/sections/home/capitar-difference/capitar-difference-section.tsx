@@ -58,7 +58,7 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
           sx={{
             fontSize: { xs: 28, sm: 44, lg: 'clamp(44px,3.4723vw,50px)' },
             fontWeight: 400,
-            lineHeight: 1,
+            lineHeight: 1.2,
             letterSpacing: 0,
             whiteSpace: 'pre-line',
             mt: { xs: '24px', sm: '30px' },
