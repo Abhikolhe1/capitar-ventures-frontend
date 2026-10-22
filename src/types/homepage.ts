@@ -140,6 +140,7 @@ export type CapitalBenefitContent = {
   artworkWidth?: number;
   icon?: Media;
   artwork?: Media;
+  mobileArtwork?: Media;
 };
 export type CapitalEfficiencyContent = {
   enabled: boolean;

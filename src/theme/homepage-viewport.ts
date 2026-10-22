@@ -1,4 +1,4 @@
-// Desktop sections fill one screen; the scroll-driven Difference section is intentionally exempt.
+// Desktop sections fill one screen except the Figma-sized Capital Efficiency and sticky Difference sections.
 export const homepageViewportStyles = {
   '@media (min-width:900px)': {
     '& > #portfolio-proof-points': {
@@ -10,26 +10,24 @@ export const homepageViewportStyles = {
       '& dd': { fontSize: 'clamp(48px,10svh,100px)' },
     },
     '& > #capital-efficiency': {
-      height: '100svh', minHeight: 0, py: 'clamp(18px,3.5svh,48px)',
+      height: 'auto', minHeight: 950, py: '72px',
       '& > img': { height: '100%' },
-      '& > div': { height: '100%', display: 'flex', flexDirection: 'column', minHeight: 0 },
-      '& h2': { fontSize: 'clamp(28px,4.7svh,42px)', mt: 'clamp(10px,2svh,21px)' },
-      '& h2 + p': { mt: 'clamp(10px,2svh,24px)' },
-      '& [data-capital-grid]': { flex: 1, minHeight: 0, gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gridTemplateRows: 'repeat(2,minmax(0,1fr))', gridAutoRows: 'minmax(0,1fr)', gap: 'clamp(12px,2svh,20px)', mt: 'clamp(16px,3svh,36px)' },
-      '& [data-capital-card]': { minHeight: 0, p: 'clamp(12px,2svh,24px)', gridColumn: 'auto', gridRow: 'auto' },
-      '& [data-capital-card][data-layout=wide]': { gridColumn: 'span 2' },
-      '& [data-capital-card][data-layout=tall]': { gridRow: 'span 2' },
-      '& [data-capital-card] h3': { fontSize: 'clamp(21px,3.1svh,30px)', mb: '8px' },
-      '& [data-capital-card] p': { fontSize: 'clamp(14px,1.8svh,16px)', lineHeight: 1.35, whiteSpace: 'normal' },
-      '& [data-capital-card] > div:first-of-type img': { width: 30, height: 30 },
+      '& h2': { fontSize: 42, mt: '21px' },
+      '& h2 + p': { mt: '24px' },
+      '& [data-capital-grid]': {
+        gridTemplateColumns: 'repeat(3,minmax(0,1fr))',
+        gridTemplateRows: 'repeat(2,272px)', gridAutoRows: '272px',
+        gap: '20px', mt: '44px',
+      },
+      '& [data-capital-card]': { minHeight: 0, p: '24px 23px', gridColumn: 'auto', gridRow: 'auto' },
+      '& [data-capital-card][data-layout=wide]': { gridColumn: 'span 2', p: '19px 27px 32px' },
+      '& [data-capital-card][data-layout=tall]': { gridRow: 'span 2', p: '17px 32px 36px' },
+      '& [data-capital-card] h3': { fontSize: 30 },
+      '& [data-capital-card] p': { fontSize: 16, lineHeight: 1.4 },
       '& [data-capital-copy]': { minWidth: 0 },
       '& [data-layout=tall] [data-capital-copy]': { pt: 0, mt: 'auto' },
-      '& [data-layout=wide] [data-capital-copy]': { width: '40%', mt: 'auto' },
-      '& [data-capital-art]': { height: '56%', width: 'var(--capital-art-width,94%)' },
-      '& [data-capital-art] img': { width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'right bottom' },
-      '& [data-layout=wide] [data-capital-art]': { height: '90%', width: '52%', top: '50%', right: '3%', transform: 'translateY(-50%)', position: 'absolute' },
-      '& [data-layout=tall] [data-capital-art]': { height: 'calc(100% - 160px)', width: '100%', maxWidth: 'none' },
-      '& [data-layout=tall] [data-capital-art] img': { objectPosition: 'center top' },
+      '& [data-layout=wide] [data-capital-copy]': { width: '33%' },
+      '& [data-capital-art] img': { width: '100%', height: 'auto', objectFit: 'contain' },
     },
     '& > #case-study': {
       height: '100svh', '--case-card-height': 'clamp(200px,calc(100svh - 300px),484px)',

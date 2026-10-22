@@ -273,10 +273,10 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
               id="testimonials-heading"
               sx={{
                 mt: '22px',
-                fontSize: { xs: 32, md: 40 },
+                fontSize: { xs: 28, md: 42 },
                 lineHeight: 1.2,
                 fontWeight: 400,
-                letterSpacing: '-.035em',
+                letterSpacing: '-0.02em',
                 whiteSpace: 'pre-line',
               }}
             >

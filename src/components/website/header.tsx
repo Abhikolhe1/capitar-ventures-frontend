@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 import { Box, Stack, Button, Drawer, IconButton, Typography } from '@mui/material';
 
+import { glassSurface } from 'src/theme/glass-surface';
 import { websiteTokens } from 'src/theme/website-theme';
 
 function NavItem({ item, close }: { item: ContentLink; close?: () => void }) {
@@ -119,13 +120,13 @@ export function Header({ data }: { data: GlobalContent }) {
                 href={data.headerCta.enabled ? data.headerCta.href : undefined}
                 disabled={!data.headerCta.enabled}
                 sx={{
-                  bgcolor: 'rgba(255,255,255,0.2)',
-                  border: 1,
-                  borderColor: 'divider',
+                  ...glassSurface,
                   minWidth: { xs: 'clamp(104px,31.8vw,125px)', md: 137 },
                   minHeight: { xs: 40, md: 44 }, fontSize: { xs: 14, md: 16 },
                   px: { xs: 2, md: 3 },
-                  '&.Mui-disabled': { color: 'text.primary', bgcolor: 'rgba(255,255,255,0.2)' },
+                  transition: 'background-color 250ms ease, box-shadow 250ms ease',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,.12)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.45), 0 8px 28px rgba(0,0,0,.16)' },
+                  '&.Mui-disabled': { color: 'text.primary', opacity: 1 },
                 }}
               >
                 {data.headerCta.label}

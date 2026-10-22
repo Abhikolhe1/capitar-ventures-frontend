@@ -8,7 +8,7 @@ export function ProofMetric({ metric }: { metric: ProofMetricContent }) {
   const spoken = `${metric.prefix || ''}${metric.value}${metric.valueSuffix || ''} ${metric.suffix || ''}`.trim();
   return (
     <Box data-proof-metric sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0, position: 'relative', gap: '12px' }}>
-      <Typography component="dt" sx={{ order: 2, fontSize: { xs: 12, sm: 18, md: 20 }, fontWeight: 500, lineHeight: 1.4, letterSpacing: { xs: 0, sm: '0.02em' }, textAlign: 'center', color: websiteTokens.red }}>
+      <Typography component="dt" sx={{ order: 2, fontSize: { xs: 13, sm: 18, md: 20 }, fontWeight: 500, lineHeight: 1.4, letterSpacing: '0.02em', textAlign: 'center', color: websiteTokens.red }}>
         {metric.label}
       </Typography>
       <Typography component="dd" sx={{

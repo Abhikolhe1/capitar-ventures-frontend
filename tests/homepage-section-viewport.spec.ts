@@ -5,7 +5,7 @@ test('desktop sections adapt to viewport height without clipping; sticky Differe
  await page.goto('/');await expect(page.locator('main')).toHaveAttribute('aria-busy','false');
  for(const [width,height] of [[1920,1080],[1440,900],[1536,667],[1366,768],[1280,720],[1024,600],[900,600],[1280,500]]){
   await page.setViewportSize({width,height});await page.evaluate(()=>document.fonts.ready);
-  for(const id of ['portfolio-proof-points','capital-efficiency','case-study']){
+  for(const id of ['portfolio-proof-points','case-study']){
    const section=page.locator('#'+id);await section.scrollIntoViewIfNeeded();
    const geometry=await section.evaluate(el=>{const r=el.getBoundingClientRect();return {height:r.height,overflow:document.documentElement.scrollWidth>innerWidth,outside:[...el.querySelectorAll('h2,h3,p,article,[data-case-image-button]')].filter(n=>{const x=n.getBoundingClientRect();return x.width>0&&x.height>0&&(x.top<r.top-1||x.bottom>r.bottom+1||x.left<r.left-1||x.right>r.right+1)}).map(n=>n.textContent),clipped:[...el.querySelectorAll('h2,h3,p')].filter(n=>n.getClientRects().length>0&&n.scrollWidth>n.clientWidth+1).map(n=>n.textContent)};});
    expect(geometry.height,id+' '+width+'x'+height).toBeCloseTo(height,0);expect(geometry.overflow).toBeFalsy();expect(geometry.outside).toEqual([]);expect(geometry.clipped).toEqual([]);

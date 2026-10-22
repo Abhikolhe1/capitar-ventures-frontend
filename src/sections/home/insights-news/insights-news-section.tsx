@@ -280,12 +280,12 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               id="editorial-heading"
               sx={{
                 mt: '22px',
-                fontSize: { xs: 32, md: 40 },
+                fontSize: { xs: 28, md: 42 },
                 fontWeight: 400,
                 lineHeight: 1.2,
-                letterSpacing: '-.035em',
+                letterSpacing: '-0.02em',
                 maxWidth: 550,
-                minHeight: { xs: 77, md: 96 },
+                minHeight: { xs: 68, md: 100.8 },
                 whiteSpace: 'pre-line',
               }}
             >

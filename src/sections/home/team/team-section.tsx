@@ -97,7 +97,7 @@ export function TeamSection({ data }: { data?: TeamContent }) {
         <Box data-scroll-reveal="team-heading" className="team-heading-row" sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto', pl: { xs: 3, sm: 6, lg: '52px' }, pr: { xs: 3, sm: 6, lg: '66px' } }}>
           <SectionBadge text={data.sectionLabel} minWidth={0} fontWeight={400} />
           <Box sx={{ mt: '22px', mb: { xs: 4, md: '40px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.35fr 1fr auto' }, alignItems: 'end', gap: { xs: 3, md: 5 } }}>
-            <Typography id="team-heading" component="h2" sx={{ m: 0, maxWidth: 480, fontSize: { xs: 32, sm: 38, lg: 42 }, fontWeight: 400, lineHeight: 1.2, letterSpacing: '-0.035em', whiteSpace: 'pre-line' }}>{data.heading}</Typography>
+            <Typography id="team-heading" component="h2" sx={{ m: 0, maxWidth: 480, fontSize: { xs: 28, sm: 38, lg: 42 }, fontWeight: 400, lineHeight: 1.2, letterSpacing: '-0.02em', whiteSpace: 'pre-line' }}>{data.heading}</Typography>
             {data.description && <Typography sx={{ maxWidth: 390, fontSize: 16, lineHeight: 1.4 }}>{data.description}</Typography>}
             <Box aria-label="Team carousel controls" sx={{ display: 'flex', gap: '10px', justifySelf: { xs: 'end', md: 'auto' } }}>
               <IconButton disabled={!position.previous} aria-label="Previous team members" onClick={() => move(-1)} sx={{ width: 80, height: 44, borderRadius: '99px 0 0 99px', justifyContent: 'flex-start', px: '18px', bgcolor: '#0B0F2D', color: 'white', '&:hover': { bgcolor: '#242447' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: 'rgba(255,255,255,.35)' } }}><Arrow /></IconButton>

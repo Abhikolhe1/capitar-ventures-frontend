@@ -7,26 +7,29 @@ import Typography from '@mui/material/Typography';
 
 import { websiteTokens } from 'src/theme/website-theme';
 
-function BenefitImage({ media, icon = false }: { media?: Media; icon?: boolean }) {
+function BenefitImage({ media, mobileMedia, icon = false }: { media?: Media; mobileMedia?: Media; icon?: boolean }) {
   const [failedUrl, setFailedUrl] = useState<string>();
   if (!media || failedUrl === media.url) return null;
   return (
-    <Box
-      component="img"
-      src={media.url}
-      alt={icon ? '' : media.alternativeText || ''}
-      onError={() => setFailedUrl(media.url)}
-      loading="lazy"
-      decoding="async"
-      width={icon ? 42 : media.width}
-      height={icon ? 42 : media.height}
-      sx={{
-        display: 'block',
-        width: icon ? 42 : '100%',
-        height: icon ? 42 : 'auto',
-        objectFit: 'contain',
-      }}
-    />
+    <Box component="picture" sx={{ display: 'contents' }}>
+      {mobileMedia && <source media="(max-width:599px)" srcSet={mobileMedia.url} width={mobileMedia.width} height={mobileMedia.height} />}
+      <Box
+        component="img"
+        src={media.url}
+        alt={icon ? '' : media.alternativeText || ''}
+        onError={() => setFailedUrl(media.url)}
+        loading="lazy"
+        decoding="async"
+        width={icon ? 42 : media.width}
+        height={icon ? 42 : media.height}
+        sx={{
+          display: 'block',
+          width: icon ? 42 : '100%',
+          height: icon ? 42 : 'auto',
+          objectFit: 'contain',
+        }}
+      />
+    </Box>
   );
 }
 
@@ -57,10 +60,10 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
         p: { xs: '24px', lg: wide ? '19px 27px 32px' : tall ? '17px 32px 36px' : '24px 23px' },
         ...(!wide && !tall ? { pb: '158px' } : {}),
         '@media(max-width:599px)': {
-          minHeight: 0, p: '16px', gap: '16px',
+          minHeight: 0, p: 0, gap: '16px',
           '& > div:first-of-type': { display: 'none' },
-          '& [data-capital-copy]': { order: 2, pt: 0, mt: 0, pr: 0, width: '100%' },
-          '& h3': { fontSize: 20, lineHeight: 1.2, mb: '8px' },
+          '& [data-capital-copy]': { order: 2, p: '0 16px 16px', mt: 0, width: '100%' },
+          '& h3': { fontSize: 20, lineHeight: 1, mb: '8px' },
           '& p': { fontSize: 14, lineHeight: 1.4, mr: 0, maxWidth: '100%', whiteSpace: 'normal' },
           '& [data-capital-art]': { order: 1, position: 'relative', top: 'auto', bottom: 'auto', right: 'auto', width: '100%', maxWidth: 'none', mt: 0, transform: 'none' },
           '& [data-capital-art] img': { width: '100%', height: 'auto', maxHeight: 'none', objectFit: 'contain' },
@@ -148,7 +151,16 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
                   }),
           }}
         >
-          <BenefitImage media={data.artwork} />
+          <BenefitImage
+            media={data.artwork}
+            mobileMedia={data.mobileArtwork || (wide ? {
+              url: '/assets/capitar/capital-runway-mobile.png', width: 1059, height: 798,
+              alternativeText: data.artwork.alternativeText,
+            } : tall ? {
+              url: '/assets/capitar/capital-momentum-mobile.png', width: 1059, height: 540,
+              alternativeText: data.artwork.alternativeText,
+            } : undefined)}
+          />
         </Box>
       )}
     </Box>

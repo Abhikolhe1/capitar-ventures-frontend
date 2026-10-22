@@ -179,7 +179,7 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
             return title ? [{ title, description: string(benefit.description),
               artworkWidth: typeof benefit.artworkWidth === 'number' && Number.isFinite(benefit.artworkWidth) ? Math.min(100, Math.max(20, benefit.artworkWidth)) : 94,
               layout: benefit.layout === 'wide' || benefit.layout === 'tall' ? benefit.layout : 'standard',
-              icon: media(benefit.icon), artwork: media(benefit.artwork),
+              icon: media(benefit.icon), artwork: media(benefit.artwork), mobileArtwork: media(benefit.mobileArtwork),
             } as CapitalEfficiencyContent['benefits'][number]] : [];
           } catch { return []; }
         }) : [],

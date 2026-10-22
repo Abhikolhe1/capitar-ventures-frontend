@@ -483,9 +483,9 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                 component="h2"
                 sx={{
                   position: 'relative',
-                  fontSize: 20,
-                  fontWeight: 400,
-                  lineHeight: 1.4,
+                  fontSize: { xs: 20, sm: 22 },
+                  fontWeight: 500,
+                  lineHeight: { xs: '25.45px', sm: '28px' },
                   color: 'white',
                   maxWidth: 260,
                   whiteSpace: 'pre-line',
