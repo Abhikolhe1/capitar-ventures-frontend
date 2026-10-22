@@ -250,11 +250,13 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
         overflow: 'hidden',
       }}
     >
-      <Box sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto' }}>
+      <Box sx={{ width: '100%' }}>
         <Box
           data-scroll-reveal="testimonials-heading"
           data-testimonials-header
           sx={{
+            maxWidth: websiteTokens.maxWidth,
+            mx: 'auto',
             px: { xs: 3, sm: 6, md: '60px' },
             mb: '36px',
             display: 'flex',
@@ -297,7 +299,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
               sx={{
                 width: 80,
                 height: 44,
-                borderRadius: '99px 0 0 99px',
+                borderRadius: '99px 0 0 99px', justifyContent: 'flex-start', px: '18px',
                 bgcolor: '#100A42',
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
@@ -313,7 +315,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
               sx={{
                 width: 80,
                 height: 44,
-                borderRadius: '0 99px 99px 0',
+                borderRadius: '0 99px 99px 0', justifyContent: 'flex-end', px: '18px',
                 bgcolor: '#100A42',
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
@@ -337,10 +339,11 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
             gap: '24px',
             m: 0,
             py: 0,
-            px: { xs: 3, sm: 6, md: '60px' },
+            pl: { xs: 3, sm: 6, md: `max(60px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 60px))` },
+            pr: 0,
             overflowX: 'auto',
             scrollSnapType: 'x mandatory',
-            scrollPaddingInlineStart: { xs: '24px', sm: '48px', md: '60px' },
+            scrollPaddingInlineStart: { xs: '24px', sm: '48px', md: `max(60px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 60px))` },
             overscrollBehaviorX: 'contain',
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
