@@ -39,8 +39,8 @@ test('tabs keep the same layout, switch independent CMS content, reset carousel,
   await section.getByRole('tab', { name: 'News', exact: true }).click();
   await expect(section.getByRole('heading', { level: 2 })).toHaveText('Independent News heading');
   await expect(section.getByRole('link', { name: /An update from the CMS/ })).toHaveAttribute('href', '/news/example');
-  await expect(section.getByRole('article')).toHaveCount(3);
-  await expect(section.locator('img')).toHaveCount(3);
+  await expect(section.getByRole('article')).toHaveCount(content.news.items.length);
+  await expect(section.locator('img')).toHaveCount(content.news.items.length);
   await expect.poll(() => section.locator('img').evaluateAll(images => images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBeTruthy();
   expect((await section.boundingBox())!.height).toBeCloseTo(initialHeight, 1);
   await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBe(0);
@@ -67,7 +67,7 @@ test('the section follows Team and fits desktop and mobile without changing the 
     await section.scrollIntoViewIfNeeded();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     expect(await section.evaluate(element => !!(document.querySelector('#team')!.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING))).toBeTruthy();
-    await expect(section.getByRole('article')).toHaveCount(3);
+    await expect(section.getByRole('article')).toHaveCount(fallback.insightsNews.insights.items.length);
     await section.getByRole('tab', { name: 'News', exact: true }).click();
     await expect(section.getByRole('heading', { level: 3 }).first()).toHaveText('What Is Venture Debt, Really?');
     await section.screenshot({ path: `test-results/editorial-${width}.png` });
@@ -87,7 +87,7 @@ test('empty tabs, invalid links and failed media remain usable; disabled content
   await section.scrollIntoViewIfNeeded();
   await expect(section.getByRole('link')).toHaveCount(0);
   await expect(section.locator('img[src*="unavailable-editorial"]')).toHaveCount(0);
-  await expect(section.locator('img')).toHaveCount(2);
+  await expect(section.locator('img')).toHaveCount(content.insights.items.length - 1);
   await section.getByRole('tab', { name: 'News', exact: true }).click();
   await expect(section.getByText('No articles yet.')).toBeVisible();
   await expect(section.getByRole('article')).toHaveCount(0);
@@ -104,7 +104,7 @@ test('the preview survives API failure and reduced motion removes the tab fade',
   await page.goto('/');
   const section = page.locator('#insights-news');
   await section.scrollIntoViewIfNeeded();
-  await expect(section.getByRole('article')).toHaveCount(3);
+  await expect(section.getByRole('article')).toHaveCount(fallback.insightsNews.insights.items.length);
   await section.getByRole('tab', { name: 'News', exact: true }).click();
   await expect(section.getByRole('tabpanel')).toHaveCSS('animation-name', 'none');
 });

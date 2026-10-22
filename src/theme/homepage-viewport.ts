@@ -48,7 +48,7 @@ export const homepageViewportStyles = {
       display: 'flex', flexDirection: 'column', justifyContent: 'safe center',
       py: 'clamp(20px,4svh,60px)',
       '& > div': { width: '100%', flexShrink: 0 },
-      '& h2': { fontSize: 'clamp(28px,4.7svh,42px)' },
+      '& h2': { fontSize: 'clamp(28px,5.25svh,42px)' },
     },
     '& > #team': {
       '& .team-heading-row > div:last-child': { mt: 'clamp(12px,2svh,22px)', mb: 'clamp(16px,3svh,40px)' },
@@ -64,7 +64,7 @@ export const homepageViewportStyles = {
     '& > #client-testimonials': {
       '& [data-testimonials-header]': { mb: 'clamp(16px,3svh,36px)' },
       '& h2': { mt: 'clamp(12px,2svh,22px)' },
-      '& article': { height: 'clamp(340px,calc(100svh - 230px),523.4px)', minHeight: 0, gap: 'clamp(20px,5.5svh,52px)', p: 'clamp(20px,3.5svh,32px)' },
+      '& article': { height: 'clamp(340px,calc(100svh - 230px),523.4px)', minHeight: 0, gap: 'clamp(20px,6.5svh,52px)', p: 'clamp(20px,4svh,32px)' },
     },
   },
 };
@@ -76,7 +76,7 @@ export const footerViewportStyles = {
     flexDirection: 'column', justifyContent: 'safe center',
     '& > div:last-child': { width: '100%', flexShrink: 0, py: 'clamp(20px,5svh,68.5px)' },
     '& [data-footer-panel]': { minHeight: 'min(523px,calc(100svh - 80px))', p: 'clamp(24px,5svh,40px)' },
-    '& [data-footer-grid]': { gridTemplateColumns: 'minmax(0,336fr) minmax(0,424fr) minmax(0,352fr)', gap: 'clamp(24px,4vw,66px)' },
+    '& [data-footer-grid]': { gridTemplateColumns: 'minmax(0,342fr) minmax(0,418fr) minmax(0,352fr)', gap: 'clamp(24px,4vw,66px)' },
     '& [data-footer-grid] > div:first-child, & [data-footer-grid] > div:nth-child(2)': { pb: '64px' },
     '& [data-footer-cta]': { gridColumn: 'auto', height: 'clamp(300px,calc(100svh - 180px),440px)' },
     '& [data-footer-legal]': { position: 'absolute', left: 'clamp(24px,5svh,40px)', bottom: 24, mt: 0 },

@@ -51,10 +51,10 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
         >
           <Typography
             sx={{
-              color: '#B72D40',
-              fontSize: 14,
-              lineHeight: 1.2,
-              fontWeight: 600,
+              color: '#CC2334',
+              fontSize: 16,
+              lineHeight: 1.6,
+              fontWeight: 700,
               textTransform: 'uppercase',
             }}
           >
@@ -83,10 +83,12 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
           title={item.title}
           sx={{
             mt: '20px',
-            fontSize: { xs: 24, sm: 28 },
-            lineHeight: 1.2,
+            fontFamily: websiteTokens.serifFontFamily,
+            fontSize: { xs: 24, sm: 26 },
+            lineHeight: 1,
+            letterSpacing: 0,
             fontWeight: 400,
-            color: '#38465C',
+            color: '#193969',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -99,8 +101,8 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
             sx={{
               mt: '8px',
               fontSize: 18,
-              lineHeight: 1.4,
-              color: '#6B7688',
+              lineHeight: '26px',
+              color: 'rgba(25,57,105,0.8)',
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
@@ -270,10 +272,10 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
           <Box>
             <SectionBadge
               text={content.sectionLabel}
-              color="#F9FAFB"
+              color="#FFFFFF"
               borderColor="rgba(255,255,255,.65)"
               minWidth={0}
-              fontWeight={400}
+              lineHeight={1.4}
             />
             <Typography
               component="h2"
@@ -281,9 +283,10 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               sx={{
                 mt: '22px',
                 fontSize: { xs: 28, md: 42 },
+                color: '#FFFFFF',
                 fontWeight: 400,
                 lineHeight: 1.2,
-                letterSpacing: '-0.02em',
+                letterSpacing: '-.02em',
                 maxWidth: 550,
                 minHeight: { xs: 68, md: 100.8 },
                 whiteSpace: 'pre-line',

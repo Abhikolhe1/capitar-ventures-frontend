@@ -50,7 +50,9 @@ test('testimonial cards match the recording dimensions and carousel boundaries',
   await next.click();
   await expect.poll(() => section.getByRole('list').evaluate(element => element.scrollLeft)).toBeGreaterThan(100);
   await expect(previous).toBeEnabled();
-  await next.click();
+  // The full-width track reaches its end in one step at this viewport.
+  await expect.poll(() => section.getByRole('list').evaluate(element =>
+    element.scrollWidth - element.clientWidth - element.scrollLeft)).toBeLessThan(2);
   await expect(next).toBeDisabled();
   await previous.click();
   await expect(previous).toBeDisabled();

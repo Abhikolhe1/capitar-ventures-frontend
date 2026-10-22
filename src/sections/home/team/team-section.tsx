@@ -50,7 +50,7 @@ function TeamCard({ member }: { member: TeamMemberContent }) {
         <Box className="team-card-content" sx={{ position: 'absolute', bottom: { xs: 20, md: 24 }, left: { xs: 20, md: 24 }, right: 20 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Typography component="h3" sx={{ color: '#FFF', fontSize: { xs: 16, sm: 23, lg: 26 }, letterSpacing: '-0.02em', lineHeight: 1.2, fontWeight: 600 }}>{member.name}</Typography>
+            <Typography component="h3" sx={{ color: '#FFF', fontFamily: websiteTokens.serifFontFamily, fontSize: { xs: 16, sm: 23.8 }, letterSpacing: '-0.02em', lineHeight: 1.2, fontWeight: 600 }}>{member.name}</Typography>
             <Typography sx={{ mt: '6px', color: '#FFF', fontSize: 14, lineHeight: 1.4 }}>{member.role}</Typography>
           </Box>
           <Box component={member.linkedinUrl ? 'a' : 'span'} href={member.linkedinUrl} target={member.linkedinUrl ? '_blank' : undefined} rel={member.linkedinUrl ? 'noopener noreferrer' : undefined} aria-label={member.linkedinUrl ? `${member.name} on LinkedIn` : undefined} aria-hidden={!member.linkedinUrl || undefined} sx={{ width: 44, height: 44, display: 'grid', placeItems: 'center', flexShrink: 0, '&:focus-visible': { outline: '2px solid white', borderRadius: '4px' } }}>
@@ -94,11 +94,11 @@ export function TeamSection({ data }: { data?: TeamContent }) {
       bgcolor: '#F8F9FA', color: '#121212', py: { xs: 6, md: '42px' }, overflow: 'hidden',
     }}>
       <Box sx={{ width: '100%' }}>
-        <Box data-scroll-reveal="team-heading" className="team-heading-row" sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto', pl: { xs: 3, sm: 6, lg: '52px' }, pr: { xs: 3, sm: 6, lg: '66px' } }}>
-          <SectionBadge text={data.sectionLabel} minWidth={0} fontWeight={400} />
+        <Box data-scroll-reveal="team-heading" className="team-heading-row" sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto', pl: { xs: 3, sm: 6, lg: '53px' }, pr: { xs: 3, sm: 6, lg: '66px' } }}>
+          <SectionBadge text={data.sectionLabel} minWidth={0} lineHeight={1.4} />
           <Box sx={{ mt: '22px', mb: { xs: 4, md: '40px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.35fr 1fr auto' }, alignItems: 'end', gap: { xs: 3, md: 5 } }}>
-            <Typography id="team-heading" component="h2" sx={{ m: 0, maxWidth: 480, fontSize: { xs: 28, sm: 38, lg: 42 }, fontWeight: 400, lineHeight: 1.2, letterSpacing: '-0.02em', whiteSpace: 'pre-line' }}>{data.heading}</Typography>
-            {data.description && <Typography sx={{ maxWidth: 390, fontSize: 16, lineHeight: 1.4 }}>{data.description}</Typography>}
+            <Typography id="team-heading" component="h2" sx={{ m: 0, maxWidth: 486.75, fontSize: { xs: 28, sm: 38, lg: 42 }, fontWeight: 400, lineHeight: 1.2, letterSpacing: '-0.02em', whiteSpace: 'pre-line' }}>{data.heading}</Typography>
+            {data.description && <Typography sx={{ maxWidth: 394.13, fontSize: 16, lineHeight: 1.4 }}>{data.description}</Typography>}
             <Box aria-label="Team carousel controls" sx={{ display: 'flex', gap: '10px', justifySelf: { xs: 'end', md: 'auto' } }}>
               <IconButton disabled={!position.previous} aria-label="Previous team members" onClick={() => move(-1)} sx={{ width: 80, height: 44, borderRadius: '99px 0 0 99px', justifyContent: 'flex-start', px: '18px', bgcolor: '#0B0F2D', color: 'white', '&:hover': { bgcolor: '#242447' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: 'rgba(255,255,255,.35)' } }}><Arrow /></IconButton>
               <IconButton disabled={!position.next} aria-label="Next team members" onClick={() => move(1)} sx={{ width: 80, height: 44, borderRadius: '0 99px 99px 0', justifyContent: 'flex-end', px: '18px', bgcolor: '#0B0F2D', color: 'white', '&:hover': { bgcolor: '#242447' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: 'rgba(255,255,255,.35)' } }}><Arrow forward /></IconButton>
@@ -107,8 +107,8 @@ export function TeamSection({ data }: { data?: TeamContent }) {
         </Box>
         <Box ref={track} data-scroll-reveal="team-track" component="ul" tabIndex={0} aria-label="Capitar team members" onScroll={update} sx={{
           '--team-card-width': { xs: '82%', sm: '44%', md: '398.03px' },
-          display: 'flex', gap: '22px', m: 0, p: 0, pl: { xs: 3, sm: 6, lg: `max(52px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 52px))` }, pb: 1,
-          scrollPaddingInlineStart: { xs: '24px', sm: '48px', lg: `max(52px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 52px))` },
+          display: 'flex', gap: '21.63px', m: 0, p: 0, pl: { xs: 3, sm: 6, lg: `max(53px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 53px))` }, pb: 1,
+          scrollPaddingInlineStart: { xs: '24px', sm: '48px', lg: `max(53px,calc((100% - ${websiteTokens.maxWidth}px) / 2 + 53px))` },
           overflowX: 'auto', scrollSnapType: 'x mandatory', overscrollBehaviorX: 'contain', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' },
           '&:focus-visible': { outline: `2px solid ${websiteTokens.red}`, outlineOffset: 4 },
         }}>{data.members.map((member, index) => <TeamCard key={`${member.name}-${index}`} member={member} />)}</Box>
