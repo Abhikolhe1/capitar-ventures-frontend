@@ -148,6 +148,11 @@
       "enabled": false
     },
     "heading": "We back founders\nwith conviction &\nprecision.",
+    "mobileHeading": "Bring relentless grit, we’ll get the flexible capital.",
+    "mobileEmphasisText": "flexible capital.",
+    "mobileTrustedClientsTitle": "Our Investee Companies",
+    "backgroundImageMobile": { "url": "/assets/capitar/hero-mobile-poster.webp" },
+    "backgroundVideoMobile": { "url": "/assets/capitar/hero-mobile.mp4" },
     "emphasisText": "conviction &",
     "backgroundImage": {
       "url": "/assets/capitar/hero-poster.webp"

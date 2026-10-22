@@ -9,7 +9,7 @@ test('published Case Study follows Difference with original assets at seven widt
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.emulateMedia({reducedMotion:'reduce'});
  for(const width of [1440,1280,1024,768,430,390,375]){await page.setViewportSize({width,height:950});await page.goto('/');await expect(page.locator('main')).toHaveAttribute('aria-busy','false');const section=page.locator('#case-study');await section.scrollIntoViewIfNeeded();await section.locator('img').evaluateAll(es=>Promise.all(es.map(e=>(e as HTMLImageElement).decode())));
  await expect(section.locator('li')).toHaveCount(4);await expect(page.locator('#four-signals')).toHaveCount(0);await expect(section.locator('[data-case-card][data-active=true] h3')).toHaveText('Qubehealth');
- const geometry=await section.evaluate(e=>({top:e.getBoundingClientRect().top,previous:document.querySelector('#capitar-difference')!.getBoundingClientRect().bottom,height:e.getBoundingClientRect().height,overflow:document.documentElement.scrollWidth>innerWidth,clipped:[...e.querySelectorAll('h2,h3,p')].some(n=>n.getClientRects().length>0 && n.scrollWidth>n.clientWidth+1)}));expect(geometry.top).toBeCloseTo(geometry.previous,0);expect(geometry.overflow).toBeFalsy();expect(geometry.clipped).toBeFalsy();if(width===1440)expect(geometry.height).toBe(950);
+ const geometry=await section.evaluate(e=>({top:e.getBoundingClientRect().top,previous:document.querySelector('#capitar-difference')!.getBoundingClientRect().bottom+parseFloat(getComputedStyle(document.querySelector('#capitar-difference')!).marginBottom),height:e.getBoundingClientRect().height,overflow:document.documentElement.scrollWidth>innerWidth,clipped:[...e.querySelectorAll('h2,h3,p')].some(n=>n.getClientRects().length>0 && n.scrollWidth>n.clientWidth+1)}));expect(geometry.top).toBeCloseTo(geometry.previous,0);expect(geometry.overflow).toBeFalsy();expect(geometry.clipped).toBeFalsy();if(width===1440)expect(geometry.height).toBe(950);
  await section.screenshot({path:'test-results/case-study-'+width+'.png'});
  }expect(errors).toEqual([]);
 });
@@ -27,7 +27,7 @@ test('scroll entrance settles once, survives focus and scrolled reload',async({p
 });
 
 test('CMS edits, missing optional fields, invalid and disabled content remain isolated',async({page})=>{
- const data=structuredClone(fallback);data.caseStudy.heading='CMS case heading';data.caseStudy.items=data.caseStudy.items.reverse().map((x:object)=>({...x,image:null,logo:null,description:'',metricValue:''}));await page.route('**/api/homepage',r=>r.fulfill({json:{data}}));await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('main')).toHaveAttribute('aria-busy','false');const section=page.locator('#case-study');await expect(section.locator('h2')).toHaveText('CMS case heading');await expect(section.locator('img')).toHaveCount(0);await expect(section.locator('[data-active=true] h3')).toHaveText('Pidge');data.caseStudy.items=[];await page.reload();await expect(section.locator('li')).toHaveCount(0);await expect(section.getByRole('button',{name:'Next case study'})).toBeDisabled();data.caseStudy.enabled=false;await page.reload();await expect(section).toHaveCount(0);data.caseStudy.enabled=true;data.caseStudy.heading='';await page.reload();await expect(section).toHaveCount(0);await expect(page.locator('h1')).toBeVisible();
+ const data=structuredClone(fallback);data.caseStudy.heading='CMS case heading';data.caseStudy.items=data.caseStudy.items.reverse().map((x:object)=>({...x,image:null,logo:null,description:'',metricValue:''}));await page.route('**/api/homepage',r=>r.fulfill({json:{data}}));await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('main')).toHaveAttribute('aria-busy','false');const section=page.locator('#case-study');await expect(section.locator('h2')).toHaveText('CMS case heading');await expect(section.locator('img:not([aria-hidden="true"])')).toHaveCount(0);await expect(section.locator('[data-active=true] h3')).toHaveText('Pidge');data.caseStudy.items=[];await page.reload();await expect(section.locator('li')).toHaveCount(0);await expect(section.getByRole('button',{name:'Next case study'})).toBeDisabled();data.caseStudy.enabled=false;await page.reload();await expect(section).toHaveCount(0);data.caseStudy.enabled=true;data.caseStudy.heading='';await page.reload();await expect(section).toHaveCount(0);await expect(page.locator('h1')).toBeVisible();
 });
 
 test('mobile API and image failures retain readable fallback',async({page})=>{
@@ -55,7 +55,7 @@ test('desktop cards expand on hover without clicking and settle on the hovered c
 
 test.describe('phone touch layout',()=>{
  test.use({viewport:{width:375,height:812},hasTouch:true,isMobile:true});
- test('tapped card stays above thumbnails and arrow navigation does not reorder the visible layout',async({page})=>{
+ test('tapped card stays above a horizontally scrollable thumbnail row',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('main')).toHaveAttribute('aria-busy','false');
   const section=page.locator('#case-study');await section.scrollIntoViewIfNeeded();
   for(const name of ['Pidge','mPokket','Craev','Qubehealth']){
@@ -65,7 +65,9 @@ test.describe('phone touch layout',()=>{
    for(const card of await section.locator('[data-case-card][data-active=false]').all())expect((await card.boundingBox())!.y).toBeGreaterThanOrEqual(expanded.y+expanded.height-1);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(375);
   }
-  await section.getByRole('button',{name:'Next case study',exact:true}).tap();await expect(section.locator('[data-active=true] h3')).toHaveText('mPokket');
+  await expect(section.getByRole('button',{name:'Next case study',exact:true})).toBeHidden();
+  const thumbnails=section.getByRole('list',{name:'Choose a case study',exact:true});
+  expect(await thumbnails.evaluate(e=>e.scrollWidth>e.clientWidth)).toBeTruthy();
   await section.screenshot({path:'test-results/case-study-phone-touch.png'});
  });
 });

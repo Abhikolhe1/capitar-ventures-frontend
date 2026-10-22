@@ -111,6 +111,10 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
     backgroundImage: media(h.backgroundImage),
     backgroundImageMobile: media(h.backgroundImageMobile),
     backgroundVideo: media(h.backgroundVideo),
+    backgroundVideoMobile: media(h.backgroundVideoMobile),
+    mobileHeading: string(h.mobileHeading),
+    mobileEmphasisText: string(h.mobileEmphasisText),
+    mobileTrustedClientsTitle: string(h.mobileTrustedClientsTitle),
     trustedClientsTitle: string(h.trustedClientsTitle),
     trustedClients: Array.isArray(h.trustedClients)
       ? h.trustedClients.flatMap((value) => {

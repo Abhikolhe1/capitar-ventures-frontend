@@ -1,6 +1,6 @@
 import type { HeroContent } from 'src/types/homepage';
 
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, useMediaQuery } from '@mui/material';
 
 import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
@@ -10,8 +10,14 @@ import { ContentButton } from 'src/components/website/content-button';
 import { HeroBackgroundVideo } from './hero-background-video';
 
 export function HeroSection({ data }: { data: HeroContent }) {
+  const mobile = useMediaQuery('(max-width:599px)');
+  const heading = mobile ? data.mobileHeading || fallback.hero.mobileHeading : data.heading;
+  const emphasis = mobile ? data.mobileEmphasisText || fallback.hero.mobileEmphasisText : data.emphasisText;
+  const video = mobile ? data.backgroundVideoMobile || fallback.hero.backgroundVideoMobile : data.backgroundVideo;
+  const poster = mobile ? data.backgroundImageMobile || fallback.hero.backgroundImageMobile : data.backgroundImage;
+  const clients = mobile ? data.trustedClients.filter((client,index,items) => items.findIndex(other => other.name === client.name) === index) : data.trustedClients;
   if (!data.enabled) return null;
-  const emphasisIndex = data.emphasisText ? data.heading.indexOf(data.emphasisText) : -1;
+  const emphasisIndex = emphasis ? heading.indexOf(emphasis) : -1;
   return (
     <Box
       component="section"
@@ -19,7 +25,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        minHeight: { xs: 820, sm: 850, md: '100svh' },
+        minHeight: { xs: 620, sm: 850, md: '100svh' },
         '@media (min-width: 900px)': {
           minHeight: 0,
           height: '100svh',
@@ -39,7 +45,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
             <Box
               component="source"
               media="(max-width: 599px)"
-              srcSet={data.backgroundImageMobile?.url || data.backgroundImage.url}
+              srcSet={data.backgroundImageMobile?.url || fallback.hero.backgroundImageMobile.url}
             />
             <Box
               component="img"
@@ -50,31 +56,31 @@ export function HeroSection({ data }: { data: HeroContent }) {
               height={720}
               sx={{
                 position: 'absolute',
-                width: '107%',
+                width: { xs: '100%', sm: '107%' },
                 maxWidth: 'none',
-                height: '104%',
-                left: '-6.84%',
+                height: { xs: '100%', sm: '104%' },
+                left: { xs: 0, sm: '-6.84%' },
                 top: 0,
                 objectFit: 'cover',
-                objectPosition: { xs: '62% center', lg: 'center' },
+                objectPosition: { xs: 'right center', sm: '62% center', lg: 'center' },
               }}
             />
           </Box>
         )}
-        {data.backgroundVideo && (
+        {video && (
           <HeroBackgroundVideo
-            fallbackSrc={fallback.hero.backgroundVideo.url}
-            poster={data.backgroundImage?.url}
-            src={data.backgroundVideo.url}
+            fallbackSrc={mobile ? fallback.hero.backgroundVideoMobile.url : fallback.hero.backgroundVideo.url}
+            poster={poster?.url}
+            src={video.url}
             sx={{
               position: 'absolute',
-              width: '107%',
+              width: { xs: '100%', sm: '107%' },
               maxWidth: 'none',
-              height: '104%',
-              left: '-6.84%',
+              height: { xs: '100%', sm: '104%' },
+              left: { xs: 0, sm: '-6.84%' },
               top: 0,
               objectFit: 'cover',
-              objectPosition: { xs: '62% center', lg: 'center' },
+              objectPosition: { xs: 'right center', sm: '62% center', lg: 'center' },
             }}
           />
         )}
@@ -82,7 +88,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
           sx={{
             position: 'absolute',
             inset: 0,
-            background: `linear-gradient(90deg, ${websiteTokens.navy}, rgba(17,17,41,0))`,
+            background: { xs: 'linear-gradient(180deg,#111129 0%,rgba(17,17,41,.4) 25%,rgba(17,17,41,.12) 100%)', sm: `linear-gradient(90deg, ${websiteTokens.navy}, rgba(17,17,41,0))` },
           }}
         />
       </Box>
@@ -93,11 +99,15 @@ export function HeroSection({ data }: { data: HeroContent }) {
           width: '100%',
           maxWidth: websiteTokens.maxWidth,
           mx: 'auto',
-          px: websiteTokens.gutter,
-          pt: { xs: '174px', sm: '190px', md: 'clamp(112px, 26svh, 208px)' },
-          pb: { md: 4 },
+          px: { xs: '20px', sm: 6, lg: '100px' },
+          pt: { xs: '108px', sm: '190px', md: 'clamp(112px, 26svh, 208px)' },
+          pb: { xs: '180px', sm: 0, md: 4 },
           alignItems: 'flex-start',
-          gap: 3,
+          gap: { xs: '28px', sm: 3 },
+          '& > [data-entrance=content]:first-child': { display: { xs: 'none', sm: 'flex' } },
+          '& > p': { display: { xs: 'none', sm: 'block' } },
+          '& > div:last-child button': { fontSize: { xs: 14, sm: 18 }, minHeight: { xs: 44, sm: 50 }, fontWeight: { xs: 400, sm: 600 } },
+          '& > div:last-child button > span': { width: { xs: 32, sm: 40 }, height: { xs: 32, sm: 40 } },
           '@media (min-width: 900px) and (max-height: 700px)': {
             pt: 'clamp(100px, 20svh, 136px)',
             gap: 2,
@@ -152,7 +162,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
           sx={{
             width: { xs: '100%', sm: 556 },
             maxWidth: '100%',
-            fontSize: { xs: 42, sm: 64, lg: 72 },
+            fontSize: { xs: 36, sm: 64, lg: 72 },
             '@media (min-width: 900px) and (max-height: 700px)': {
               fontSize: 'clamp(40px, 9svh, 60px)',
             },
@@ -160,18 +170,20 @@ export function HeroSection({ data }: { data: HeroContent }) {
               fontSize: 'clamp(32px, 8svh, 44px)',
             },
             whiteSpace: 'pre-line',
+            lineHeight: { xs: 1.1, sm: 1 },
+            letterSpacing: { xs: '-0.03em', sm: undefined },
             color: 'text.secondary',
           }}
         >
           {emphasisIndex >= 0 ? (
             <>
-              {data.heading.slice(0, emphasisIndex)}
+              {heading.slice(0, emphasisIndex)}
               <Box component="strong" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                {data.heading.slice(emphasisIndex)}
+                {heading.slice(emphasisIndex)}
               </Box>
             </>
           ) : (
-            data.heading
+            heading
           )}
         </Typography>
         {data.description && (
@@ -189,13 +201,14 @@ export function HeroSection({ data }: { data: HeroContent }) {
           sx={{
             position: 'relative',
             bottom: 0,
-            mt: { xs: 10, md: 'auto' },
+            '@media(max-width:599px)': { position: 'absolute', borderTop: '1px solid rgba(255,255,255,.18)', borderTopRightRadius: '70px 100%', background: 'linear-gradient(120deg,#1d2039,#171b35)', clipPath: 'polygon(0 0,85% 0,100% 100%,0 100%)' },
+            mt: { xs: 0, sm: 10, md: 'auto' },
             width: { xs: '100%', lg: 'calc(965px + max(0px, (100vw - 1441px) / 2))' },
-            minHeight: { xs: 167, md: 'clamp(124px, 20.875svh, 167px)' },
-            pt: { xs: 4.5, md: 'clamp(20px, 4.5svh, 36px)' },
-            pb: { xs: 5, md: 3 },
+            minHeight: { xs: 104, sm: 167, md: 'clamp(124px, 20.875svh, 167px)' },
+            pt: { xs: 3, sm: 4.5, md: 'clamp(20px, 4.5svh, 36px)' },
+            pb: { xs: 3, sm: 5, md: 3 },
             flexShrink: 0,
-            pl: { ...websiteTokens.gutter, lg: 'calc(100px + max(0px, (100vw - 1441px) / 2))' },
+            pl: { xs: '20px', sm: 6, lg: 'calc(100px + max(0px, (100vw - 1441px) / 2))' },
             pr: { xs: 3, lg: '115px' },
             bgcolor: { xs: websiteTokens.panel, lg: 'transparent' },
             '&::before': {
@@ -215,21 +228,21 @@ export function HeroSection({ data }: { data: HeroContent }) {
           }}
         >
           {data.trustedClientsTitle && (
-            <Typography sx={{ fontSize: 16, mb: '15px' }}>{data.trustedClientsTitle}</Typography>
+            <Typography sx={{ fontSize: { xs: 14, sm: 16 }, mb: '15px' }}>{mobile ? data.mobileTrustedClientsTitle || fallback.hero.mobileTrustedClientsTitle : data.trustedClientsTitle}</Typography>
           )}
           <Stack
             component="ul"
             direction="row"
             alignItems="center"
             sx={{
-              flexWrap: { xs: 'wrap', lg: 'nowrap' },
-              gap: { xs: 2.5, lg: '49px' },
+              flexWrap: { xs: 'nowrap', sm: 'wrap', lg: 'nowrap' },
+              gap: { xs: 'clamp(12px,6vw,24px)', sm: 2.5, lg: '49px' },
               p: 0,
               m: 0,
               listStyle: 'none',
             }}
           >
-            {data.trustedClients.map((client, index) => (
+            {clients.map((client, index) => (
               <Box
                 component="li"
                 key={`${client.name}-${index}`}
@@ -243,8 +256,8 @@ export function HeroSection({ data }: { data: HeroContent }) {
                   height={client.height || 40}
                   sx={{
                     display: 'block',
-                    width: client.width,
-                    height: client.height || 40,
+                    width: { xs: `min(${client.width * 0.58}px,${client.width * 0.58 / 3.93}vw)`, sm: client.width },
+                    height: { xs: `min(${(client.height || 40) * 0.58}px,${(client.height || 40) * 0.58 / 3.93}vw)`, sm: client.height || 40 },
                     objectFit: 'contain',
                   }}
                 />

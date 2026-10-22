@@ -78,10 +78,10 @@ export function Header({ data }: { data: GlobalContent }) {
           alignItems="center"
           justifyContent="space-between"
           sx={{
-            height: { xs: 80, md: 89 },
+            height: { xs: 76, md: 89 },
             maxWidth: websiteTokens.maxWidth,
             mx: 'auto',
-            px: websiteTokens.gutter,
+            px: { xs: '20px', sm: 6, lg: '100px' },
           }}
         >
           <Box
@@ -112,7 +112,7 @@ export function Header({ data }: { data: GlobalContent }) {
               <NavItem key={`${item.label}-${index}`} item={item} />
             ))}
           </Stack>
-          <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Box sx={{ display: 'block', ml: { xs: 'auto', md: 0 }, mr: { xs: 1, md: 0 } }}>
             {data.headerCta && (
               <Button
                 component={data.headerCta.enabled ? 'a' : 'button'}
@@ -122,8 +122,9 @@ export function Header({ data }: { data: GlobalContent }) {
                   bgcolor: 'rgba(255,255,255,0.2)',
                   border: 1,
                   borderColor: 'divider',
-                  px: 3,
-                  minWidth: 137,
+                  minWidth: { xs: 'clamp(104px,31.8vw,125px)', md: 137 },
+                  minHeight: { xs: 40, md: 44 }, fontSize: { xs: 14, md: 16 },
+                  px: { xs: 2, md: 3 },
                   '&.Mui-disabled': { color: 'text.primary', bgcolor: 'rgba(255,255,255,0.2)' },
                 }}
               >

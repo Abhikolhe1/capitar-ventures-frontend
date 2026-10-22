@@ -55,6 +55,15 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
         minHeight: { xs: tall ? 480 : wide ? 360 : 280, sm: tall ? 360 : 300, lg: 272 },
         p: { xs: '24px', lg: wide ? '19px 27px 32px' : tall ? '17px 32px 36px' : '24px 23px' },
         ...(!wide && !tall ? { pb: '158px' } : {}),
+        '@media(max-width:599px)': {
+          minHeight: 0, p: '16px', gap: '16px',
+          '& > div:first-of-type': { display: 'none' },
+          '& [data-capital-copy]': { order: 2, pt: 0, mt: 0, pr: 0, width: '100%' },
+          '& h3': { fontSize: 20, lineHeight: 1.2, mb: '8px' },
+          '& p': { fontSize: 14, lineHeight: 1.4, mr: 0, maxWidth: '100%', whiteSpace: 'normal' },
+          '& [data-capital-art]': { order: 1, position: 'relative', top: 'auto', bottom: 'auto', right: 'auto', width: '100%', maxWidth: 'none', mt: 0, transform: 'none' },
+          '& [data-capital-art] img': { width: '100%', height: 'auto', maxHeight: tall ? 190 : 210, objectFit: 'contain' },
+        },
       }}
     >
       <Box

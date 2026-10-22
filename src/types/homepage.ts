@@ -39,6 +39,10 @@ export type FooterContent = {
 };
 export type HeroContent = {
   enabled: boolean;
+  mobileHeading?: string;
+  mobileEmphasisText?: string;
+  mobileTrustedClientsTitle?: string;
+  backgroundVideoMobile?: Media;
   announcementText?: string;
   announcementLink?: ContentLink;
   heading: string;

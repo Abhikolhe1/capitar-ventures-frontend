@@ -29,7 +29,7 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
         bgcolor: websiteTokens.difference.background,
         color: websiteTokens.difference.ink,
         // Extend the sticky boundary behind the following section without adding scroll space.
-        pb: { xs: '64px', lg: '111.65px' },
+        pb: { xs: '48px', lg: '111.65px' },
         '&::after': { content: { lg: '""' }, display: { lg: 'block' }, height: { lg: '100svh' } },
         mb: { lg: '-100svh' },
       }}
@@ -40,28 +40,28 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
           position: { xs: 'relative', lg: 'sticky' },
           top: 0,
           minHeight: { lg: 538 },
-          pt: { xs: '56px', sm: '72px', lg: '165.5px' },
-          pb: { xs: '40px', lg: 0 },
+          pt: { xs: '48px', sm: '72px', lg: '165.5px' },
+          pb: { xs: '24px', lg: 0 },
           textAlign: 'center',
           maxWidth: 788,
           mx: 'auto',
-          px: { xs: 3, lg: 0 },
+          px: { xs: '20px', lg: 0 },
           pointerEvents: { lg: 'none' },
           zIndex: 1,
         }}
       >
-        <SectionBadge text={data.sectionLabel} minWidth={221} fontWeight={400} />
+        <SectionBadge compactMobile text={data.sectionLabel} minWidth={221} fontWeight={400} />
         <Typography
           component="h2"
           id="difference-heading"
           data-difference-heading
           sx={{
-            fontSize: { xs: 36, sm: 44, lg: 'clamp(44px,3.4723vw,50px)' },
+            fontSize: { xs: 28, sm: 44, lg: 'clamp(44px,3.4723vw,50px)' },
             fontWeight: 400,
             lineHeight: 1,
             letterSpacing: 0,
             whiteSpace: 'pre-line',
-            mt: '30px',
+            mt: { xs: '24px', sm: '30px' },
           }}
         >
           {data.heading}
@@ -70,12 +70,12 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
           <Typography
             data-difference-intro-description
             sx={{
-              fontSize: 20,
+              fontSize: { xs: 14, sm: 20 },
               lineHeight: 1.4,
               fontWeight: 400,
               letterSpacing: 0,
               color: websiteTokens.difference.mutedInk,
-              mt: '34px',
+              mt: { xs: '16px', sm: '34px' },
               whiteSpace: 'pre-line',
               maxWidth: 420,
               mx: 'auto',
@@ -85,7 +85,7 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
           </Typography>
         )}
         {data.cta && (
-          <Box sx={{ mt: '32px', pointerEvents: 'auto' }}>
+          <Box sx={{ mt: { xs: '24px', sm: '32px' }, pointerEvents: 'auto' }}>
             <ContentButton data={data.cta} arrow appearance="difference" />
           </Box>
         )}
@@ -106,11 +106,11 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
             justifyContent: 'space-between',
             alignItems: 'start',
             maxWidth: '1301.46px',
-            width: { xs: 'calc(100% - 48px)', sm: 'calc(100% - 96px)', lg: 'calc(100% - 140px)' },
+            width: { xs: 'calc(100% - 40px)', sm: 'calc(100% - 96px)', lg: 'calc(100% - 140px)' },
             mx: 'auto',
             mt: { lg: '-68.01px' },
           columnGap: { xs: '24px', lg: '43.75%' },
-            rowGap: '24px',
+            rowGap: { xs: '12px', sm: '24px' },
           }}
         >
           {[data.items.slice(0, split), data.items.slice(split)].map((items, column) => (
@@ -120,7 +120,7 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: { xs: '24px', lg: column === 0 ? '83.63px' : '67.31px' },
+                gap: { xs: '12px', sm: '24px', lg: column === 0 ? '83.63px' : '67.31px' },
                 pt: { lg: column === 0 ? 0 : '142.7px' },
               }}
             >

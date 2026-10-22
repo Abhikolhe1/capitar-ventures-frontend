@@ -8,11 +8,11 @@ export function ProofMetric({ metric }: { metric: ProofMetricContent }) {
   const spoken = `${metric.prefix || ''}${metric.value}${metric.valueSuffix || ''} ${metric.suffix || ''}`.trim();
   return (
     <Box data-proof-metric sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0, position: 'relative', gap: '12px' }}>
-      <Typography component="dt" sx={{ order: 2, fontSize: { xs: 18, md: 20 }, fontWeight: 500, lineHeight: 1.4, letterSpacing: '0.02em', textAlign: 'center', color: websiteTokens.red }}>
+      <Typography component="dt" sx={{ order: 2, fontSize: { xs: 12, sm: 18, md: 20 }, fontWeight: 500, lineHeight: 1.4, letterSpacing: { xs: 0, sm: '0.02em' }, textAlign: 'center', color: websiteTokens.red }}>
         {metric.label}
       </Typography>
       <Typography component="dd" sx={{
-        order: 1, m: 0, alignSelf: { xs: 'center', md: 'flex-start' }, fontSize: { xs: 64, sm: 72, md: 'clamp(64px, 6.94445vw, 100px)' },
+        order: 1, m: 0, alignSelf: { xs: 'center', md: 'flex-start' }, fontSize: { xs: 'clamp(30px,9.16vw,36px)', sm: 72, md: 'clamp(64px, 6.94445vw, 100px)' },
         fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em', whiteSpace: 'nowrap',
         backgroundImage: websiteTokens.proof.numberGradient, backgroundClip: 'text', color: 'transparent',
       }}>

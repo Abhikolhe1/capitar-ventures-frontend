@@ -23,8 +23,8 @@ function Illustration({ media }: { media?: Media }) {
       onError={() => setFailed(media.url)}
       sx={{
         display: 'block',
-        width: '122.61px',
-        height: 108,
+        width: { xs: 90, sm: '122.61px' },
+        height: { xs: 80, sm: 108 },
         objectFit: 'contain',
         maxWidth: '100%',
       }}
@@ -52,12 +52,12 @@ export function DifferenceCard({
         border: websiteTokens.difference.border,
         borderRadius: websiteTokens.difference.radius,
         boxShadow: websiteTokens.difference.shadow,
-        minHeight: 440,
-        p: '32.59px 28.99px',
+        minHeight: { xs: 260, sm: 440 },
+        p: { xs: '24px', sm: '32.59px 28.99px' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        gap: '52px',
+        gap: { xs: '24px', sm: '52px' },
       }}
     >
       {background && (
@@ -83,14 +83,14 @@ export function DifferenceCard({
           }}
         />
       )}
-      <Box sx={{ minHeight: 108 }}>
+      <Box sx={{ minHeight: { xs: 80, sm: 108 } }}>
         <Illustration media={data.image} />
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '13.1px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: '8px', sm: '13.1px' } }}>
         {data.number && (
           <Typography
             data-difference-number
-            sx={{ fontSize: 24, fontWeight: 600, lineHeight: '17px', letterSpacing: '-0.02em' }}
+            sx={{ fontSize: { xs: 20, sm: 24 }, fontWeight: 600, lineHeight: '17px', letterSpacing: '-0.02em' }}
           >
             {data.number}
           </Typography>
@@ -99,11 +99,11 @@ export function DifferenceCard({
           component="h3"
           data-difference-title
           sx={{
-            fontSize: { xs: 28, md: 32, lg: 'clamp(28px,2.2223vw,32px)' },
+            fontSize: { xs: 20, sm: 28, md: 32, lg: 'clamp(28px,2.2223vw,32px)' },
             fontWeight: 600,
             lineHeight: 1.1,
             letterSpacing: '-0.02em',
-            whiteSpace: 'pre-line',
+            whiteSpace: { xs: 'normal', sm: 'pre-line' },
           }}
         >
           {data.title}
@@ -112,7 +112,7 @@ export function DifferenceCard({
           <Typography
             data-difference-description
             sx={{
-              fontSize: { xs: 18, lg: 'clamp(16px,1.25vw,18px)' },
+              fontSize: { xs: 14, sm: 18, lg: 'clamp(16px,1.25vw,18px)' },
               fontWeight: 400,
               lineHeight: 1.4,
               letterSpacing: 0,

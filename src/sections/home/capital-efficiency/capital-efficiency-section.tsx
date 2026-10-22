@@ -28,7 +28,7 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
         position: 'relative',
         isolation: 'isolate',
         overflow: 'hidden',
-        py: { xs: '56px', sm: '64px', lg: '72px' },
+        py: { xs: '48px', sm: '64px', lg: '72px' },
         minHeight: { lg: 950 },
       }}
     >
@@ -59,11 +59,11 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
         sx={{
           maxWidth: 1317,
           mx: 'auto',
-          width: { xs: 'calc(100% - 48px)', sm: 'calc(100% - 96px)', lg: 'calc(100% - 123px)' },
+          width: { xs: 'calc(100% - 40px)', sm: 'calc(100% - 96px)', lg: 'calc(100% - 123px)' },
         }}
       >
         <Box sx={{ textAlign: 'center', mx: 'auto', maxWidth: 620 }}>
-          <SectionBadge
+          <SectionBadge compactMobile
             text={data.sectionLabel}
             color={websiteTokens.white}
             borderColor={websiteTokens.capital.badgeBorder}
@@ -74,7 +74,7 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
             id="capital-heading"
             component="h2"
             sx={{
-              fontSize: { xs: 34, sm: 40, lg: 42 },
+              fontSize: { xs: 28, sm: 40, lg: 42 },
               lineHeight: 1.2,
               fontWeight: 400,
               letterSpacing: '-0.02em',
@@ -87,7 +87,7 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
           </Typography>
           {data.description && (
             <Typography
-              sx={{ mt: '24px', fontSize: 16, lineHeight: '22px', color: 'rgba(255,255,255,0.8)' }}
+              sx={{ mt: { xs: '16px', sm: '24px' }, fontSize: { xs: 14, sm: 16 }, lineHeight: '22px', color: 'rgba(255,255,255,0.8)' }}
             >
               {data.description}
             </Typography>
@@ -105,8 +105,8 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
               },
               gridAutoFlow: 'row dense',
               gridAutoRows: { lg: 'minmax(272px,auto)' },
-              gap: '20px',
-              mt: { xs: '36px', lg: '44px' },
+              gap: { xs: '12px', sm: '20px' },
+              mt: { xs: '24px', lg: '44px' },
             }}
           >
             {data.benefits.map((benefit, index) => (
