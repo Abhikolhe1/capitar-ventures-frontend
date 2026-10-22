@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { useRef, useLayoutEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useDifferenceAnimation(scope: RefObject<HTMLElement | null>, signature: string) {
@@ -54,13 +56,7 @@ export function useDifferenceAnimation(scope: RefObject<HTMLElement | null>, sig
             if (el) reveal(el, `${index}-${selector}`, blur, y);
           }
         });
-      let active = true;
-      void document.fonts.ready.then(() => {
-        if (active) ScrollTrigger.refresh();
-      });
-      return () => {
-        active = false;
-      };
+      return scheduleScrollRefresh();
     }, scope);
     return () => {
       context.revert();

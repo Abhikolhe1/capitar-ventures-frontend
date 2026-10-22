@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { useLayoutEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature: string) {
@@ -23,8 +25,7 @@ export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature
         });
       });
     }, scope);
-    let active = true;
-    void document.fonts.ready.then(() => { if (active) ScrollTrigger.refresh(); });
-    return () => { active = false; media.revert(); context.revert(); };
+    const cancelRefresh = scheduleScrollRefresh();
+    return () => { cancelRefresh(); media.revert(); context.revert(); };
   }, [scope, signature]);
 }

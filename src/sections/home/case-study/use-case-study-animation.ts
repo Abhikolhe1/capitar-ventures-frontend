@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { useRef, useLayoutEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
+
 gsap.registerPlugin(ScrollTrigger);
 export function useCaseStudyAnimation(scope: RefObject<HTMLElement | null>, signature: string) {
   const entered = useRef(false);
@@ -18,8 +20,7 @@ export function useCaseStudyAnimation(scope: RefObject<HTMLElement | null>, sign
           .fromTo('[data-case-deck]', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.9, clearProps: 'transform' }, 0.15);
       });
     }, scope);
-    let active = true;
-    void document.fonts.ready.then(() => { if (active) ScrollTrigger.refresh(); });
-    return () => { active = false; media.revert(); context.revert(); };
+    const cancelRefresh = scheduleScrollRefresh();
+    return () => { cancelRefresh(); media.revert(); context.revert(); };
   }, [scope, signature]);
 }
