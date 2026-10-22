@@ -16,7 +16,7 @@ export function CaseStudySection({ data }: { data?: CaseStudyContent }) {
   if (!data?.enabled) return null;
   const active = Math.min(selected, Math.max(0, data.items.length - 1));
   const move = (direction: number) => setSelected((active + direction + data.items.length) % data.items.length);
-  return <Box component="section" ref={scope} id="case-study" aria-labelledby="case-study-heading" sx={{ position: 'relative', bgcolor: '#FFFFFF', color: '#121212' }}>
+  return <Box component="section" ref={scope} id="case-study" aria-labelledby="case-study-heading" sx={{ position: 'relative', zIndex: 3, bgcolor: '#FFFFFF', color: '#121212' }}>
     <Box sx={{ maxWidth: 1440, mx: 'auto', px: { xs: 3, sm: 6, lg: '50px' }, pt: { xs: 5, sm: 6, md: '60px' }, pb: { xs: 5, sm: 6, md: '51px' }, minHeight: { lg: 800 } }}>
       <Box data-case-header sx={{ px: { lg: '10px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0,1fr) minmax(0,1fr) 170px', lg: 'minmax(0,487px) minmax(0,394px) 170px' }, alignItems: 'end', columnGap: { md: 3 }, justifyContent: 'space-between', rowGap: { xs: '20px', md: 3 } }}>
         <Box><SectionBadge text={data.sectionLabel} minWidth={122} fontWeight={500} /><Typography component="h2" id="case-study-heading" sx={{ mt: '20px', fontSize: { xs: 32, sm: 38, lg: 42 }, lineHeight: 1.2, letterSpacing: '-0.02em', fontWeight: 400, whiteSpace: { lg: 'pre-line' } }}>{data.heading}</Typography></Box>

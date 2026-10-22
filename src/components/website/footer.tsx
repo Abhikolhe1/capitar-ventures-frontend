@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import { useSectionReveal } from 'src/hooks/use-section-reveal';
+
 import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 import { footerViewportStyles } from 'src/theme/homepage-viewport';
@@ -266,6 +268,7 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
 
 export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: { url: string } }) {
   const root = useRef<HTMLElement>(null);
+  useSectionReveal(root, JSON.stringify(data));
   const [visible, setVisible] = useState(false);
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   useEffect(() => {
@@ -348,6 +351,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
         }}
       >
         <Box
+          data-scroll-reveal="footer-panel"
           data-footer-panel
           sx={{
             position: 'relative',

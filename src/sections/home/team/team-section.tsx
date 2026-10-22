@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { useSectionReveal } from 'src/hooks/use-section-reveal';
+
 import { websiteTokens } from 'src/theme/website-theme';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -71,6 +73,7 @@ export function TeamSection({ data }: { data?: TeamContent }) {
     if (element) setPosition({ previous: element.scrollLeft > 2, next: element.scrollLeft + element.clientWidth < element.scrollWidth - 2 });
   }, []);
   const signature = JSON.stringify(data);
+  useSectionReveal(section, signature);
   useLayoutEffect(() => {
     if (!data?.enabled || !data.members.length) return undefined;
     update();
@@ -78,18 +81,6 @@ export function TeamSection({ data }: { data?: TeamContent }) {
     if (track.current) observer.observe(track.current);
     return () => observer.disconnect();
   }, [signature, data?.enabled, data?.members.length, update]);
-  useEffect(() => {
-    const element = section.current;
-    if (!element || !window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return undefined;
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        element.dataset.teamEntered = 'true';
-        observer.disconnect();
-      }
-    }, { threshold: 0.08 });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [signature]);
   if (!data?.enabled || !data.members.length) return null;
   const move = (direction: number) => {
     const element = track.current;
@@ -101,11 +92,9 @@ export function TeamSection({ data }: { data?: TeamContent }) {
   return (
     <Box ref={section} component="section" id="team" aria-labelledby="team-heading" sx={{
       bgcolor: '#F8F9FA', color: '#121212', py: { xs: 6, md: '42px' }, overflow: 'hidden',
-      '@keyframes team-enter': { from: { opacity: 0, transform: 'translateY(20px)' }, to: { opacity: 1, transform: 'none' } },
-      '@media (prefers-reduced-motion: no-preference)': { '&[data-team-entered="true"] .team-heading-row': { animation: 'team-enter 650ms ease-out both' }, '&[data-team-entered="true"] li': { animation: 'team-enter 700ms ease-out both' }, '& li:nth-of-type(2)': { animationDelay: '90ms' }, '& li:nth-of-type(3)': { animationDelay: '180ms' } },
     }}>
       <Box sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto', pl: { xs: 3, sm: 6, lg: '52px' } }}>
-        <Box className="team-heading-row" sx={{ pr: { xs: 3, sm: 6, lg: '66px' } }}>
+        <Box data-scroll-reveal="team-heading" className="team-heading-row" sx={{ pr: { xs: 3, sm: 6, lg: '66px' } }}>
           <SectionBadge text={data.sectionLabel} minWidth={0} fontWeight={400} />
           <Box sx={{ mt: '22px', mb: { xs: 4, md: '40px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.35fr 1fr auto' }, alignItems: 'end', gap: { xs: 3, md: 5 } }}>
             <Typography id="team-heading" component="h2" sx={{ m: 0, maxWidth: 480, fontSize: { xs: 32, sm: 38, lg: 42 }, fontWeight: 400, lineHeight: 1.2, letterSpacing: '-0.035em', whiteSpace: 'pre-line' }}>{data.heading}</Typography>
@@ -116,7 +105,7 @@ export function TeamSection({ data }: { data?: TeamContent }) {
             </Box>
           </Box>
         </Box>
-        <Box ref={track} component="ul" tabIndex={0} aria-label="Capitar team members" onScroll={update} sx={{
+        <Box ref={track} data-scroll-reveal="team-track" component="ul" tabIndex={0} aria-label="Capitar team members" onScroll={update} sx={{
           '--team-card-width': { xs: '82%', sm: '44%', md: '398.03px' },
           display: 'flex', gap: '22px', m: 0, p: 0, pr: { xs: 3, sm: 6, lg: '52px' }, pb: 1,
           overflowX: 'auto', scrollSnapType: 'x mandatory', overscrollBehaviorX: 'contain', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' },

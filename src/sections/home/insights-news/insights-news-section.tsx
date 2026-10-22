@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { useSectionReveal } from 'src/hooks/use-section-reveal';
+
 import { websiteTokens } from 'src/theme/website-theme';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -181,6 +183,8 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
 }
 
 export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
+  const section = useRef<HTMLElement>(null);
+  useSectionReveal(section, JSON.stringify(data));
   const [active, setActive] = useState<TabKey>('insights');
   const [position, setPosition] = useState({ previous: false, next: false });
   const track = useRef<HTMLUListElement>(null);
@@ -215,6 +219,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
   };
   return (
     <Box
+      ref={section}
       component="section"
       id="insights-news"
       aria-labelledby="editorial-heading"
@@ -249,6 +254,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
     >
       <Box sx={{ position: 'relative', zIndex: 1, maxWidth: websiteTokens.maxWidth, mx: 'auto' }}>
         <Box
+          data-scroll-reveal="editorial-heading"
           data-editorial-header
           sx={{
             px: { xs: 3, sm: 6, md: '60px' },
@@ -336,6 +342,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
         <Box
           key={active}
           id={`editorial-panel-${active}`}
+          data-scroll-reveal="editorial-panel"
           role="tabpanel"
           aria-labelledby={`editorial-tab-${active}`}
           sx={{

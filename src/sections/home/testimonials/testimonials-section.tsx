@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { useSectionReveal } from 'src/hooks/use-section-reveal';
+
 import { websiteTokens } from 'src/theme/website-theme';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -202,6 +204,8 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
 }
 
 export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
+  const section = useRef<HTMLElement>(null);
+  useSectionReveal(section, JSON.stringify(data));
   const track = useRef<HTMLUListElement>(null);
   const [position, setPosition] = useState({ previous: false, next: false });
   const signature = JSON.stringify(data);
@@ -234,6 +238,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
   };
   return (
     <Box
+      ref={section}
       component="section"
       id="client-testimonials"
       aria-labelledby="testimonials-heading"
@@ -247,6 +252,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
     >
       <Box sx={{ maxWidth: websiteTokens.maxWidth, mx: 'auto' }}>
         <Box
+          data-scroll-reveal="testimonials-heading"
           data-testimonials-header
           sx={{
             px: { xs: 3, sm: 6, md: '60px' },
@@ -319,6 +325,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
           </Box>
         </Box>
         <Box
+          data-scroll-reveal="testimonials-track"
           ref={track}
           component="ul"
           tabIndex={0}
