@@ -168,7 +168,8 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
               color: '#121212',
               fontSize: { xs: 24, sm: 28 },
               lineHeight: 1.6,
-              fontWeight: 400,
+              fontWeight: 500,
+              letterSpacing: '-0.02em',
               whiteSpace: 'pre-line',
             }}
           >
@@ -186,7 +187,7 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
             overflowWrap: 'anywhere',
           }}
         >
-          <Typography sx={{ fontSize: 20, lineHeight: 1.4 }}>{item.name}</Typography>
+          <Typography sx={{ fontSize: 20, fontWeight: 500, lineHeight: 1.6, letterSpacing: '-0.02em' }}>{item.name}</Typography>
           {(item.role || item.company) && (
             <Typography sx={{ mt: '8px', fontSize: 16, lineHeight: 1.5 }}>
               {[item.role, item.company].filter(Boolean).join(', ')}
@@ -267,16 +268,16 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
           }}
         >
           <Box>
-            <SectionBadge text={data.sectionLabel} minWidth={0} fontWeight={400} />
+            <SectionBadge text={data.sectionLabel} minWidth={0} lineHeight={1.4} />
             <Typography
               component="h2"
               id="testimonials-heading"
               sx={{
                 mt: '22px',
-                fontSize: { xs: 32, md: 40 },
+                fontSize: { xs: 32, md: 42 },
                 lineHeight: 1.2,
                 fontWeight: 400,
-                letterSpacing: '-.035em',
+                letterSpacing: '-.02em',
                 whiteSpace: 'pre-line',
               }}
             >

@@ -26,3 +26,18 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'LT Superior Serif';
+  src: url('/assets/fonts/LTSuperiorSerif-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'LT Superior Serif';
+  src: url('/assets/fonts/LTSuperiorSerif-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

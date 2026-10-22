@@ -79,9 +79,13 @@ function CopyContact({ label, value, href }: { label: string; value: string; hre
           component="a"
           href={href}
           sx={{
-            fontSize: 14,
-            lineHeight: '20px',
-            color: '#37373D',
+            fontSize: 12,
+            fontWeight: 500,
+            lineHeight: '18px',
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+            textAlign: 'right',
+            color: '#121212',
             textDecoration: 'none',
             overflowWrap: 'anywhere',
             '&:focus-visible': { outline: '2px solid #193969' },
@@ -143,9 +147,10 @@ function NumberedLinks({ items, label }: { items: ContentLink[]; label: string }
               gridTemplateColumns: '104px minmax(0,1fr)',
               alignItems: 'center',
               minHeight: 36,
-              color: '#7D7D87',
-              fontSize: 14,
-              lineHeight: 1.4,
+              color: '#808080',
+              fontSize: 16,
+              fontWeight: 500,
+              lineHeight: 1,
               overflowWrap: 'anywhere',
               transition: 'background-color 160ms ease, color 160ms ease',
               '&:hover, &:focus-within': { bgcolor: '#000', color: '#FFF' },
@@ -380,7 +385,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               gridTemplateColumns: {
                 xs: 'minmax(0,1fr)',
                 sm: 'repeat(2,minmax(0,1fr))',
-                lg: 'minmax(0,336fr) minmax(0,424fr) minmax(0,352fr)',
+                lg: 'minmax(0,342fr) minmax(0,418fr) minmax(0,352fr)',
               },
               gap: { xs: '40px', lg: '66px' },
             }}
@@ -415,9 +420,9 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                   component="address"
                   sx={{
                     mt: '12px',
-                    color: '#9B9BA1',
+                    color: '#999999',
                     fontSize: 14,
-                    lineHeight: 1.4,
+                    lineHeight: '20px',
                     fontStyle: 'normal',
                     whiteSpace: 'pre-line',
                   }}

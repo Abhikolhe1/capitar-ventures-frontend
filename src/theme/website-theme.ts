@@ -9,6 +9,7 @@ export const websiteTokens = {
   border: 'rgba(255,255,255,0.08)',
   gutter: { xs: 3, sm: 6, lg: '100px' },
   maxWidth: 1441,
+  serifFontFamily: '"LT Superior Serif", serif',
   difference: {
     background: '#F8F9FA', card: '#0B0F2D', ink: '#121212', mutedInk: 'rgba(18,18,18,0.8)',
     radius: '21.0929px', border: '2.10929px solid #F0F0F0',
