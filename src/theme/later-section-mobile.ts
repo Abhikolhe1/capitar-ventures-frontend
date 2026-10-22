@@ -28,7 +28,8 @@ export const teamMobileStyles = {
 
 export const editorialMobileStyles = {
   [mobile]: {
-    minHeight: 701,
+    minHeight: 0,
+    pb: '40px',
     '& [data-editorial-header]': { px: '20px', mb: '24px', gap: '24px' },
     '& [data-editorial-header] span': badge,
     '& h2': { fontSize: 28, lineHeight: 1.2, mt: '12px', minHeight: 0 },
@@ -42,7 +43,7 @@ export const editorialMobileStyles = {
     '& .editorial-arrow': { display: 'none' },
     '& article h3': { fontFamily: '"LT Superior", sans-serif', fontSize: 20, lineHeight: 1.2, mt: '12px' },
     '& article h3 + p': { fontSize: 14, lineHeight: '20px', mt: '8px' },
-    '& [data-editorial-controls]': { px: '20px', mt: '24px', minHeight: 48 },
+    '& [data-editorial-controls]': { px: '20px', mt: '44px', minHeight: 48 },
     '& [data-editorial-controls] > .MuiButton-root': { width: '100%', fontSize: 14 },
     '& [data-editorial-arrows]': { display: 'none' },
   },
