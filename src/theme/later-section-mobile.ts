@@ -35,6 +35,8 @@ export const editorialMobileStyles = {
     '& [role=tablist]': { minHeight: 42 },
     '& .MuiTabs-root': { width: 206, minHeight: 46, borderWidth: '1px', p: '2px' },
     '& .MuiTabs-root .MuiTab-root': { minWidth: 100, minHeight: 40, p: '8px', fontSize: 14 },
+    '& .MuiTabs-root .MuiTab-root.Mui-selected:first-of-type': { borderRadius: '20px 4px 4px 20px' },
+    '& .MuiTabs-root .MuiTab-root.Mui-selected:last-of-type': { borderRadius: '4px 20px 20px 4px' },
     '& ul': { '--editorial-card-width': 'calc(100vw - 40px)', pl: '20px', pr: '20px', pb: 0, minHeight: 310, gap: '12px', scrollPaddingInlineStart: '20px' },
     '& article': { height: 310, borderRadius: '16px' },
     '& [data-editorial-copy]': { px: '16px', py: '16px', minHeight: 138 },
