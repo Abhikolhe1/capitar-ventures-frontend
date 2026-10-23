@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
+import { liquidGlassButton } from 'src/theme/glass-surface';
 import { editorialMobileStyles } from 'src/theme/later-section-mobile';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -426,18 +427,8 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
                 href={content.cta.enabled ? content.cta.href : undefined}
                 disabled={!content.cta.enabled || !content.cta.href}
                 sx={{
+                  ...liquidGlassButton,
                   color: 'white',
-                  bgcolor: 'rgba(255,255,255,.13)',
-                  border: '1px solid rgba(255,255,255,.15)',
-                  fontSize: 16,
-                  fontWeight: 400,
-                  minHeight: 48,
-                  px: 2,
-                  '&:hover': { bgcolor: 'rgba(255,255,255,.2)' },
-                  '&.Mui-disabled': {
-                    color: 'rgba(255,255,255,.7)',
-                    bgcolor: 'rgba(255,255,255,.13)',
-                  },
                 }}
               >
                 {content.cta.label}

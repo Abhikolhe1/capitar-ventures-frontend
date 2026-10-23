@@ -1,5 +1,19 @@
 import { test, expect } from '@playwright/test';
 
+test('revealed header stays above Case Study content', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
+  const top = await page.locator('#case-study').evaluate(el => el.getBoundingClientRect().top + scrollY);
+  await page.evaluate(y => window.scrollTo(0, y + 240), top);
+  await expect(page.locator('header')).toHaveAttribute('data-scroll-hidden', 'true');
+  await page.evaluate(y => window.scrollTo(0, y + 140), top);
+  await expect(page.locator('header')).toHaveAttribute('data-scroll-hidden', 'false');
+  await expect(page.locator('header')).toHaveCSS('opacity', '1');
+  await expect(page.locator('header')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  expect(await page.evaluate(() => !!document.elementFromPoint(innerWidth / 2, 40)?.closest('header'))).toBeTruthy();
+});
+
 test('header displays separate offering labels after CMS content loads', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
