@@ -2,6 +2,31 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 const fallback=JSON.parse(fs.readFileSync(new URL('../src/content/homepage.json',import.meta.url),'utf8'));
 
+test('all case cards show details and consistent expanded and collapsed logo backgrounds', async ({ page }) => {
+ await page.setViewportSize({ width: 1440, height: 950 });
+ await page.goto('/');
+ await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
+ const section = page.locator('#case-study');
+ await section.scrollIntoViewIfNeeded();
+ await expect(section.locator('[data-case-deck]')).toHaveCSS('opacity', '1');
+ for (const name of ['mPokket', 'Craev', 'Pidge', 'Qubehealth']) {
+  await section.getByRole('button', { name: 'Show ' + name + ' case study', exact: true }).hover();
+  const active = section.locator('[data-case-card][data-active=true]');
+  await expect(active.locator('h3')).toHaveText(name);
+  await expect(active.locator('[data-case-caption] > p')).toHaveText(fallback.caseStudy.items[0].description);
+  await expect(active.locator('[data-case-metric]')).toContainText(fallback.caseStudy.items[0].metricValue);
+  await expect(active.locator('[data-case-logo=expanded]')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  for (const logo of await section.locator('[data-case-card][data-active=false] [data-case-logo=collapsed]').all()) {
+   await expect(logo).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  }
+ }
+ const settled = section.locator('[data-case-card][data-active=true]');
+ await expect(settled.locator('[data-case-logo=expanded]')).toHaveCSS('opacity', '1');
+ await expect(settled.locator('[data-case-caption]')).toHaveCSS('opacity', '1');
+ await expect(settled.locator('[data-case-image-button]')).toHaveCSS('height', '385px');
+ await section.screenshot({ path: 'test-results/case-study-logo-treatment.png' });
+});
+
 test('published Case Study follows Difference with original assets at seven widths',async({page,request})=>{
  const response=await request.get('http://localhost:3035/api/homepage');expect(response.ok()).toBeTruthy();const content=(await response.json()).data.caseStudy;
  expect(content.items.map((x:{name:string})=>x.name)).toEqual(['Qubehealth','mPokket','Craev','Pidge']);
@@ -27,7 +52,7 @@ test('scroll entrance settles once, survives focus and scrolled reload',async({p
 });
 
 test('CMS edits, missing optional fields, invalid and disabled content remain isolated',async({page})=>{
- const data=structuredClone(fallback);data.caseStudy.heading='CMS case heading';data.caseStudy.items=data.caseStudy.items.reverse().map((x:object)=>({...x,image:null,logo:null,description:'',metricValue:''}));await page.route('**/api/homepage',r=>r.fulfill({json:{data}}));await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('main')).toHaveAttribute('aria-busy','false');const section=page.locator('#case-study');await expect(section.locator('h2')).toHaveText('CMS case heading');await expect(section.locator('img:not([aria-hidden="true"])')).toHaveCount(0);await expect(section.locator('[data-active=true] h3')).toHaveText('Pidge');data.caseStudy.items=[];await page.reload();await expect(section.locator('li')).toHaveCount(0);await expect(section.getByRole('button',{name:'Next case study'})).toBeDisabled();data.caseStudy.enabled=false;await page.reload();await expect(section).toHaveCount(0);data.caseStudy.enabled=true;data.caseStudy.heading='';await page.reload();await expect(section).toHaveCount(0);await expect(page.locator('h1')).toBeVisible();
+ const data=structuredClone(fallback);data.caseStudy.heading='CMS case heading';data.caseStudy.items=data.caseStudy.items.reverse().map((x:object)=>({...x,image:null,logo:null,description:'',metricValue:''}));await page.route('**/api/homepage',r=>r.fulfill({json:{data}}));await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await expect(page.locator('main')).toHaveAttribute('aria-busy','false');const section=page.locator('#case-study');await expect(section.locator('h2')).toHaveText('CMS case heading');await expect(section.locator('img:not([aria-hidden="true"])')).toHaveCount(0);await expect(section.locator('[data-active=true] h3')).toHaveText('Pidge');data.caseStudy.items=[];await page.reload();await expect(page.locator('main')).toHaveAttribute('aria-busy','false');await section.scrollIntoViewIfNeeded();await expect(section.locator('[data-case-header]')).toHaveCSS('opacity','1');await expect(section.locator('li')).toHaveCount(0);await expect(section.getByRole('button',{name:'Next case study'})).toBeDisabled();data.caseStudy.enabled=false;await page.reload();await expect(section).toHaveCount(0);data.caseStudy.enabled=true;data.caseStudy.heading='';await page.reload();await expect(section).toHaveCount(0);await expect(page.locator('h1')).toBeVisible();
 });
 
 test('mobile API and image failures retain readable fallback',async({page})=>{

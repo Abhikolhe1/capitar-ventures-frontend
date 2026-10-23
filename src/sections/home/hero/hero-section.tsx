@@ -162,7 +162,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
           component="h1"
           variant="h1"
           sx={{
-            width: { xs: '100%', sm: 556 },
+            width: { xs: '100%', sm: 680, lg: 760 },
             maxWidth: '100%',
             fontSize: { xs: 36, sm: 64, lg: 72 },
             '@media (min-width: 900px) and (max-height: 700px)': {
@@ -189,7 +189,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
           )}
         </Typography>
         {data.description && (
-          <Typography data-entrance="content" sx={{ maxWidth: 480 }}>
+          <Typography data-entrance="content" sx={{ maxWidth: 560 }}>
             {data.description}
           </Typography>
         )}

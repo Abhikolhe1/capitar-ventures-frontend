@@ -15,6 +15,16 @@ export function CaseStudySection({ data }: { data?: CaseStudyContent }) {
   const [selected, setSelected] = useState(0);
   useCaseStudyAnimation(scope, JSON.stringify(data));
   if (!data?.enabled) return null;
+  // Older CMS content only populated Qubehealth; mirror its sample detail fields
+  // for the other original cards until their individual content is provided.
+  const reference = data.items.find(item => item.name.toLowerCase() === 'qubehealth');
+  data = { ...data, items: data.items.map(item => (
+    ['mpokket', 'craev', 'pidge'].includes(item.name.toLowerCase())
+    && !item.description && !item.metricValue
+      ? { ...item, description: reference?.description, metricValue: reference?.metricValue,
+        metricSuffix: reference?.metricSuffix, metricLabel: reference?.metricLabel }
+      : item
+  )) };
   const active = Math.min(selected, Math.max(0, data.items.length - 1));
   const move = (direction: number) => setSelected((active + direction + data.items.length) % data.items.length);
   return <Box component="section" ref={scope} id="case-study" aria-labelledby="case-study-heading" sx={{ position: 'relative', zIndex: 3, bgcolor: '#FFFFFF', color: '#121212' }}>

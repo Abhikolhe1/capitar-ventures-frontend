@@ -159,8 +159,12 @@
     "mobileHeading": "Bring relentless grit, we’ll get the flexible capital.",
     "mobileEmphasisText": "flexible capital.",
     "mobileTrustedClientsTitle": "Our Investee Companies",
-    "backgroundImageMobile": { "url": "/assets/capitar/hero-mobile-poster.webp" },
-    "backgroundVideoMobile": { "url": "/assets/capitar/hero-mobile.mp4" },
+    "backgroundImageMobile": {
+      "url": "/assets/capitar/hero-mobile-poster.webp"
+    },
+    "backgroundVideoMobile": {
+      "url": "/assets/capitar/hero-mobile.mp4"
+    },
     "emphasisText": "conviction &",
     "backgroundImage": {
       "url": "/assets/capitar/hero-poster.webp"
@@ -667,7 +671,11 @@
         "logo": {
           "url": "/assets/capitar/case-mpokket-logo.webp",
           "alternativeText": "mPokket"
-        }
+        },
+        "description": "Strategic capital helping founders reach their next growth milestone.",
+        "metricValue": "₹400",
+        "metricSuffix": "cr",
+        "metricLabel": "Companies backed"
       },
       {
         "name": "Craev",
@@ -679,7 +687,11 @@
         "logo": {
           "url": "/assets/capitar/case-craev-logo.webp",
           "alternativeText": "Craev"
-        }
+        },
+        "description": "Strategic capital helping founders reach their next growth milestone.",
+        "metricValue": "₹400",
+        "metricSuffix": "cr",
+        "metricLabel": "Companies backed"
       },
       {
         "name": "Pidge",
@@ -691,7 +703,11 @@
         "logo": {
           "url": "/assets/capitar/case-pidge-logo.webp",
           "alternativeText": "Pidge"
-        }
+        },
+        "description": "Strategic capital helping founders reach their next growth milestone.",
+        "metricValue": "₹400",
+        "metricSuffix": "cr",
+        "metricLabel": "Companies backed"
       }
     ]
   }
