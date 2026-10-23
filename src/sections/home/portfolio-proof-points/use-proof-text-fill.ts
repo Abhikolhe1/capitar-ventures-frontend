@@ -13,7 +13,7 @@ export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature
     if (!scope.current) return undefined;
     const media = gsap.matchMedia();
     const context = gsap.context(() => {
-      media.add('(prefers-reduced-motion: no-preference)', () => {
+      media.add('all', () => {
         const heading = scope.current?.querySelector<HTMLElement>('#proof-heading');
         const words = heading?.querySelectorAll<HTMLElement>('[data-proof-word]');
         if (!heading || !words?.length) return;

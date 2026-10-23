@@ -22,7 +22,7 @@ export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPoi
   return (
     <Box component="section" ref={scope} id="portfolio-proof-points" aria-labelledby="proof-heading" sx={{
       position: 'relative', overflow: 'hidden', bgcolor: websiteTokens.proof.background,
-      color: websiteTokens.proof.ink, minHeight: { lg: 685 },
+      color: websiteTokens.proof.ink,
     }}>
       <Box aria-hidden="true" sx={{ position: 'absolute', inset: 0, display: { xs: 'none', sm: 'block' }, maxWidth: 1440, mx: 'auto', pointerEvents: 'none' }}>
         {data.backgroundLeft && <Box component="img" src={data.backgroundLeft.url} alt="" width={384} height={350} sx={{ position: 'absolute', top: 0, left: { xs: -180, md: 0 } }} />}

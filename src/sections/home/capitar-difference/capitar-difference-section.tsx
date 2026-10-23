@@ -28,10 +28,7 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
         position: 'relative',
         bgcolor: websiteTokens.difference.background,
         color: websiteTokens.difference.ink,
-        // Extend the sticky boundary behind the following section without adding scroll space.
         pb: { xs: '48px', lg: '111.65px' },
-        '&::after': { content: { lg: '""' }, display: { lg: 'block' }, height: { lg: '100svh' } },
-        mb: { lg: '-100svh' },
       }}
     >
       <Box

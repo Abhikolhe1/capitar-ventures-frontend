@@ -8,6 +8,7 @@ import { websiteTokens } from 'src/theme/website-theme';
 import { ContentButton } from 'src/components/website/content-button';
 
 import { HeroBackgroundVideo } from './hero-background-video';
+import { TrustedClientsMarquee } from './trusted-clients-marquee';
 
 export function HeroSection({ data }: { data: HeroContent }) {
   const mobile = useMediaQuery('(max-width:599px)');
@@ -15,7 +16,6 @@ export function HeroSection({ data }: { data: HeroContent }) {
   const emphasis = mobile ? data.mobileEmphasisText || fallback.hero.mobileEmphasisText : data.emphasisText;
   const video = mobile ? data.backgroundVideoMobile || fallback.hero.backgroundVideoMobile : data.backgroundVideo;
   const poster = mobile ? data.backgroundImageMobile || fallback.hero.backgroundImageMobile : data.backgroundImage;
-  const clients = mobile ? data.trustedClients.filter((client,index,items) => items.findIndex(other => other.name === client.name) === index) : data.trustedClients;
   if (!data.enabled) return null;
   const emphasisIndex = emphasis ? heading.indexOf(emphasis) : -1;
   return (
@@ -232,40 +232,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
           {data.trustedClientsTitle && (
             <Typography sx={{ fontSize: { xs: 14, sm: 16 }, mb: '15px' }}>{mobile ? data.mobileTrustedClientsTitle || fallback.hero.mobileTrustedClientsTitle : data.trustedClientsTitle}</Typography>
           )}
-          <Stack
-            component="ul"
-            direction="row"
-            alignItems="center"
-            sx={{
-              flexWrap: { xs: 'nowrap', sm: 'wrap', lg: 'nowrap' },
-              gap: { xs: 'clamp(12px,6vw,24px)', sm: 2.5, lg: '49px' },
-              p: 0,
-              m: 0,
-              listStyle: 'none',
-            }}
-          >
-            {clients.map((client, index) => (
-              <Box
-                component="li"
-                key={`${client.name}-${index}`}
-                sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}
-              >
-                <Box
-                  component="img"
-                  src={client.logo.url}
-                  alt={client.name}
-                  width={client.width}
-                  height={client.height || 40}
-                  sx={{
-                    display: 'block',
-                    width: { xs: `min(${client.width * 0.58}px,${client.width * 0.58 / 3.93}vw)`, sm: client.width },
-                    height: { xs: `min(${(client.height || 40) * 0.58}px,${(client.height || 40) * 0.58 / 3.93}vw)`, sm: client.height || 40 },
-                    objectFit: 'contain',
-                  }}
-                />
-              </Box>
-            ))}
-          </Stack>
+          <TrustedClientsMarquee clients={data.trustedClients} />
         </Box>
       )}
     </Box>

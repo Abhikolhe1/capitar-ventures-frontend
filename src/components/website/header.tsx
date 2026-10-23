@@ -35,22 +35,33 @@ export function Header({ data }: { data: GlobalContent }) {
 
   useEffect(() => {
     let previousY = window.scrollY;
+    let direction = 0;
+    let distance = 0;
     const onScroll = () => {
       const currentY = Math.max(0, window.scrollY);
       const heroBottom = document.querySelector('main > section')?.getBoundingClientRect().bottom;
       setPastHero(heroBottom !== undefined && heroBottom < 89);
-      if (!open && Math.abs(currentY - previousY) > 4) setHidden(currentY > previousY);
+      const delta = currentY - previousY;
       previousY = currentY;
+      if (open || currentY <= 24) {
+        setHidden(false);
+        distance = 0;
+        return;
+      }
+      if (Math.abs(delta) < 1) return;
+      const nextDirection = Math.sign(delta);
+      distance = nextDirection === direction ? distance + Math.abs(delta) : Math.abs(delta);
+      direction = nextDirection;
+      // Require deliberate movement in one direction before changing visibility.
+      if (distance >= (direction > 0 ? 72 : 40)) {
+        setHidden(direction > 0);
+        distance = 0;
+      }
     };
-    // Wheel intent also works while the viewport-sized hero has no scroll range.
-    const onWheel = (event: WheelEvent) => {
-      if (!open && Math.abs(event.deltaY) > 4) setHidden(event.deltaY > 0);
-    };
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('wheel', onWheel, { passive: true });
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('wheel', onWheel);
     };
   }, [open]);
   return (
@@ -67,10 +78,12 @@ export function Header({ data }: { data: GlobalContent }) {
           bgcolor: pastHero ? websiteTokens.navy : 'transparent',
           borderBottom: 1,
           borderColor: 'divider',
-          transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
+          transform: hidden ? 'translateY(-110%)' : 'translateY(0)',
           opacity: hidden ? 0 : 1,
-          transition: 'transform 350ms ease, opacity 350ms ease',
-          '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+          filter: hidden ? 'blur(4px)' : 'blur(0)',
+          transition: hidden
+            ? 'transform 550ms cubic-bezier(.4,0,.2,1), opacity 400ms ease, filter 550ms ease, background-color 350ms ease'
+            : 'transform 850ms cubic-bezier(.22,1,.36,1), opacity 650ms ease, filter 700ms ease, background-color 350ms ease',
         }}
       >
         <Stack
@@ -106,7 +119,7 @@ export function Header({ data }: { data: GlobalContent }) {
             component="nav"
             aria-label="Main navigation"
             direction="row"
-            spacing={4}
+            spacing={{ md: 2.5, lg: 4 }}
             sx={{ display: { xs: 'none', md: 'flex' } }}
           >
             {data.navigation.map((item, index) => (
@@ -121,11 +134,37 @@ export function Header({ data }: { data: GlobalContent }) {
                 disabled={!data.headerCta.enabled}
                 sx={{
                   ...glassSurface,
+                  position: 'relative',
+                  isolation: 'isolate',
+                  borderRadius: '999px',
+                  background: 'radial-gradient(ellipse at 15% 0%, rgba(255,255,255,.3), transparent 60%), linear-gradient(125deg,rgba(255,255,255,.16),rgba(255,255,255,.05) 50%,rgba(255,255,255,.18))',
+                  backdropFilter: 'blur(24px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                  border: '1px solid rgba(255,255,255,.3)',
+                  boxShadow: 'inset 0 2px 2px rgba(255,255,255,.35), inset 0 -2px 3px rgba(255,255,255,.12), 0 6px 20px rgba(0,0,0,.16)',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: '-1px',
+                    borderRadius: 'inherit',
+                    padding: '1px',
+                    background: 'linear-gradient(135deg,rgba(255,255,255,.85),rgba(255,255,255,.08) 38%,rgba(255,255,255,.12) 60%,rgba(255,255,255,.6))',
+                    mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    maskComposite: 'exclude',
+                    WebkitMaskComposite: 'xor',
+                    pointerEvents: 'none',
+                  },
                   minWidth: { xs: 'clamp(104px,31.8vw,125px)', md: 137 },
                   minHeight: { xs: 40, md: 44 }, fontSize: { xs: 14, md: 16 },
                   px: { xs: 2, md: 3 },
-                  transition: 'background-color 250ms ease, box-shadow 250ms ease',
-                  '&:hover': { bgcolor: 'rgba(255,255,255,.12)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.45), 0 8px 28px rgba(0,0,0,.16)' },
+                  transition: 'background-color 250ms ease, box-shadow 250ms ease, border-color 250ms ease',
+                  '&:hover': {
+                    bgcolor: 'rgba(255,255,255,.12)',
+                    borderColor: 'rgba(255,255,255,.5)',
+                    boxShadow: 'inset 0 2px 3px rgba(255,255,255,.5), inset 0 -2px 4px rgba(255,255,255,.18), 0 8px 24px rgba(0,0,0,.2)',
+                  },
+                  '&.Mui-focusVisible': { outline: '2px solid rgba(255,255,255,.85)', outlineOffset: 4 },
+                  '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
                   '&.Mui-disabled': { color: 'text.primary', opacity: 1 },
                 }}
               >

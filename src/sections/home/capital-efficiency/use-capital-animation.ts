@@ -14,7 +14,7 @@ export function useCapitalAnimation(scope: RefObject<HTMLElement | null>, signat
     if (!scope.current) return undefined;
     const mm = gsap.matchMedia();
     const context = gsap.context(() => {
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
+      mm.add('all', () => {
         const cancelRefresh = scheduleScrollRefresh();
         gsap.utils
           .toArray<HTMLElement>('[data-capital-card]', scope.current)

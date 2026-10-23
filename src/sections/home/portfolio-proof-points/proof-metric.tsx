@@ -11,8 +11,8 @@ export function ProofMetric({ metric }: { metric: ProofMetricContent }) {
       <Typography component="dt" sx={{ order: 2, fontSize: { xs: 13, sm: 18, md: 20 }, fontWeight: 500, lineHeight: 1.4, letterSpacing: '0.02em', textAlign: 'center', color: websiteTokens.red }}>
         {metric.label}
       </Typography>
-      <Typography component="dd" sx={{
-        order: 1, m: 0, alignSelf: { xs: 'center', md: 'flex-start' }, fontSize: { xs: 'clamp(30px,9.16vw,36px)', sm: 72, md: 'clamp(64px, 6.94445vw, 100px)' },
+      <Typography component="dd" data-proof-value sx={{
+        order: 1, m: 0, alignSelf: 'center', textAlign: 'center', fontSize: { xs: 'clamp(30px,9.16vw,36px)', sm: 72, md: 'clamp(64px, 6.94445vw, 100px)' },
         fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em', whiteSpace: 'nowrap',
         backgroundImage: websiteTokens.proof.numberGradient, backgroundClip: 'text', color: 'transparent',
       }}>

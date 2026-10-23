@@ -1,14 +1,6 @@
-// Desktop sections fill one screen except the Figma-sized Capital Efficiency and sticky Difference sections.
+// Viewport sizing applies only to the sections listed here; Proof Points uses its own content spacing.
 export const homepageViewportStyles = {
   '@media (min-width:900px)': {
-    '& > #portfolio-proof-points': {
-      height: '100svh', minHeight: 0, display: 'flex', alignItems: 'center',
-      '& > div:last-child': { width: '100%', py: 'clamp(20px,5svh,60px)' },
-      '& h2': { fontSize: 'clamp(30px,5.55svh,50px)' },
-      '& .MuiStack-root': { gap: 'clamp(20px,4svh,40px)' },
-      '& dl': { mt: 'clamp(24px,7svh,86px)' },
-      '& dd': { fontSize: 'clamp(48px,10svh,100px)' },
-    },
     '& > #capital-efficiency': {
       height: 'auto', minHeight: 950, py: '72px',
       '& > img': { height: '100%' },

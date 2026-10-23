@@ -94,9 +94,21 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
   const heading = string(h.heading);
   if (!heading?.trim() || !Array.isArray(g.navigation))
     throw new Error('Required CMS content is missing');
+  const navigation = g.navigation.map(link).filter((v): v is ContentLink => !!v);
+  // Older CMS instances still publish the original, unlinked offerings placeholder.
+  // Keep custom/linked menus intact, and use explicit CMS entries once migrated.
+  const legacyOfferings = navigation.some(item => item.label === 'Our Offerings' && !item.href)
+    && !navigation.some(item => item.label === 'Venture Debt' || item.label === 'Growth Equity');
   const global: GlobalContent = {
     brandLogo: media(g.brandLogo),
-    navigation: g.navigation.map(link).filter((v): v is ContentLink => !!v),
+    navigation: legacyOfferings ? navigation.flatMap(item => (
+      item.label === 'Our Offerings' && !item.href
+        ? [
+          { label: 'Venture Debt', enabled: false, showIndicator: false },
+          { label: 'Growth Equity', enabled: false, showIndicator: false },
+        ]
+        : [item]
+    )) : navigation,
     headerCta: link(g.headerCta),
     footer: footer(g.footer),
   };

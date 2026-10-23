@@ -8,7 +8,7 @@ test('desktop sections adapt to viewport height without clipping; sticky Differe
   for(const id of ['portfolio-proof-points','case-study']){
    const section=page.locator('#'+id);await section.scrollIntoViewIfNeeded();
    const geometry=await section.evaluate(el=>{const r=el.getBoundingClientRect();return {height:r.height,overflow:document.documentElement.scrollWidth>innerWidth,outside:[...el.querySelectorAll('h2,h3,p,article,[data-case-image-button]')].filter(n=>{const x=n.getBoundingClientRect();return x.width>0&&x.height>0&&(x.top<r.top-1||x.bottom>r.bottom+1||x.left<r.left-1||x.right>r.right+1)}).map(n=>n.textContent),clipped:[...el.querySelectorAll('h2,h3,p')].filter(n=>n.getClientRects().length>0&&n.scrollWidth>n.clientWidth+1).map(n=>n.textContent)};});
-   expect(geometry.height,id+' '+width+'x'+height).toBeCloseTo(height,0);expect(geometry.overflow).toBeFalsy();expect(geometry.outside).toEqual([]);expect(geometry.clipped).toEqual([]);
+   if(id==='case-study')expect(geometry.height,id+' '+width+'x'+height).toBeCloseTo(height,0);expect(geometry.overflow).toBeFalsy();expect(geometry.outside).toEqual([]);expect(geometry.clipped).toEqual([]);
    if(width===1536||height===500)await section.screenshot({path:'test-results/viewport-'+id+'-'+width+'-'+height+'.png'});
   }
   expect((await page.locator('main > section').first().boundingBox())!.height).toBe(height);

@@ -36,14 +36,14 @@ test('published fourth section resolves its exact assets and fits all seven widt
   expect(geometry.top).toBeCloseTo(geometry.previousBottom,0);
   expect(geometry.overflow).toBeFalsy();
   expect(geometry.clipped).toBeFalsy();
-  if(width===1440){expect(geometry.height).toBeCloseTo(1671.65+950,0);expect(geometry.cardHeights).toEqual([440,440,440,440]);}
+  if(width===1440){expect(geometry.height).toBeCloseTo(1671.65,0);expect(geometry.cardHeights).toEqual([440,440,440,440]);}
   await section.screenshot({path:`test-results/difference-${width}.png`});
  }
  expect(errors).toEqual([]);
 });
 
 for (const reducedMotion of ['no-preference','reduce'] as const) {
-test(`desktop intro stays pinned under the next section and reveals once with motion setting ${reducedMotion}`,async({page})=>{
+test(`desktop intro releases after the cards and scrolls out before the next section with motion setting ${reducedMotion}`,async({page})=>{
  await page.emulateMedia({reducedMotion});
  await page.setViewportSize({width:1440,height:900});
  await page.goto('/');
@@ -65,11 +65,17 @@ test(`desktop intro stays pinned under the next section and reveals once with mo
  expect((await first.boundingBox())!.y).toBeCloseTo(before-400,0);
  await expect(first.locator('h3')).toHaveCSS('opacity','1');
  await page.evaluate(y=>scrollTo(0,y+1300),top);
- expect((await intro.boundingBox())!.y).toBeCloseTo(0,0);
+ expect((await intro.boundingBox())!.y).toBeLessThan(0);
  const next=page.locator('#case-study');
  const nextTop=await next.evaluate(e=>e.getBoundingClientRect().top+scrollY);
+ const sectionBottom=await section.evaluate(e=>e.getBoundingClientRect().bottom+scrollY);
+ expect(nextTop).toBeCloseTo(sectionBottom,0);
+ const releasePosition=(await intro.boundingBox())!.y;
+ await page.evaluate(y=>scrollTo(0,y+1400),top);
+ expect((await intro.boundingBox())!.y).toBeCloseTo(releasePosition-100,0);
  await page.evaluate(y=>scrollTo(0,y+20),nextTop);
- expect((await intro.boundingBox())!.y).toBeCloseTo(0,0);
+ const releasedIntro=(await intro.boundingBox())!;
+ expect(releasedIntro.y+releasedIntro.height).toBeLessThanOrEqual(0);
  expect(await page.evaluate(()=>document.elementFromPoint(innerWidth/2,200)?.closest('#case-study')!==null)).toBeTruthy();
  await page.evaluate(y=>scrollTo(0,y+100),top);
  expect((await intro.boundingBox())!.y).toBeCloseTo(0,0);

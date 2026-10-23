@@ -5,9 +5,12 @@
     },
     "navigation": [
       {
-        "label": "Our Offerings",
-        "enabled": false,
-        "showIndicator": true
+        "label": "Venture Debt",
+        "enabled": false
+      },
+      {
+        "label": "Growth Equity",
+        "enabled": false
       },
       {
         "label": "Portfolio",
