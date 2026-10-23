@@ -66,7 +66,9 @@ export const homepageViewportStyles = {
     '& > #client-testimonials': {
       '& [data-testimonials-header]': { mb: 'clamp(16px,3svh,36px)' },
       '& h2': { mt: 'clamp(12px,2svh,22px)' },
-      '& article': { height: 'clamp(340px,calc(100svh - 230px),523.4px)', minHeight: 0, gap: 'clamp(20px,6.5svh,52px)', p: 'clamp(20px,4svh,32px)' },
+      '& article': { height: 'clamp(340px,calc(100svh - 230px),523.4px)', minHeight: 0, gap: 'clamp(12px,calc(20svh - 108px),52px)', p: 'clamp(20px,4svh,32px)' },
+      '& blockquote > div': { height: 'clamp(20px,4svh,32px)' },
+      '& blockquote > p': { fontSize: 'clamp(18px,3svh,24px)', lineHeight: 1.5, mt: 'clamp(8px,calc(8svh - 40px),24px)' },
     },
   },
 };

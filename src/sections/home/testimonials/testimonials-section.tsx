@@ -155,24 +155,22 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
             '&:focus-visible': { outline: '2px solid #193969', outlineOffset: 4 },
           }}
         >
-          <Box
-            aria-hidden="true"
-            sx={{
-              height: 32,
-              fontFamily: 'Georgia, serif',
-              fontSize: 64,
-              lineHeight: 1,
-              color: '#5178BA',
-            }}
-          >
-            “
+          <Box aria-hidden="true" sx={{ height: 32 }}>
+            <Box
+              component="img"
+              src="/assets/images/%E2%80%9C.svg"
+              alt=""
+              width={24}
+              height={19}
+              sx={{ display: 'block' }}
+            />
           </Box>
           <Typography
             sx={{
               mt: '24px',
               color: '#121212',
-              fontSize: { xs: 24, sm: 28 },
-              lineHeight: 1.6,
+              fontSize: { xs: 18, sm: 24 },
+              lineHeight: 1.5,
               fontWeight: 500,
               letterSpacing: '-0.02em',
               whiteSpace: 'pre-line',
@@ -187,7 +185,7 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
             minHeight: 90,
             flexShrink: 0,
             pl: '24px',
-            borderLeft: '1px solid #BF8F99',
+            borderLeft: '2px solid #CC2334',
             color: '#121212',
             overflowWrap: 'anywhere',
           }}

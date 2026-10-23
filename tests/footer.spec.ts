@@ -179,3 +179,41 @@ test('a touch opens an AI label before a second tap follows its configured link'
     await expect(page).toHaveURL('http://127.0.0.1:3039/footer-ai-target');
   } finally { await context.close(); }
 });
+
+
+test('AI labels stay stable at icon boundaries and gaps with normal animation', async ({ page }) => {
+  await mockCms(page);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1441, height: 950 });
+  await page.goto('/');
+  const navigation = page.getByRole('navigation', { name: 'Explore Capitar with AI' });
+  await navigation.scrollIntoViewIfNeeded();
+  await navigation.hover();
+  await page.mouse.move(0, 0);
+  const first = navigation.getByRole('button', { name: 'ChatGPT', exact: true });
+  const second = navigation.getByRole('button', { name: 'Perplexity', exact: true });
+  await expect(first).toHaveAttribute('aria-expanded', 'true');
+  const start = (await second.boundingBox())!;
+  await navigation.evaluate(el => {
+    const state = window as typeof window & { aiChanges?: number; aiObserver?: MutationObserver };
+    state.aiChanges = 0;
+    state.aiObserver = new MutationObserver(records => { state.aiChanges! += records.length; });
+    state.aiObserver.observe(el, { subtree: true, attributes: true, attributeFilter: ['aria-expanded'] });
+  });
+  // This coordinate becomes a different icon/gap as the first label collapses.
+  await page.mouse.move(start.x + 3, start.y + start.height / 2);
+  await expect(second).toHaveAttribute('aria-expanded', 'true');
+  await page.waitForTimeout(1600);
+  await expect(second).toHaveAttribute('aria-expanded', 'true');
+  const changes = await page.evaluate(() => {
+    const state = window as typeof window & { aiChanges?: number; aiObserver?: MutationObserver };
+    state.aiObserver?.disconnect();
+    return state.aiChanges!;
+  });
+  expect(changes).toBeLessThanOrEqual(2);
+  const bounds = (await second.boundingBox())!;
+  await page.mouse.move(bounds.x - 4, bounds.y + bounds.height / 2);
+  await page.waitForTimeout(600);
+  await expect(second).toHaveAttribute('aria-expanded', 'true');
+  await expect(navigation.locator('[aria-expanded="true"]')).toHaveCount(1);
+});

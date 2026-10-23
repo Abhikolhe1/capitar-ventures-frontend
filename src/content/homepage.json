@@ -156,8 +156,12 @@
     "mobileHeading": "Bring relentless grit, we’ll get the flexible capital.",
     "mobileEmphasisText": "flexible capital.",
     "mobileTrustedClientsTitle": "Our Investee Companies",
-    "backgroundImageMobile": { "url": "/assets/capitar/hero-mobile-poster.webp" },
-    "backgroundVideoMobile": { "url": "/assets/capitar/hero-mobile.mp4" },
+    "backgroundImageMobile": {
+      "url": "/assets/capitar/hero-mobile-poster.webp"
+    },
+    "backgroundVideoMobile": {
+      "url": "/assets/capitar/hero-mobile.mp4"
+    },
     "emphasisText": "conviction &",
     "backgroundImage": {
       "url": "/assets/capitar/hero-poster.webp"
@@ -477,10 +481,10 @@
           "title": "Understanding Warrants in Venture Debt",
           "description": "A plain-language explanation of how venture debt works and when it can make sense.",
           "image": {
-            "url": "/assets/images/630e3da0f16196816295d235821d7aef8c48b3aa.png",
-            "alternativeText": "Modern buildings against a blue sky.",
-            "width": 736,
-            "height": 1108
+            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
+            "alternativeText": "A founder speaking with a colleague across a table.",
+            "width": 735,
+            "height": 477
           }
         },
         {
@@ -488,10 +492,10 @@
           "title": "Planning Your Next Stage of Growth",
           "description": "A practical look at preparing your capital strategy for the next growth milestone.",
           "image": {
-            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
-            "alternativeText": "A founder speaking with a colleague across a table.",
-            "width": 735,
-            "height": 477
+            "url": "/assets/images/078f23cc556cd6cf3530928d24eba9d8e13b3d61.jpg",
+            "alternativeText": "A speaker explaining ideas to a group in a workshop.",
+            "width": 736,
+            "height": 414
           }
         }
       ]
@@ -533,10 +537,10 @@
           "title": "Understanding Warrants in Venture Debt",
           "description": "A plain-language explanation of how venture debt works and when it can make sense.",
           "image": {
-            "url": "/assets/images/630e3da0f16196816295d235821d7aef8c48b3aa.png",
-            "alternativeText": "Modern buildings against a blue sky.",
-            "width": 736,
-            "height": 1108
+            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
+            "alternativeText": "A founder speaking with a colleague across a table.",
+            "width": 735,
+            "height": 477
           }
         },
         {
@@ -544,10 +548,10 @@
           "title": "Planning Your Next Stage of Growth",
           "description": "A practical look at preparing your capital strategy for the next growth milestone.",
           "image": {
-            "url": "/assets/images/730b460abc8ded65b895e42db99354af93d71316.jpg",
-            "alternativeText": "A founder speaking with a colleague across a table.",
-            "width": 735,
-            "height": 477
+            "url": "/assets/images/078f23cc556cd6cf3530928d24eba9d8e13b3d61.jpg",
+            "alternativeText": "A speaker explaining ideas to a group in a workshop.",
+            "width": 736,
+            "height": 414
           }
         }
       ]

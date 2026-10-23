@@ -8,8 +8,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { useSectionReveal } from 'src/hooks/use-section-reveal';
-
 import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 import { footerViewportStyles } from 'src/theme/homepage-viewport';
@@ -67,8 +65,8 @@ function CopyContact({ label, value, href }: { label: string; value: string; hre
       <Typography
         sx={{
           color: '#9B9BA1',
-          fontSize: 12,
-          lineHeight: '16px',
+          fontSize: 14,
+          lineHeight: '20px',
           textTransform: 'uppercase',
           mb: '6px',
         }}
@@ -80,9 +78,9 @@ function CopyContact({ label, value, href }: { label: string; value: string; hre
           component="a"
           href={href}
           sx={{
-            fontSize: 12,
+            fontSize: 14,
             fontWeight: 500,
-            lineHeight: '18px',
+            lineHeight: '22px',
             letterSpacing: '0.04em',
             textTransform: 'uppercase',
             textAlign: 'right',
@@ -149,9 +147,9 @@ function FooterLinkList({ items, label }: { items: ContentLink[]; label: string 
               alignItems: 'center',
               minHeight: 36,
               color: '#808080',
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: 500,
-              lineHeight: 1,
+              lineHeight: 1.25,
               overflowWrap: 'anywhere',
               transition: 'background-color 160ms ease, color 160ms ease',
               '&:hover, &:focus-within': { bgcolor: '#000', color: '#FFF' },
@@ -159,7 +157,7 @@ function FooterLinkList({ items, label }: { items: ContentLink[]; label: string 
               '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
             }}
           >
-            <Box aria-hidden="true">&bull;</Box>
+            <Box aria-hidden="true" sx={{ width: 7, height: 7, ml: '2px', bgcolor: '#CC2334', transform: 'rotate(45deg)' }} />
             <FooterLink item={item} />
           </Box>
         ))}
@@ -172,11 +170,31 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
   const [selected, setSelected] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState<number | null>(null);
+  const pointer = useRef<{ x: number; y: number } | null>(null);
+  const pointerType = useRef('mouse');
   const active = hovered ?? focused ?? selected;
   return (
     <Box
       component="nav"
       aria-label="Explore Capitar with AI"
+      onPointerMove={(event: ReactPointerEvent<HTMLElement>) => {
+        if (event.pointerType !== 'mouse') return;
+        const { clientX: x, clientY: y } = event;
+        // Expanding labels move siblings under a stationary pointer. Ignore those hit-test changes.
+        if (pointer.current?.x === x && pointer.current?.y === y) return;
+        pointer.current = { x, y };
+        const shortcut = event.target instanceof Element
+          ? event.target.closest<HTMLElement>('[data-footer-ai-index]')
+          : null;
+        if (shortcut) setHovered(Number(shortcut.dataset.footerAiIndex));
+      }}
+      onPointerLeave={() => {
+        pointer.current = null;
+        setHovered(null);
+      }}
+      onPointerDown={(event: ReactPointerEvent<HTMLElement>) => {
+        pointerType.current = event.pointerType;
+      }}
       sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px', mt: '16px' }}
     >
       {items.map((item, index) => {
@@ -190,15 +208,12 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
             href={enabled ? item.href : undefined}
             aria-label={item.label}
             aria-expanded={expanded}
-            onPointerEnter={(event: ReactPointerEvent<HTMLElement>) => {
-              if (event.pointerType === 'mouse') setHovered(index);
-            }}
-            onPointerLeave={() => setHovered(null)}
+            data-footer-ai-index={index}
             onFocus={() => setFocused(index)}
             onBlur={() => setFocused(null)}
             onClick={(event: ReactMouseEvent<HTMLElement>) => {
               // First touch opens the label; a subsequent activation follows a configured link.
-              if (enabled && event.detail !== 0 && hovered !== index && selected !== index)
+              if (enabled && pointerType.current !== 'mouse' && event.detail !== 0 && selected !== index)
                 event.preventDefault();
               setSelected(index);
             }}
@@ -219,7 +234,7 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
               borderColor: expanded ? '#ECECF0' : '#17174F',
               bgcolor: expanded ? '#F9FAFB' : '#17174F',
               color: expanded ? '#121212' : 'white',
-              fontSize: 12,
+              fontSize: 14,
               overflow: 'hidden',
               transition: 'background-color 350ms ease, border-color 350ms ease',
               '&:focus-visible': { outline: '2px solid #193969', outlineOffset: 3 },
@@ -278,7 +293,6 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
 
 export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: { url: string } }) {
   const root = useRef<HTMLElement>(null);
-  useSectionReveal(root, JSON.stringify(data));
   const [visible, setVisible] = useState(false);
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const mobile = useMediaQuery('(max-width:599.95px)');
@@ -302,6 +316,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
       ? { ...item, href: '#capitar-difference', enabled: true }
       : item
   );
+  const socialLinks = data.socialLinks.filter((item) => item.label.trim().toLowerCase() !== 'facebook');
   const aiLinks = data.aiLinks.map((item) => ({
     ...item,
     icon:
@@ -369,7 +384,6 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
         }}
       >
         <Box
-          data-scroll-reveal="footer-panel"
           data-footer-panel
           sx={{
             position: 'relative',
@@ -425,8 +439,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                   sx={{
                     mt: '12px',
                     color: '#999999',
-                    fontSize: 14,
-                    lineHeight: '20px',
+                    fontSize: 16,
+                    lineHeight: '24px',
                     fontStyle: 'normal',
                     whiteSpace: 'pre-line',
                   }}
@@ -451,8 +465,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                   data-footer-ai-copy
                   sx={{
                     mt: '32px',
-                    fontSize: 14,
-                    lineHeight: '20px',
+                    fontSize: 16,
+                    lineHeight: '24px',
                     whiteSpace: 'pre-line',
                     color: '#65656D',
                   }}
@@ -464,12 +478,12 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
             </Box>
             <Box data-footer-links sx={{ minWidth: 0, pt: { lg: '16px' }, pb: { lg: '64px' } }}>
               <FooterLinkList items={navigation} label="Footer navigation" />
-              {!!data.socialLinks.length && (
+              {!!socialLinks.length && (
                 <Box data-footer-social sx={{ mt: '56px' }}>
-                  <Typography sx={{ color: '#B94C62', fontSize: 16, lineHeight: '22px' }}>
+                  <Typography sx={{ color: '#CC2334', fontSize: 18, lineHeight: '26px' }}>
                     {data.socialLabel || 'Social'}
                   </Typography>
-                  <FooterLinkList items={data.socialLinks} label="Social links" />
+                  <FooterLinkList items={socialLinks} label="Social links" />
                 </Box>
               )}
             </Box>
@@ -493,7 +507,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                 component="h2"
                 sx={{
                   position: 'relative',
-                  fontSize: 20,
+                  fontSize: 22,
                   fontWeight: 400,
                   lineHeight: 1.4,
                   color: 'white',
@@ -515,7 +529,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                     color: '#121212',
                     px: '16px',
                     py: '12px',
-                    fontSize: 16,
+                    fontSize: 18,
                     '& > *': {
                       display: 'flex',
                       alignItems: 'flex-end',
@@ -550,7 +564,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               left: { lg: 40 },
               bottom: { lg: 24 },
               maxWidth: { lg: 'calc(100% - 440px)' },
-              fontSize: 12,
+              fontSize: 14,
               lineHeight: 1.4,
               color: '#8D8D97',
             }}
