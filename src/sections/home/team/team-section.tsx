@@ -27,18 +27,18 @@ function TeamCard({ member }: { member: TeamMemberContent }) {
         position: 'relative', aspectRatio: '398.03 / 447.79', overflow: 'hidden', borderRadius: '8.65px', bgcolor: '#E6E7EB',
         '--team-detail-gap': member.description ? '20px' : '0px',
         '& .team-shade': { transition: 'height 400ms ease, backdrop-filter 400ms ease' },
-        '& .team-shade::after': { content: '""', position: 'absolute', inset: 0, bgcolor: 'rgba(0,0,0,.2)', opacity: 0, transition: 'opacity 400ms ease' },
+        '& .team-shade::after': { content: '""', position: 'absolute', inset: 0, bgcolor: 'rgba(0,0,0,.2)', opacity: 'var(--team-shade-dim, 0)', transition: 'opacity 400ms ease' },
         '& .team-card-content': { transition: 'transform 400ms ease' },
         '& .team-bio': { transition: 'grid-template-rows 400ms ease, opacity 300ms ease, margin-top 400ms ease' },
-        '&:focus-within': {
-          outline: `2px solid ${websiteTokens.red}`, outlineOffset: 3,
-          '& .team-shade': { height: '65%', backdropFilter: 'blur(20px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 35%)' },
+        '&:focus-visible': {
+          outline: '2px solid #193969', outlineOffset: 3,
+          '& .team-shade': { height: '63%', backdropFilter: 'blur(20px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 35%)' },
           '& .team-shade::after': { opacity: 1 },
           '& .team-card-content': { transform: 'translateY(-8px)' },
           '& .team-bio': { gridTemplateRows: '1fr', opacity: 1, mt: 'var(--team-detail-gap)', visibility: 'visible' },
         },
         '@media (hover: hover)': { '&:hover': {
-          '& .team-shade': { height: '65%', backdropFilter: 'blur(20px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 35%)' },
+          '& .team-shade': { height: '63%', backdropFilter: 'blur(20px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 35%)' },
           '& .team-shade::after': { opacity: 1 },
           '& .team-card-content': { transform: 'translateY(-8px)' },
           '& .team-bio': { gridTemplateRows: '1fr', opacity: 1, mt: 'var(--team-detail-gap)', visibility: 'visible' },
