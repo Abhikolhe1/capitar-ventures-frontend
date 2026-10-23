@@ -16,7 +16,7 @@ export const teamMobileStyles = {
     '& article .team-shade': { height: '111.11%', backdropFilter: 'blur(30px)' },
     '& article .team-card-content': { transform: 'none' },
     '& article:focus-within .team-card-content': { transform: 'none' },
-    '& article:focus-within .team-shade': { height: '111.11%' },
+    '& article:focus-within .team-shade': { height: '111.11%', backdropFilter: 'blur(30px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 65%)' },
     '& article:focus-within .team-bio': { mt: '12px' },
     '& article h3': { fontFamily: '"LT Superior", sans-serif', fontWeight: 500 },
     '& article .team-bio': { gridTemplateRows: '1fr', opacity: 1, visibility: 'visible', mt: '12px' },
