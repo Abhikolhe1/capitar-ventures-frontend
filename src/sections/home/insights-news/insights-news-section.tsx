@@ -121,7 +121,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
           position: 'relative',
           flex: 1,
           minHeight: 0,
-          borderRadius: '0 0 14px 14px',
+          borderRadius: '4px 4px 14px 14px',
           overflow: 'hidden',
           bgcolor: '#E6E8ED',
         }}
@@ -321,9 +321,11 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
                 fontSize: 18,
                 fontWeight: 400,
                 textTransform: 'none',
-                borderRadius: '999px',
+                borderRadius: '2px',
               },
-              '& .MuiTab-root.Mui-selected': { bgcolor: '#101414', color: '#F9FAFB' },
+              '& .MuiTab-root:first-of-type': { borderRadius: '999px 2px 2px 999px' },
+              '& .MuiTab-root:last-of-type': { borderRadius: '2px 999px 999px 2px' },
+              '& .MuiTab-root.Mui-selected': { bgcolor: '#101414', color: '#F9FAFB', borderRadius: '4px' },
               '& .Mui-selected::before': {
                 content: '""',
                 width: 6,
