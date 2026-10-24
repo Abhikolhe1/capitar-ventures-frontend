@@ -90,7 +90,8 @@ test('CMS quote, author and media changes render; long quotes remain accessible'
   const section = page.locator('#client-testimonials');
   await section.scrollIntoViewIfNeeded();
   await expect(section.getByRole('heading', { level: 2 })).toHaveText('CMS testimonials');
-  await expect(section.locator('img')).toHaveCount(0);
+  await expect(section.locator('[data-testimonial-portrait][src], [data-testimonial-logo] img')).toHaveCount(0);
+  await expect(section.locator('blockquote img')).toHaveCount(1);
   await expect(section.getByText('Example Company', { exact: true })).toBeVisible();
   await expect(section.getByText('Founder, Example Company')).toBeVisible();
   const quote = section.getByRole('blockquote');

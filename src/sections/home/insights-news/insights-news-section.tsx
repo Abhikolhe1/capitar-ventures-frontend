@@ -102,7 +102,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
         {item.description && (
           <Typography
             sx={{
-              mt: '8px',
+              mt: '12px',
               fontSize: 18,
               lineHeight: '26px',
               color: 'rgba(25,57,105,0.8)',
@@ -273,11 +273,11 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
             gap: 3,
           }}
         >
-          <Box>
+          <Box sx={{ minWidth: 0, width: { xs: '100%', sm: '550.04px' }, maxWidth: '100%' }}>
             <SectionBadge
               text={content.sectionLabel}
               color="#FFFFFF"
-              borderColor="rgba(255,255,255,.65)"
+              borderColor="rgba(255,255,255,.5)"
               minWidth={0}
               lineHeight={1.4}
             />
@@ -285,13 +285,13 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               component="h2"
               id="editorial-heading"
               sx={{
-                mt: '22px',
+                mt: '21px',
                 fontSize: { xs: 28, md: 42 },
                 color: '#FFFFFF',
                 fontWeight: 400,
                 lineHeight: 1.2,
                 letterSpacing: '-.02em',
-                maxWidth: 550,
+                maxWidth: 550.04,
                 minHeight: { xs: 68, md: 100.8 },
                 whiteSpace: 'pre-line',
               }}
