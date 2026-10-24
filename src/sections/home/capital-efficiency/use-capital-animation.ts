@@ -1,50 +1,21 @@
 import type { RefObject } from 'react';
 
 import gsap from 'gsap';
-import { useRef, useLayoutEffect } from 'react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect } from 'react';
 
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
-
-gsap.registerPlugin(ScrollTrigger);
+import { createDirectionalReveal } from 'src/hooks/reveal-from-above';
 
 export function useCapitalAnimation(scope: RefObject<HTMLElement | null>, signature: string) {
-  const revealed = useRef(new Set<number>());
   useLayoutEffect(() => {
     if (!scope.current) return undefined;
-    const mm = gsap.matchMedia();
+    const disposers: (() => void)[] = [];
     const context = gsap.context(() => {
-      mm.add('all', () => {
-        const cancelRefresh = scheduleScrollRefresh();
-        gsap.utils
-          .toArray<HTMLElement>('[data-capital-card]', scope.current)
-          .forEach((card, index) => {
-            if (revealed.current.has(index)) return;
-            gsap.fromTo(
-              card,
-              { autoAlpha: 0, y: 15 },
-              {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.9,
-                ease: 'power3.out',
-                scrollTrigger: {
-                  trigger: card,
-                  start: 'top 92%',
-                  once: true,
-                  onEnter: () => {
-                    revealed.current.add(index);
-                  },
-                },
-              }
-            );
-          });
-        return cancelRefresh;
+      scope.current?.querySelectorAll<HTMLElement>('[data-capital-card]').forEach(card => {
+        disposers.push(createDirectionalReveal(card, card, { autoAlpha: 0, y: 15 }, { autoAlpha: 1, y: 0, duration: 0.75, ease: 'power2.out' }));
       });
     }, scope);
-    return () => {
-      mm.revert();
-      context.revert();
-    };
+    const cancel = scheduleScrollRefresh();
+    return () => { cancel(); disposers.forEach(dispose => dispose()); context.revert(); };
   }, [scope, signature]);
 }

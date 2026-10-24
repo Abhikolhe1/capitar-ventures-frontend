@@ -5,17 +5,16 @@ import { useRef, useState, useEffect, useCallback, useLayoutEffect } from 'react
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
-import { liquidGlassButton } from 'src/theme/glass-surface';
 import { editorialMobileStyles } from 'src/theme/later-section-mobile';
 
 import { SectionBadge } from 'src/components/website/section-badge';
+import { AuroraGlassButton } from 'src/components/website/aurora-glass-button';
 
 type TabKey = 'insights' | 'news';
 
@@ -422,17 +421,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
             }}
           >
             {content.cta && (
-              <Button
-                component={content.cta.enabled && content.cta.href ? 'a' : 'button'}
-                href={content.cta.enabled ? content.cta.href : undefined}
-                disabled={!content.cta.enabled || !content.cta.href}
-                sx={{
-                  ...liquidGlassButton,
-                  color: 'white',
-                }}
-              >
-                {content.cta.label}
-              </Button>
+              <AuroraGlassButton data={content.cta} />
             )}
             <Box
               data-editorial-arrows

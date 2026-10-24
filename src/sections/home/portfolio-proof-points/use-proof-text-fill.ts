@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
 
+import { websiteTokens } from 'src/theme/website-theme';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature: string) {
@@ -17,9 +19,9 @@ export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature
         const heading = scope.current?.querySelector<HTMLElement>('#proof-heading');
         const words = heading?.querySelectorAll<HTMLElement>('[data-proof-word]');
         if (!heading || !words?.length) return;
-        gsap.set(words, { color: '#D8DADD' });
+        gsap.set(words, { color: websiteTokens.proof.mutedInk });
         gsap.to(words, {
-          color: (_index, element: HTMLElement) => element.dataset.proofColor || '#121212',
+          color: websiteTokens.proof.ink,
           duration: 0.15, stagger: 0.12, ease: 'none',
           scrollTrigger: { trigger: heading, start: 'top 60%', end: 'bottom 35%', scrub: 0.2 },
         });

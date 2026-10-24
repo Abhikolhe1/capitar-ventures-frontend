@@ -163,6 +163,9 @@ export const customConfig = {
     ...importPlugin.configs.typescript.settings,
     'import/resolver': {
       ...importPlugin.configs.typescript.settings['import/resolver'],
+      node: {
+        extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx', '.json', '.css'],
+      },
       typescript: {
         project: './tsconfig.json',
       },

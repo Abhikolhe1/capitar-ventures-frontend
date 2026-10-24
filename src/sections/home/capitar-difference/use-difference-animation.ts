@@ -1,65 +1,25 @@
 import type { RefObject } from 'react';
 
 import gsap from 'gsap';
-import { useRef, useLayoutEffect } from 'react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect } from 'react';
 
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
-
-gsap.registerPlugin(ScrollTrigger);
+import { createDirectionalReveal } from 'src/hooks/reveal-from-above';
 
 export function useDifferenceAnimation(scope: RefObject<HTMLElement | null>, signature: string) {
-  const completed = useRef(new Set<string>());
   useLayoutEffect(() => {
     if (!scope.current) return undefined;
+    const disposers: (() => void)[] = [];
     const context = gsap.context(() => {
-      const reveal = (el: HTMLElement, key: string, blur: number, y = 20) => {
-        if (completed.current.has(key)) return;
-        gsap.fromTo(
-          el,
-          { autoAlpha: 0, y, filter: `blur(${blur}px)` },
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 2,
-            ease: 'expo.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 92%',
-              once: true,
-              onEnter: () => {
-                completed.current.add(key);
-              },
-            },
-            onComplete: () => {
-              gsap.set(el, { clearProps: 'transform,filter' });
-            },
-          }
-        );
-      };
-      const heading = scope.current?.querySelector<HTMLElement>('[data-difference-heading]');
-      const description = scope.current?.querySelector<HTMLElement>(
-        '[data-difference-intro-description]'
-      );
-      if (heading) reveal(heading, 'heading', 8);
-      if (description) reveal(description, 'description', 0);
-      scope.current
-        ?.querySelectorAll<HTMLElement>('[data-difference-card]')
-        .forEach((card, index) => {
-          for (const [selector, blur, y] of [
-            ['[data-difference-title]', 5, 20],
-            ['[data-difference-description]', 2, 20],
-            ['[data-difference-image]', 0, 0],
-          ] as const) {
-            const el = card.querySelector<HTMLElement>(selector);
-            if (el) reveal(el, `${index}-${selector}`, blur, y);
-          }
-        });
-      return scheduleScrollRefresh();
+      const section = scope.current!;
+      const intro = section.querySelectorAll('[data-difference-heading], [data-difference-intro-description]');
+      disposers.push(createDirectionalReveal(intro, section, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.08, ease: 'power2.out' }));
+      section.querySelectorAll<HTMLElement>('[data-difference-card]').forEach(card => {
+        const content = card.querySelectorAll('[data-difference-title], [data-difference-description], [data-difference-image]');
+        disposers.push(createDirectionalReveal(content, card, { autoAlpha: 0, y: 18, filter: 'blur(3px)' }, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.9, stagger: 0.06, ease: 'power2.out' }));
+      });
     }, scope);
-    return () => {
-      context.revert();
-    };
+    const cancel = scheduleScrollRefresh();
+    return () => { cancel(); disposers.forEach(dispose => dispose()); context.revert(); };
   }, [scope, signature]);
 }

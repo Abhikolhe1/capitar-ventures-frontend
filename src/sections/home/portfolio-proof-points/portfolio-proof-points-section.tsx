@@ -18,7 +18,6 @@ export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPoi
   useSectionReveal(scope, JSON.stringify(data));
   useProofTextFill(scope, JSON.stringify({ enabled: data?.enabled, heading: data?.heading, mutedText: data?.mutedText }));
   if (!data?.enabled) return null;
-  const mutedIndex = data.mutedText ? data.heading.indexOf(data.mutedText) : -1;
   return (
     <Box component="section" ref={scope} id="portfolio-proof-points" aria-labelledby="proof-heading" sx={{
       position: 'relative', overflow: 'hidden', bgcolor: websiteTokens.proof.background,
@@ -38,9 +37,7 @@ export function PortfolioProofPointsSection({ data }: { data?: PortfolioProofPoi
             {Array.from(data.heading.matchAll(/\S+|\s+/g), match => {
               const text = match[0], index = match.index || 0;
               if (/^\s+$/.test(text)) return text;
-              const muted = mutedIndex >= 0 && index >= mutedIndex && index < mutedIndex + data.mutedText!.length;
-              const color = muted ? websiteTokens.proof.mutedInk : websiteTokens.proof.ink;
-              return <Box key={index} component="span" data-proof-word data-proof-color={color} sx={{ color, display: 'inline-block' }}>{text}</Box>;
+              return <Box key={index} component="span" data-proof-word sx={{ color: websiteTokens.proof.ink, display: 'inline-block' }}>{text}</Box>;
             })}
           </Typography>
         </Stack>

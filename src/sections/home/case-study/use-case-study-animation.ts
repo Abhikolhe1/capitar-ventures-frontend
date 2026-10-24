@@ -1,26 +1,21 @@
 import type { RefObject } from 'react';
 
 import gsap from 'gsap';
-import { useRef, useLayoutEffect } from 'react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect } from 'react';
 
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
+import { createDirectionalReveal } from 'src/hooks/reveal-from-above';
 
-gsap.registerPlugin(ScrollTrigger);
 export function useCaseStudyAnimation(scope: RefObject<HTMLElement | null>, signature: string) {
-  const entered = useRef(false);
   useLayoutEffect(() => {
     if (!scope.current) return undefined;
-    const media = gsap.matchMedia();
+    const disposers: (() => void)[] = [];
     const context = gsap.context(() => {
-      media.add('all', () => {
-        if (entered.current) return;
-        gsap.timeline({ defaults: { ease: 'power3.out' }, scrollTrigger: { trigger: scope.current, start: 'top 80%', once: true, onEnter: () => { entered.current = true; } } })
-          .fromTo('[data-case-header]', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1.1, clearProps: 'transform' }, 0)
-          .fromTo('[data-case-deck], [data-case-thumbnails]', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.9, clearProps: 'transform' }, 0.15);
+      scope.current?.querySelectorAll<HTMLElement>('[data-case-header], [data-case-deck], [data-case-thumbnails]').forEach(element => {
+        disposers.push(createDirectionalReveal(element, element, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.85, ease: 'power2.out' }));
       });
     }, scope);
-    const cancelRefresh = scheduleScrollRefresh();
-    return () => { cancelRefresh(); media.revert(); context.revert(); };
+    const cancel = scheduleScrollRefresh();
+    return () => { cancel(); disposers.forEach(dispose => dispose()); context.revert(); };
   }, [scope, signature]);
 }

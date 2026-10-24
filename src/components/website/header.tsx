@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import { Box, Stack, Button, Drawer, IconButton, Typography } from '@mui/material';
 
 import { websiteTokens } from 'src/theme/website-theme';
-import { liquidGlassButton } from 'src/theme/glass-surface';
+
+import { AuroraGlassButton } from 'src/components/website/aurora-glass-button';
 
 function NavItem({ item, close }: { item: ContentLink; close?: () => void }) {
   return (
@@ -80,7 +81,7 @@ export function Header({ data }: { data: GlobalContent }) {
           borderColor: 'divider',
           transform: hidden ? 'translateY(-110%)' : 'translateY(0)',
           opacity: hidden ? 0 : 1,
-          filter: hidden ? 'blur(4px)' : 'blur(0)',
+          filter: hidden ? 'blur(4px)' : 'none',
           transition: hidden
             ? 'transform 550ms cubic-bezier(.4,0,.2,1), opacity 400ms ease, filter 550ms ease, background-color 350ms ease'
             : 'transform 850ms cubic-bezier(.22,1,.36,1), opacity 650ms ease, filter 700ms ease, background-color 350ms ease',
@@ -128,16 +129,7 @@ export function Header({ data }: { data: GlobalContent }) {
           </Stack>
           <Box sx={{ display: 'block', ml: { xs: 'auto', md: 0 }, mr: { xs: 1, md: 0 } }}>
             {data.headerCta && (
-              <Button
-                component={data.headerCta.enabled ? 'a' : 'button'}
-                href={data.headerCta.enabled ? data.headerCta.href : undefined}
-                disabled={!data.headerCta.enabled}
-                sx={{
-                  ...liquidGlassButton,
-                }}
-              >
-                {data.headerCta.label}
-              </Button>
+              <AuroraGlassButton data={data.headerCta} />
             )}
           </Box>
           <IconButton

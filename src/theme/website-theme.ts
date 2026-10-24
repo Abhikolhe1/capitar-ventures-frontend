@@ -25,7 +25,7 @@ export const websiteTokens = {
     mutedInk: 'rgba(18,18,18,0.6)',
     badgeInk: '#401E17',
     divider: 'rgba(231,191,195,0.3)',
-    numberGradient: 'linear-gradient(180deg, #0B0F2D 15%, rgba(17,5,74,0) 158%)',
+    numberGradient: 'linear-gradient(180deg, #11054A 0%, rgba(17,5,74,0) 90.39%), linear-gradient(180deg, #0B0F2D 15%, rgba(17,5,74,0) 158%)',
   },
 };
 
