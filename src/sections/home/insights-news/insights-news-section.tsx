@@ -12,7 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
-import { liquidGlassButton } from 'src/theme/glass-surface';
 import { editorialMobileStyles } from 'src/theme/later-section-mobile';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -103,7 +102,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
         {item.description && (
           <Typography
             sx={{
-              mt: '8px',
+              mt: '12px',
               fontSize: 18,
               lineHeight: '26px',
               color: 'rgba(25,57,105,0.8)',
@@ -274,11 +273,11 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
             gap: 3,
           }}
         >
-          <Box>
+          <Box sx={{ minWidth: 0, width: { xs: '100%', sm: '550.04px' }, maxWidth: '100%' }}>
             <SectionBadge
               text={content.sectionLabel}
               color="#FFFFFF"
-              borderColor="rgba(255,255,255,.65)"
+              borderColor="rgba(255,255,255,.5)"
               minWidth={0}
               lineHeight={1.4}
             />
@@ -286,13 +285,13 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               component="h2"
               id="editorial-heading"
               sx={{
-                mt: '22px',
+                mt: '21px',
                 fontSize: { xs: 28, md: 42 },
                 color: '#FFFFFF',
                 fontWeight: 400,
                 lineHeight: 1.2,
                 letterSpacing: '-.02em',
-                maxWidth: 550,
+                maxWidth: 550.04,
                 minHeight: { xs: 68, md: 100.8 },
                 whiteSpace: 'pre-line',
               }}
@@ -427,8 +426,20 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
                 href={content.cta.enabled ? content.cta.href : undefined}
                 disabled={!content.cta.enabled || !content.cta.href}
                 sx={{
-                  ...liquidGlassButton,
-                  color: 'white',
+                  color: '#FFFFFF',
+                  bgcolor: 'rgba(255,255,255,.13)',
+                  border: '1px solid rgba(255,255,255,.15)',
+                  borderRadius: '999px',
+                  boxShadow: 'none',
+                  fontSize: 16,
+                  fontWeight: 400,
+                  lineHeight: 1.5,
+                  minHeight: 48,
+                  px: 2,
+                  transition: 'background-color 200ms ease, border-color 200ms ease',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,.18)', borderColor: 'rgba(255,255,255,.25)' },
+                  '&.Mui-disabled': { color: '#FFFFFF', bgcolor: 'rgba(255,255,255,.13)', opacity: 1 },
+                  '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
                 }}
               >
                 {content.cta.label}

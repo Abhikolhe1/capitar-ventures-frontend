@@ -129,8 +129,10 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
                   loading="lazy"
                   onError={() => setLogoFailed(true)}
                   sx={{
-                    maxWidth: 72,
-                    maxHeight: 28,
+                    width: '58.08px',
+                    height: '21.57px',
+                    maxWidth: '58.08px',
+                    maxHeight: '21.57px',
                     objectFit: 'contain',
                     filter: item.companyLogoMonochrome ? 'brightness(0)' : undefined,
                   }}
@@ -277,7 +279,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
               component="h2"
               id="testimonials-heading"
               sx={{
-                mt: '22px',
+                mt: '21px',
                 fontSize: { xs: 28, md: 42 },
                 lineHeight: 1.2,
                 fontWeight: 400,
@@ -305,10 +307,10 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
                 width: 80,
                 height: 44,
                 borderRadius: '99px 0 0 99px', justifyContent: 'flex-start', px: '18px',
-                bgcolor: '#100A42',
+                bgcolor: '#11054A',
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
-                '&.Mui-disabled': { bgcolor: '#100A42', color: 'rgba(255,255,255,.4)' },
+                '&.Mui-disabled': { bgcolor: '#11054A', color: 'rgba(255,255,255,.4)' },
               }}
             >
               <Arrow previous />
@@ -321,10 +323,10 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
                 width: 80,
                 height: 44,
                 borderRadius: '0 99px 99px 0', justifyContent: 'flex-end', px: '18px',
-                bgcolor: '#100A42',
+                bgcolor: '#11054A',
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
-                '&.Mui-disabled': { bgcolor: '#100A42', color: 'rgba(255,255,255,.4)' },
+                '&.Mui-disabled': { bgcolor: '#11054A', color: 'rgba(255,255,255,.4)' },
               }}
             >
               <Arrow />

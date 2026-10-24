@@ -26,24 +26,27 @@ function TeamCard({ member }: { member: TeamMemberContent }) {
       <Box component="article" tabIndex={member.description ? 0 : undefined} aria-label={`${member.name}, ${member.role}`} sx={{
         position: 'relative', aspectRatio: '398.03 / 447.79', overflow: 'hidden', borderRadius: '8.65px', bgcolor: '#E6E7EB',
         '--team-detail-gap': member.description ? '20px' : '0px',
+        '& .team-portrait': { transition: 'filter 400ms ease' },
         '& .team-shade': { transition: 'height 400ms ease, backdrop-filter 400ms ease' },
         '& .team-shade::after': { content: '""', position: 'absolute', inset: 0, bgcolor: 'rgba(0,0,0,.2)', opacity: 'var(--team-shade-dim, 0)', transition: 'opacity 400ms ease' },
         '& .team-card-content': { transition: 'transform 400ms ease' },
         '& .team-bio': { transition: 'grid-template-rows 400ms ease, opacity 300ms ease, margin-top 400ms ease' },
         '&:focus-visible': {
           outline: '2px solid #193969', outlineOffset: 3,
+          '& .team-portrait': { filter: 'brightness(0.75)' },
           '& .team-shade': { height: '63%', backdropFilter: 'blur(20px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 35%)' },
           '& .team-shade::after': { opacity: 1 },
           '& .team-card-content': { transform: 'translateY(-8px)' },
           '& .team-bio': { gridTemplateRows: '1fr', opacity: 1, mt: 'var(--team-detail-gap)', visibility: 'visible' },
         },
         '@media (hover: hover)': { '&:hover': {
+          '& .team-portrait': { filter: 'brightness(0.75)' },
           '& .team-shade': { height: '63%', backdropFilter: 'blur(20px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 35%)' },
           '& .team-shade::after': { opacity: 1 },
           '& .team-card-content': { transform: 'translateY(-8px)' },
           '& .team-bio': { gridTemplateRows: '1fr', opacity: 1, mt: 'var(--team-detail-gap)', visibility: 'visible' },
         } },
-        '@media (prefers-reduced-motion: reduce)': { '& .team-shade, & .team-shade::after, & .team-card-content, & .team-bio': { transition: 'none' } },
+        '@media (prefers-reduced-motion: reduce)': { '& .team-portrait, & .team-shade, & .team-shade::after, & .team-card-content, & .team-bio': { transition: 'none' } },
       }}>
         {member.portrait && !failed ? (
           <Box component="img" className="team-portrait" src={member.portrait.url} alt={member.portrait.alternativeText || member.name} onError={() => setFailed(true)} loading="lazy" width={400} height={450} sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: `50% ${member.portraitPositionY ?? 50}%` }} />
