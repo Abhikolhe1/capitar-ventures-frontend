@@ -22,6 +22,8 @@ test('testimonial cards match the recording dimensions and carousel boundaries',
   const section = page.locator('#client-testimonials');
   await section.scrollIntoViewIfNeeded();
   await expect(section.getByRole('heading', { level: 2 })).toHaveText('What founders say about us');
+  await expect(section.locator('[data-testimonials-header]')).toHaveCSS('opacity', '1');
+  await expect(section.getByRole('list')).toHaveCSS('opacity', '1');
   const cards = section.getByRole('article');
   await expect(cards).toHaveCount(4);
   await expect(section.getByRole('img', { name: 'Denis Slavska', exact: true })).toHaveCount(2);
@@ -122,4 +124,24 @@ test('disabled, empty or invalid CMS sections stay hidden and older APIs keep th
   await page.route('**/api/homepage', route => route.fulfill({ json: { data: { hero: fallback.hero } } }));
   await page.reload();
   await expect(page.locator('#client-testimonials article')).toHaveCount(4);
+});
+
+
+test('desktop testimonials keep Figma geometry on short and tall screens', async ({ page }) => {
+  await mockCms(page);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  for (const height of [950, 800, 600]) {
+    await page.setViewportSize({ width: 1440, height });
+    const section = page.locator('#client-testimonials');
+    await expect(section).toHaveCSS('padding-top', '60px');
+    await expect(section).toHaveCSS('min-height', '800px');
+    expect((await section.boundingBox())!.height).toBeCloseTo(800, 0);
+    const card = section.getByRole('article').first();
+    expect((await card.boundingBox())!.height).toBeCloseTo(523.4, 1);
+    await expect(card.locator('blockquote > p')).toHaveCSS('font-size', '28px');
+    await expect(card.locator('blockquote > p')).toHaveCSS('line-height', '44.8px');
+    await expect(card.locator('footer')).toHaveCSS('border-left-width', '1px');
+    await expect(card.locator('[data-testimonial-location]')).toHaveCSS('font-size', '16px');
+  }
 });

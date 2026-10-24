@@ -3,6 +3,29 @@ import { test, expect } from '@playwright/test';
 
 const fallback = JSON.parse(fs.readFileSync(new URL('../src/content/homepage.json', import.meta.url), 'utf8'));
 
+test('desktop Insights uses Figma dimensions independently of screen height', async ({ page }) => {
+  await mockCms(page);
+  await page.goto('/');
+  await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
+  await page.evaluate(() => document.fonts.ready);
+  for (const height of [950, 834, 600]) {
+    await page.setViewportSize({ width: 1440, height });
+    const geometry = await page.locator('#insights-news').evaluate(el => {
+      const bounds = el.getBoundingClientRect();
+      const rect = (selector: string) => {
+        const r = el.querySelector(selector)!.getBoundingClientRect();
+        return { width: r.width, height: r.height };
+      };
+      return { height: bounds.height, card: rect('article'), copy: rect('[data-editorial-copy]'), tabs: rect('.MuiTabs-root'), padding: getComputedStyle(el).paddingTop };
+    });
+    expect(geometry.height).toBeCloseTo(834, 0);
+    expect(geometry.card).toEqual({ width: 499, height: 445 });
+    expect(geometry.copy).toEqual({ width: 485, height: 196 });
+    expect(geometry.tabs).toEqual({ width: 228, height: 54 });
+    expect(parseFloat(geometry.padding)).toBeCloseTo(70.13, 1);
+  }
+});
+
 async function mockCms(page: import('@playwright/test').Page, insightsNews = fallback.insightsNews) {
   await page.route('**/api/global', route => route.fulfill({ json: { data: fallback.global } }));
   await page.route('**/api/homepage', route => {

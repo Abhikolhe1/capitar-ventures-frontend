@@ -41,8 +41,9 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
         data-editorial-copy
         sx={{
           px: '24px',
-          py: '18px',
-          minHeight: 194,
+          py: { xs: '18px', md: '24px' },
+          minHeight: { xs: 194, md: 196 },
+          flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -69,6 +70,9 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
             sx={{
               width: 42,
               height: 42,
+              position: { md: 'absolute' },
+              top: { md: 20 },
+              right: { md: 20 },
               flexShrink: 0,
               borderRadius: '6px',
               bgcolor: '#101414',
@@ -85,7 +89,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
           component="h3"
           title={item.title}
           sx={{
-            mt: '20px',
+            mt: { xs: '20px', md: '32px' },
             fontFamily: websiteTokens.serifFontFamily,
             fontSize: { xs: 24, sm: 26 },
             lineHeight: 1,
@@ -153,6 +157,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
         component="article"
         sx={{
           height: { xs: 420, sm: 445 },
+          position: 'relative',
           borderRadius: '20px',
           p: '6px',
           bgcolor: '#F9FAFB',
@@ -305,18 +310,21 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
             aria-label="Insights and News"
             sx={{
               bgcolor: '#F9FAFB',
-              border: '2px solid #F9FAFB',
+              border: '1px solid rgba(0,0,0,.06)',
               borderRadius: '999px',
-              minHeight: 48,
+              p: '2px',
+              width: { xs: 206, sm: 228 },
+              height: { xs: 46, sm: 54 },
+              minHeight: { xs: 46, sm: 54 },
               flexShrink: 0,
               '& .MuiTabs-indicator': { display: 'none' },
-              '& .MuiTabs-flexContainer': { gap: 0 },
+              '& .MuiTabs-flexContainer': { gap: 0, alignItems: 'center' },
               '& .MuiTab-root': {
                 flexDirection: 'row',
-                minHeight: 48,
-                minWidth: 105,
-                px: 2,
-                py: 1,
+                minHeight: 36,
+                minWidth: { xs: 100, sm: 106 },
+                px: '20px',
+                py: '6px',
                 color: '#5F6268',
                 fontSize: 18,
                 fontWeight: 400,
@@ -325,7 +333,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               },
               '& .MuiTab-root:first-of-type': { borderRadius: '999px 2px 2px 999px' },
               '& .MuiTab-root:last-of-type': { borderRadius: '2px 999px 999px 2px' },
-              '& .MuiTab-root.Mui-selected': { bgcolor: '#101414', color: '#F9FAFB', borderRadius: '4px' },
+              '& .MuiTab-root.Mui-selected': { minWidth: { xs: 100, sm: 116 }, minHeight: { xs: 40, sm: 48 }, bgcolor: '#101414', color: '#F9FAFB', borderRadius: '4px' },
               '& .Mui-selected::before': {
                 content: '""',
                 width: 6,

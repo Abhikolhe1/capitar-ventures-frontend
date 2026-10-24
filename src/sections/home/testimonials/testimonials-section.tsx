@@ -199,7 +199,7 @@ function TestimonialCard({ item }: { item: TestimonialContent }) {
             </Typography>
           )}
           {item.location && (
-            <Typography sx={{ mt: '8px', fontSize: 14, lineHeight: 1.4, color: '#85858A' }}>
+            <Typography data-testimonial-location sx={{ mt: '8px', fontSize: 14, lineHeight: 1.4, color: '#85858A' }}>
               {item.location}
             </Typography>
           )}
