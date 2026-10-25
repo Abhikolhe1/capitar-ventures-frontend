@@ -21,7 +21,12 @@ test('desktop Insights uses Figma dimensions independently of screen height', as
     expect(geometry.height).toBeCloseTo(834, 0);
     expect(geometry.card).toEqual({ width: 499, height: 445 });
     expect(geometry.copy).toEqual({ width: 485, height: 196 });
-    expect(geometry.tabs).toEqual({ width: 228, height: 54 });
+    // Preserve the dev1 tab pill requested by the user, independently of Figma section sizing.
+    expect(geometry.tabs.height).toBe(52);
+    expect(geometry.tabs.width).toBeGreaterThanOrEqual(214);
+    await expect(page.locator('#insights-news .MuiTabs-root')).toHaveCSS('border-radius', '999px');
+    await expect(page.locator('#insights-news .MuiTabs-root')).toHaveCSS('border-width', '2px');
+    await expect(page.locator('#insights-news .MuiTabs-root')).toHaveCSS('padding', '0px');
     expect(parseFloat(geometry.padding)).toBeCloseTo(70.13, 1);
   }
 });
