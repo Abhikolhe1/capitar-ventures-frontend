@@ -143,7 +143,7 @@ test('every AI icon expands its label on hover, focus and click', async ({ page 
   await page.goto('/');
   const navigation = page.getByRole('navigation', { name: 'Explore Capitar with AI' });
   await navigation.scrollIntoViewIfNeeded();
-  for (const provider of ['ChatGPT', 'Perplexity', 'Claude', 'Gemini']) {
+  for (const provider of ['Chat GPT', 'Perplexity', 'Claude', 'Gemini']) {
     const shortcut = navigation.getByRole('button', { name: provider, exact: true });
     await shortcut.hover();
     await expect(shortcut).toHaveAttribute('aria-expanded', 'true');
@@ -190,7 +190,7 @@ test('AI labels stay stable at icon boundaries and gaps with normal animation', 
   await navigation.scrollIntoViewIfNeeded();
   await navigation.hover();
   await page.mouse.move(0, 0);
-  const first = navigation.getByRole('button', { name: 'ChatGPT', exact: true });
+  const first = navigation.getByRole('button', { name: 'Chat GPT', exact: true });
   const second = navigation.getByRole('button', { name: 'Perplexity', exact: true });
   await expect(first).toHaveAttribute('aria-expanded', 'true');
   const start = (await second.boundingBox())!;

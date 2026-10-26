@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 
 import { Box, Stack, Button, Drawer, IconButton, Typography } from '@mui/material';
 
+import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 
+import { OutlinedCta } from 'src/components/website/outlined-cta';
 import { AuroraGlassButton } from 'src/components/website/aurora-glass-button';
 
-function NavItem({ item, close }: { item: ContentLink; close?: () => void }) {
+function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () => void; dark?: boolean }) {
   return (
     <Button
       component={item.enabled && item.href ? 'a' : 'button'}
@@ -16,16 +18,16 @@ function NavItem({ item, close }: { item: ContentLink; close?: () => void }) {
       disabled={!item.enabled || !item.href}
       onClick={close}
       sx={{
-        color: 'text.primary',
+        color: dark ? '#171717' : 'text.primary',
         minHeight: 44,
         px: 0,
         fontSize: 16,
         gap: 0.5,
-        '&.Mui-disabled': { color: 'text.primary', opacity: 1 },
+        '&.Mui-disabled': { color: dark ? '#171717' : 'text.primary', opacity: 1 },
       }}
     >
       {item.label}
-      {item.showIndicator && <Box component="img" src="/assets/capitar/chevron.svg" alt="" />}
+      {item.showIndicator && <Box component="img" src="/assets/capitar/chevron.svg" alt="" sx={{ filter: dark ? 'brightness(0)' : 'none' }} />}
     </Button>
   );
 }
@@ -33,6 +35,11 @@ export function Header({ data }: { data: GlobalContent }) {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [pastHero, setPastHero] = useState(false);
+  const footerLogo = data.footer?.brandLogo || fallback.global.footer.brandLogo;
+  const logo = pastHero ? footerLogo : data.brandLogo;
+  const logoMonochrome = pastHero && (data.footer?.brandLogo
+    ? data.footer.logoMonochrome
+    : fallback.global.footer.logoMonochrome);
 
   useEffect(() => {
     let previousY = window.scrollY;
@@ -41,7 +48,7 @@ export function Header({ data }: { data: GlobalContent }) {
     const onScroll = () => {
       const currentY = Math.max(0, window.scrollY);
       const heroBottom = document.querySelector('main > section')?.getBoundingClientRect().bottom;
-      setPastHero(heroBottom !== undefined && heroBottom < 89);
+      setPastHero(heroBottom !== undefined && heroBottom <= 0);
       const delta = currentY - previousY;
       previousY = currentY;
       if (open || currentY <= 24) {
@@ -76,9 +83,9 @@ export function Header({ data }: { data: GlobalContent }) {
           position: 'fixed',
           inset: '0 0 auto',
           zIndex: (theme) => theme.zIndex.appBar,
-          bgcolor: pastHero ? websiteTokens.navy : 'transparent',
+          bgcolor: pastHero ? '#FFFFFF' : 'transparent',
           borderBottom: 1,
-          borderColor: 'divider',
+          borderColor: pastHero ? 'rgba(0,0,0,0.08)' : 'divider',
           transform: hidden ? 'translateY(-110%)' : 'translateY(0)',
           opacity: hidden ? 0 : 1,
           filter: hidden ? 'blur(4px)' : 'none',
@@ -93,7 +100,7 @@ export function Header({ data }: { data: GlobalContent }) {
           alignItems="center"
           justifyContent="space-between"
           sx={{
-            height: { xs: 76, md: 89 },
+            height: { xs: 60, md: 68 },
             maxWidth: websiteTokens.maxWidth,
             mx: 'auto',
             px: { xs: '20px', sm: 6, lg: '100px' },
@@ -105,14 +112,14 @@ export function Header({ data }: { data: GlobalContent }) {
             aria-label="Capitar Ventures home"
             sx={{ display: 'inline-flex', flexShrink: 0 }}
           >
-            {data.brandLogo && (
+            {logo && (
               <Box
                 component="img"
-                src={data.brandLogo.url}
+                src={logo.url}
                 alt="Capitar Ventures"
                 width={121.5}
                 height={32}
-                sx={{ width: { xs: 112, md: 121.5 }, objectFit: 'contain' }}
+                sx={{ width: { xs: 112, md: 121.5 }, objectFit: 'contain', filter: logoMonochrome ? 'brightness(0)' : 'none' }}
               />
             )}
           </Box>
@@ -124,12 +131,16 @@ export function Header({ data }: { data: GlobalContent }) {
             sx={{ display: { xs: 'none', md: 'flex' } }}
           >
             {data.navigation.map((item, index) => (
-              <NavItem key={`${item.label}-${index}`} item={item} />
+              <NavItem key={`${item.label}-${index}`} item={item} dark={pastHero} />
             ))}
           </Stack>
-          <Box sx={{ display: 'block', ml: { xs: 'auto', md: 0 }, mr: { xs: 1, md: 0 } }}>
+          <Box sx={{
+            display: 'block', ml: { xs: 'auto', md: 0 }, mr: { xs: 1, md: 0 },
+          }}>
             {data.headerCta && (
-              <AuroraGlassButton data={data.headerCta} />
+              pastHero
+                ? <OutlinedCta data={data.headerCta} dark />
+                : <AuroraGlassButton data={data.headerCta} />
             )}
           </Box>
           <IconButton
@@ -137,7 +148,7 @@ export function Header({ data }: { data: GlobalContent }) {
             aria-expanded={open}
             aria-controls="mobile-navigation"
             onClick={() => setOpen(true)}
-            sx={{ display: { md: 'none' }, color: 'text.primary' }}
+            sx={{ display: { md: 'none' }, color: pastHero ? '#171717' : 'text.primary' }}
           >
             <Box component="svg" width={24} height={24} viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" strokeWidth={1.5} />

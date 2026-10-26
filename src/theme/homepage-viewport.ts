@@ -51,7 +51,6 @@ export const homepageViewportStyles = {
       '& ul': { minHeight: 445, pb: 0 },
       '& article': { height: 445 },
       '& [data-editorial-controls]': { mt: '29.43px', minHeight: 48 },
-      '& [data-editorial-controls] > .MuiButton-root': { minHeight: 48, px: '16px' },
     },
     '& > #client-testimonials': {
       height: 'auto', minHeight: 800, boxSizing: 'border-box', pt: '60px', pb: '80.6px',

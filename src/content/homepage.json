@@ -32,17 +32,17 @@
     "footer": {
       "enabled": true,
       "brandLogo": {
-        "url": "/assets/icons/footer/footer_icon.png",
+        "url": "/assets/icons/footer/footer_icon.svg",
         "alternativeText": "Capitar Ventures"
       },
       "logoMonochrome": false,
-      "address": "4th Floor, 417, Lodha Supremus, 11th Road Of Mahakali Caves Road, Near Tunga International, Andheri East, Mumbai, Maharashtra, 400093",
+      "address": "4th Floor, 417, Lodha Supremus, 11th Road of Mahakali Caves Road, Near Tunga International, Andheri East, Mumbai, Maharastra, 400069",
       "email": "ACCOUNT@CAPITAR.COM",
       "phone": "+91 9876543221",
       "aiText": "Capitar Venture is leading venture debt\nin Mumbai. See it yourself",
       "aiLinks": [
         {
-          "label": "ChatGPT",
+          "label": "Chat GPT",
           "enabled": false,
           "icon": {
             "url": "/assets/images/Frame.png",
@@ -134,7 +134,7 @@
           "enabled": false
         }
       ],
-      "copyright": "© 2026 — COPYRIGHT",
+      "copyright": "© 2025 — COPYRIGHT",
       "ctaHeading": "Interested in learning more\nabout us?",
       "cta": {
         "label": "Let’s Connect",
@@ -155,7 +155,7 @@
       "label": "Learn More",
       "enabled": false
     },
-    "heading": "We back founders\nwith conviction &\nprecision.",
+    "heading": "Bring relentless grit,\nwe’ll get the flexible\ncapital.",
     "mobileHeading": "Bring relentless grit, we’ll get the flexible capital.",
     "mobileEmphasisText": "flexible capital.",
     "mobileTrustedClientsTitle": "Our Investee Companies",
@@ -165,7 +165,7 @@
     "backgroundVideoMobile": {
       "url": "/assets/capitar/hero-mobile.mp4"
     },
-    "emphasisText": "conviction &",
+    "emphasisText": "flexible\ncapital.",
     "backgroundImage": {
       "url": "/assets/capitar/hero-poster.webp"
     },
@@ -176,7 +176,7 @@
       "label": "Explore Portfolio",
       "enabled": false
     },
-    "trustedClientsTitle": "Our Trusted Clients",
+    "trustedClientsTitle": "Our Investee Companies",
     "trustedClients": [
       {
         "name": "Qubehealth",
@@ -587,7 +587,7 @@
         "quote": "Working with them was a great experience, from start to finish.",
         "name": "Jahan Melad",
         "role": "Project Manager",
-        "company": "mPokket",
+        "company": "mPocket",
         "location": "New York City, New York",
         "companyLogo": {
           "url": "/assets/capitar/mpokket.png",
@@ -623,7 +623,7 @@
         "quote": "Working with them was a great experience, from start to finish.",
         "name": "Jahan Melad",
         "role": "Project Manager",
-        "company": "mPokket",
+        "company": "mPocket",
         "location": "New York City, New York",
         "companyLogo": {
           "url": "/assets/capitar/mpokket.png",

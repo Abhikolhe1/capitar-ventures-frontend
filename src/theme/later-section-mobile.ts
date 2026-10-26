@@ -45,7 +45,6 @@ export const editorialMobileStyles = {
     '& article h3': { fontFamily: '"LT Superior", sans-serif', fontSize: 20, lineHeight: 1.2, mt: '12px' },
     '& article h3 + p': { fontSize: 14, lineHeight: '20px', mt: '8px' },
     '& [data-editorial-controls]': { px: '20px', mt: '44px', minHeight: 48 },
-    '& [data-editorial-controls] > .MuiButton-root': { width: '100%', fontSize: 14 },
     '& [data-editorial-arrows]': { display: 'none' },
   },
 };

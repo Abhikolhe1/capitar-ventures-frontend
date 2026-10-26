@@ -55,7 +55,7 @@ test('CMS outage uses verified fallback', async ({ page }) => {
   await page.route('**/api/global', route => route.abort());
   await page.route('**/api/homepage', route => route.abort());
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(/We back founders/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(fallback.hero.heading);
   await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
   await expect(page.getByRole('img', { name: 'mPokket', exact: true })).toBeVisible();
 });
