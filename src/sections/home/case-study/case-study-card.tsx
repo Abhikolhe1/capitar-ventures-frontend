@@ -19,7 +19,36 @@ export function CaseStudyCard({ item, index, active, onSelect }: Props) {
       <Typography component="span" aria-hidden="true" sx={{ position: 'absolute', opacity: active ? 0 : 1, transition: 'opacity 450ms ease-in-out', '@media(prefers-reduced-motion:reduce)': { transition: 'none' }, top: { xs: 12, md: 25 }, left: { xs: 12, md: 16 }, fontSize: { xs: 28, md: 60 }, lineHeight: 1, fontWeight: 700, letterSpacing: '-0.04em', backgroundImage: 'linear-gradient(180deg,#fff,rgba(255,255,255,.35))', backgroundClip: 'text', color: 'transparent' }}>{item.number || String(index + 1).padStart(2, '0')}</Typography>
       {logo && [false, true].map(expanded => <Box key={String(expanded)} data-case-logo={expanded ? "expanded" : "collapsed"} aria-hidden={active !== expanded} sx={{ position: 'absolute', opacity: active === expanded ? 1 : 0, transition: 'opacity 550ms ease-in-out', transitionDelay: active === expanded ? '220ms' : '0ms', '@media(prefers-reduced-motion:reduce)': { transition: 'none' }, ...(expanded ? { top: 20, left: 20, bgcolor: '#FFFFFF', borderRadius: 50, width: 101, height: 42 } : { bottom: 23, left: '8%', width: '84%', height: 44, bgcolor: 'transparent', borderRadius: 0, p: 0 }), display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Box component="img" src={logo.url} alt={logo.alternativeText || item.name} loading="lazy" onError={() => setFailed(value => [...value, logo.url])} sx={{ filter: expanded ? 'brightness(0)' : 'brightness(0) invert(1)', maxWidth: expanded ? 60 : '100%', maxHeight: expanded ? 20 : 44, objectFit: 'contain' }} /></Box>)}
 
-      {item.metricValue && <Box data-case-metric aria-hidden={!active} sx={{ position: 'absolute', display: { xs: 'none', sm: 'flex' }, right: { xs: 12, md: 18 }, bottom: { xs: 12, md: 14 }, opacity: active ? 1 : 0, transition: 'opacity 550ms ease-in-out', transitionDelay: active ? '300ms' : '0ms', '@media(prefers-reduced-motion:reduce)': { transition: 'none' }, bgcolor: '#F9FAFB', color: '#121212', borderRadius: '10px', width: { xs: 136, md: 159 }, height: { xs: 100, md: 125 }, p: { xs: '12px', md: '14px' }, flexDirection: 'column', justifyContent: 'space-between', textAlign: 'left' }}><Box component="span" sx={{ fontSize: { xs: 32, md: 40 }, lineHeight: 1, fontWeight: 700, letterSpacing: '-0.04em' }}>{item.metricValue}<Box component="span" sx={{ fontSize: 20, fontWeight: 400, ml: 0.5 }}>{item.metricSuffix}</Box></Box>{item.metricLabel && <Box component="span" sx={{ fontSize: 12, lineHeight: 1.4, pt: 1, borderTop: '1px solid #EEE' }}>{item.metricLabel}</Box>}</Box>}
+      {item.metricValue && (
+        <Box
+          data-case-metric
+          aria-hidden={!active}
+          sx={{
+            position: 'absolute', display: { xs: 'none', sm: 'flex' },
+            right: { xs: 12, md: 18 }, bottom: { xs: 12, md: 14 },
+            opacity: active ? 1 : 0, transition: 'opacity 550ms ease-in-out',
+            transitionDelay: active ? '300ms' : '0ms',
+            '@media(prefers-reduced-motion:reduce)': { transition: 'none' },
+            bgcolor: '#F9FAFB', color: '#121212', borderRadius: '10px',
+            border: '0.51px solid rgba(255,255,255,0.12)',
+            width: { xs: 136, md: 159 }, height: { xs: 100, md: 125 },
+            p: '12.17px', flexDirection: 'column', justifyContent: 'space-between', textAlign: 'left',
+          }}
+        >
+          <Box component="span" data-case-metric-value sx={{ fontSize: { xs: 32, md: 35.5 }, lineHeight: 1, fontWeight: 700, letterSpacing: '-0.04em', whiteSpace: 'nowrap' }}>
+            {item.metricValue}{' '}
+            <Box component="span" sx={{ fontSize: '0.714366em', fontWeight: 400 }}>{item.metricSuffix}</Box>
+          </Box>
+          <Box component="svg" aria-hidden="true" width={7} height={7} viewBox="0 0 7 7" sx={{ position: 'absolute', top: '12.17px', right: '12.17px' }}>
+            <path d="M1 1H6V6" fill="none" stroke="#CC2334" strokeWidth={1} />
+          </Box>
+          {item.metricLabel && (
+            <Box component="span" sx={{ fontSize: 12, lineHeight: 1.4, fontWeight: 700, letterSpacing: '0.02em', color: '#3E3C3C', pt: 1, borderTop: '1px solid #EEE' }}>
+              {item.metricLabel}
+            </Box>
+          )}
+        </Box>
+      )}
     </ButtonBase>
     <Box data-case-caption id={id} aria-hidden={!active} inert={!active || undefined} sx={{ position: { md: 'absolute' }, left: 0, right: 0, bottom: 0, display: { xs: active ? 'block' : 'none', md: 'block' }, pt: { xs: '18px', md: '24px' }, color: '#193969', overflow: active ? 'visible' : 'hidden', opacity: active ? 1 : 0, visibility: active ? 'visible' : 'hidden', transform: active ? 'translateY(0)' : 'translateY(8px)', transition: active ? 'opacity 650ms 220ms ease, transform 800ms 220ms cubic-bezier(.22,1,.36,1), visibility 0s' : 'opacity 250ms ease, transform 400ms ease, visibility 0s 250ms', '@media(prefers-reduced-motion:reduce)': { transition: 'none', transform: 'none' } }}>
       <Box sx={{ position: 'relative', pr: { xs: 0, sm: '58px' } }}><Typography component="h3" sx={{ fontSize: { xs: 26, md: 37 }, fontWeight: 400, lineHeight: 1 }}>{item.name}</Typography><Button component={item.link?.enabled && item.link.href ? 'a' : 'button'} href={item.link?.enabled ? item.link.href : undefined} disabled={!item.link?.enabled} aria-label={item.link?.label || 'Read ' + item.name + ' case study'} sx={{ position: 'absolute', display: { xs: 'none', sm: 'inline-flex' }, right: 0, top: 0, p: 0, minWidth: 42, minHeight: 42, width: 42, height: 42, bgcolor: '#F9FAFB', color: '#121212', border: '1px solid #F0F0F0', borderRadius: '6px', '&.Mui-disabled': { color: '#121212' } }}><Box component="img" src="/assets/capitar/case_study_arrow.png" alt="" aria-hidden="true" width={32} height={32} sx={{ display: 'block', objectFit: 'contain' }} /></Button></Box>

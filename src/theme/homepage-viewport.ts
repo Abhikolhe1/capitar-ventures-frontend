@@ -32,8 +32,8 @@ export const homepageViewportStyles = {
       '& [data-case-caption]': { pt: '18px' },
       '& [data-case-caption] h3': { fontSize: 'clamp(28px,4.1svh,37px)' },
       '& [data-case-caption] p': { fontSize: 'clamp(16px,2.2svh,20px)', mt: '10px' },
-      '& [data-case-metric]': { height: 'clamp(80px,14svh,125px)', p: 'clamp(8px,1.5svh,14px)' },
-      '& [data-case-metric] > span:first-of-type': { fontSize: 'clamp(26px,4.4svh,40px)' },
+      '& [data-case-metric]': { height: 'clamp(80px,14svh,125px)', p: 'clamp(8px,1.5svh,12.17px)' },
+      '& [data-case-metric-value]': { fontSize: 'clamp(26px,4.4svh,35.5px)' },
     },
     '& > #team': {
       height: '100svh', minHeight: 0, boxSizing: 'border-box',
