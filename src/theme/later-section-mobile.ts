@@ -45,6 +45,11 @@ export const editorialMobileStyles = {
     '& article h3': { fontFamily: '"LT Superior", sans-serif', fontSize: 20, lineHeight: 1.2, mt: '12px' },
     '& article h3 + p': { fontSize: 14, lineHeight: '20px', mt: '8px' },
     '& [data-editorial-controls]': { px: '20px', mt: '44px', minHeight: 48 },
+    // Figma mobile CTA (1631:555): fill 353px at 393px viewport, 48px tall.
+    '& [data-editorial-controls] > .MuiButton-root': {
+      width: '100%', height: 48, minHeight: 48,
+      padding: '14px 16px', fontSize: 15, lineHeight: '18px',
+    },
     '& [data-editorial-arrows]': { display: 'none' },
   },
 };
