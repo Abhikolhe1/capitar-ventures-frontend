@@ -40,6 +40,14 @@ export function MainLayout({
           position: 'relative',
           minHeight: '100vh',
           '& main > section': { scrollMarginTop: '96px' },
+          '& [data-cta-transition]': {
+            backgroundColor: 'var(--cta-flow-background) !important',
+          },
+          '& [data-aurora-glass-button][data-cta-transition]': {
+            color: '#FFFFFF !important',
+            '& .liquid-glass-cta__label': { color: '#FFFFFF', WebkitTextFillColor: '#FFFFFF' },
+          },
+          '& [data-flow-cta]:focus-visible': { outline: '2px solid currentColor', outlineOffset: 4 },
           '& [data-flow-ink="light"]': { color: '#FFFFFF !important', WebkitTextFillColor: '#FFFFFF !important' },
           '& [data-flow-ink="dark"]': { color: '#111129 !important', WebkitTextFillColor: '#111129 !important' },
           '@media (prefers-reduced-motion: reduce)': {

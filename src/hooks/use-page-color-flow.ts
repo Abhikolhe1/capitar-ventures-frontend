@@ -74,6 +74,11 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
       let lastColor = '';
       let lastDark: boolean | undefined;
       let lastHeroFade = -1;
+      let lastTint = -1;
+      const ctaBlends = new WeakMap<HTMLElement, ReturnType<typeof gsap.utils.interpolate<string>>>();
+      const styledCtas = new Set<HTMLElement>();
+      let ctas = Array.from(root.querySelectorAll<HTMLElement>('[data-flow-cta]'));
+      let ctasChanged = true;
       const paint = () => {
         frame = 0;
         if (!saved.length) return;
@@ -86,19 +91,43 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
         }
         let color = saved[0].color;
         let heroFade = 0;
+        let transitionTint = 0;
         transitions.some((section, offset) => {
           const progress = gsap.utils.clamp(0, 1, (height * startViewport - (section.top - scrollTop)) / (height * Math.max(0.1, startViewport - endViewport)));
           if (offset === 0) heroFade = progress;
           if (!progress) return true;
+          // A small pulse only during a handoff, with exact original styles at either end.
+          transitionTint = Math.sin(Math.PI * progress) * 0.25;
           color = progress < 0.5
             ? section.firstHalf(progress * 2)
             : section.secondHalf((progress - 0.5) * 2);
           return progress < 1;
         });
-        if (color !== lastColor) {
+        if (color !== lastColor || transitionTint !== lastTint || ctasChanged) {
           canvas.style.backgroundColor = color;
           const luminance = brightness(color);
           const dark = luminance < 145;
+          ctas.forEach(cta => {
+            const glass = cta.hasAttribute('data-aurora-glass-button');
+            // A departing dark section can remain visible after the handoff completes.
+            // Keep its glass CTA readable until its own dark surface returns.
+            const strength = glass ? gsap.utils.clamp(0, 1, (luminance - 40) / 100) : transitionTint;
+            if (strength < 0.001) {
+              cta.removeAttribute('data-cta-transition');
+              cta.style.removeProperty('--cta-flow-background');
+              return;
+            }
+            let blend = ctaBlends.get(cta);
+            if (!blend) {
+              blend = gsap.utils.interpolate(getComputedStyle(cta).backgroundColor,
+                glass ? 'rgba(65,73,86,0.72)' : 'rgba(100,110,125,0.18)');
+              ctaBlends.set(cta, blend);
+            }
+            cta.style.setProperty('--cta-flow-background', blend(strength));
+            cta.setAttribute('data-cta-transition', '');
+            styledCtas.add(cta);
+          });
+          ctasChanged = false;
           if (dark !== lastDark) {
             text.forEach(item => {
               if (dark === item.dark) item.element.removeAttribute('data-flow-ink');
@@ -108,6 +137,7 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
           }
           if (artwork) artwork.style.opacity = String(gsap.utils.clamp(0, 1, 1 - luminance / 100));
           lastColor = color;
+          lastTint = transitionTint;
         }
         if (heroFade !== lastHeroFade) {
           fading.forEach(item => {
@@ -118,6 +148,13 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
       };
       const schedule = () => { if (!frame) frame = requestAnimationFrame(paint); };
       const measure = () => { needsMeasure = true; schedule(); };
+      // Header switches CTA components after the hero; editorial tabs can replace their CTA.
+      const ctaObserver = new MutationObserver(() => {
+        ctas = Array.from(root.querySelectorAll<HTMLElement>('[data-flow-cta]'));
+        ctasChanged = true;
+        schedule();
+      });
+      ctaObserver.observe(root, { childList: true, subtree: true });
       window.addEventListener('scroll', schedule, { passive: true });
       window.addEventListener('resize', measure);
       const observer = new ResizeObserver(measure);
@@ -126,6 +163,11 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
       return () => {
         cancelAnimationFrame(frame);
         observer.disconnect();
+        ctaObserver.disconnect();
+        styledCtas.forEach(cta => {
+          cta.removeAttribute('data-cta-transition');
+          ['--cta-flow-background', '--cta-flow-border', '--cta-flow-ink'].forEach(property => cta.style.removeProperty(property));
+        });
         window.removeEventListener('scroll', schedule);
         window.removeEventListener('resize', measure);
         canvas.remove();

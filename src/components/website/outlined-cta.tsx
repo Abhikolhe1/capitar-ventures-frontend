@@ -8,6 +8,8 @@ export function OutlinedCta({ data, dark = false }: { data: ContentLink; dark?: 
 
   return (
     <Button
+      data-flow-cta
+      data-cta-surface={dark ? 'light' : undefined}
       variant="outlined"
       component={enabled ? 'a' : 'button'}
       href={enabled ? data.href : undefined}

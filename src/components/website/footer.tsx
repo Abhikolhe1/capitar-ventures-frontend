@@ -562,6 +562,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               {data.cta && (
                 <Box
                   data-footer-connect
+                  data-flow-cta
+                  data-cta-surface="dark"
                   sx={{
                     position: 'relative',
                     mt: 'auto',

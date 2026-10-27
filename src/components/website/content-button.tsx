@@ -10,6 +10,7 @@ export function ContentButton({ data, arrow = false, appearance = 'default' }: {
   const difference = appearance === 'difference';
   return (
     <Button
+      data-flow-cta
       component={data.enabled && data.href ? 'a' : 'button'}
       href={data.enabled ? data.href : undefined}
       disabled={!data.enabled || !data.href}
