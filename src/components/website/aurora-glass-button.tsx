@@ -8,6 +8,7 @@ export function AuroraGlassButton({ data }: { data: ContentLink }) {
     <GlassButton
       className="liquid-glass-cta"
       data-aurora-glass-button
+      data-flow-cta
       component={enabled ? 'a' : 'button'}
       href={enabled ? data.href : undefined}
       disabled={!enabled}

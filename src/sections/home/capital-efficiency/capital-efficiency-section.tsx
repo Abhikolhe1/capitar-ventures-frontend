@@ -1,12 +1,13 @@
 import type { CapitalEfficiencyContent } from 'src/types/homepage';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
+import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -19,6 +20,21 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
   const signature = JSON.stringify(data);
   useCapitalAnimation(scope, signature);
   useSectionReveal(scope, signature);
+  useEffect(() => {
+    const section = scope.current;
+    if (!section) return undefined;
+    // Prepare the lazy artwork before the color handoff and card reveals begin.
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      section.querySelectorAll('img').forEach(image => {
+        image.loading = 'eager';
+        void image.decode().catch(() => {});
+      });
+      observer.disconnect();
+    }, { rootMargin: '100% 0px' });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [signature]);
   if (!data?.enabled) return null;
   return (
     <Box
@@ -38,7 +54,8 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
       {data.backgroundImage && (
         <Box
           component="img"
-          src={data.backgroundImage.url}
+          src={data.backgroundImage.url.endsWith('/assets/capitar/capital-background.svg')
+            ? '/assets/capitar/capital-background.png' : data.backgroundImage.url}
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -55,6 +72,8 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
             objectFit: 'cover',
             objectPosition: 'center top',
             pointerEvents: 'none',
+            willChange: 'opacity',
+            ...(fallback.sectionTransitions.enabled && { maskImage: 'linear-gradient(to bottom, transparent 0%, #000 120px, #000 calc(100% - 120px), transparent 100%)' }),
           }}
         />
       )}

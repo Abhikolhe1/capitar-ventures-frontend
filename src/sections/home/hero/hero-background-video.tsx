@@ -14,8 +14,14 @@ export function HeroBackgroundVideo({ src, fallbackSrc, poster, sx, retryOnInter
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return undefined;
+    const bounds = video.getBoundingClientRect();
+    let inViewport = bounds.bottom > 0 && bounds.top < window.innerHeight;
     const play = () => {
-      if (document.visibilityState !== 'visible' || !video.paused) return;
+      if (!inViewport || document.visibilityState !== 'visible') {
+        video.pause();
+        return;
+      }
+      if (!video.paused) return;
       // Set the DOM property before play, including after a CMS source change.
       video.muted = true;
       video.defaultMuted = true;
@@ -23,6 +29,11 @@ export function HeroBackgroundVideo({ src, fallbackSrc, poster, sx, retryOnInter
         // The poster remains visible if the browser prevents autoplay.
       });
     };
+    const observer = new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting;
+      play();
+    });
+    observer.observe(video);
     play();
     video.addEventListener('canplay', play);
     document.addEventListener('visibilitychange', play);
@@ -32,6 +43,7 @@ export function HeroBackgroundVideo({ src, fallbackSrc, poster, sx, retryOnInter
       window.addEventListener('pageshow', play);
     }
     return () => {
+      observer.disconnect();
       video.removeEventListener('canplay', play);
       document.removeEventListener('visibilitychange', play);
       if (retryOnInteraction) {

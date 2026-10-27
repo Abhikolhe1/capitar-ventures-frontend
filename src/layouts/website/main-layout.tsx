@@ -7,6 +7,7 @@ import { useRef, type ReactNode } from 'react';
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 
 import { useSmoothScroll } from 'src/hooks/use-smooth-scroll';
+import { usePageColorFlow } from 'src/hooks/use-page-color-flow';
 
 import { websiteTheme } from 'src/theme/website-theme';
 import { homepageViewportStyles } from 'src/theme/homepage-viewport';
@@ -28,6 +29,7 @@ export function MainLayout({
   const scope = useRef<HTMLDivElement>(null);
   useSmoothScroll();
   useHeroAnimation(scope, true);
+  usePageColorFlow(scope, loading);
   return (
     <ThemeProvider theme={websiteTheme}>
       <CssBaseline />
@@ -38,6 +40,16 @@ export function MainLayout({
           position: 'relative',
           minHeight: '100vh',
           '& main > section': { scrollMarginTop: '96px' },
+          '& [data-cta-transition]': {
+            backgroundColor: 'var(--cta-flow-background) !important',
+          },
+          '& [data-aurora-glass-button][data-cta-transition]': {
+            color: '#FFFFFF !important',
+            '& .liquid-glass-cta__label': { color: '#FFFFFF', WebkitTextFillColor: '#FFFFFF' },
+          },
+          '& [data-flow-cta]:focus-visible': { outline: '2px solid currentColor', outlineOffset: 4 },
+          '& [data-flow-ink="light"]': { color: '#FFFFFF !important', WebkitTextFillColor: '#FFFFFF !important' },
+          '& [data-flow-ink="dark"]': { color: '#111129 !important', WebkitTextFillColor: '#111129 !important' },
           '@media (prefers-reduced-motion: reduce)': {
             '& [data-entrance]': { visibility: 'visible' },
           },
