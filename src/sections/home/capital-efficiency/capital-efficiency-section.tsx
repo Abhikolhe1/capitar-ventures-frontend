@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
+import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 
 import { SectionBadge } from 'src/components/website/section-badge';
@@ -55,6 +56,7 @@ export function CapitalEfficiencySection({ data }: { data?: CapitalEfficiencyCon
             objectFit: 'cover',
             objectPosition: 'center top',
             pointerEvents: 'none',
+            ...(fallback.sectionTransitions.enabled && { maskImage: 'linear-gradient(to bottom, transparent 0%, #000 120px, #000 calc(100% - 120px), transparent 100%)' }),
           }}
         />
       )}

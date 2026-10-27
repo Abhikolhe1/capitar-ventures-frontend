@@ -24,6 +24,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
       aria-labelledby="hero-heading"
       sx={{
         position: 'relative',
+        bgcolor: websiteTokens.navy,
         overflow: 'hidden',
         minHeight: { xs: 620, sm: 850, md: '100svh' },
         '@media (min-width: 900px)': {
@@ -38,7 +39,7 @@ export function HeroSection({ data }: { data: HeroContent }) {
       <Box
         data-entrance="background"
         aria-hidden="true"
-        sx={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+        sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...(fallback.sectionTransitions.enabled && { maskImage: 'linear-gradient(to bottom, #000 calc(100% - 120px), transparent 100%)' }) }}
       >
         {data.backgroundImage && (
           <Box component="picture">

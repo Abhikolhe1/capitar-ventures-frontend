@@ -1,4 +1,10 @@
 {
+  "sectionTransitions": {
+    "enabled": true,
+    "lightBlue": "#B8D4F1",
+    "startViewport": 0.95,
+    "endViewport": 0.35
+  },
   "global": {
     "brandLogo": {
       "url": "/assets/capitar/logo.svg"
