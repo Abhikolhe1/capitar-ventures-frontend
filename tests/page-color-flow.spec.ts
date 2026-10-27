@@ -15,7 +15,8 @@ test('shared background keeps its approved colors in both scroll directions and 
       const expected = progress === 0 ? 'rgb(17, 17, 41)' : progress === 1 ? 'rgb(248, 249, 250)' : 'rgb(184, 212, 241)';
       await expect.poll(async () => {
         const colors = await page.locator('main > section').evaluateAll(sections => sections.map(section => getComputedStyle(section).backgroundColor));
-        return colors.every(color => color === colors[0]) && colors[0];
+        const canvas = await page.locator('[data-page-color-canvas]').evaluate(element => getComputedStyle(element).backgroundColor);
+        return colors.every(color => color === 'rgba(0, 0, 0, 0)') && canvas;
       }).toBe(expected);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -23,4 +24,5 @@ test('shared background keeps its approved colors in both scroll directions and 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('#portfolio-proof-points')).toHaveCSS('background-color', 'rgb(248, 249, 250)');
   await expect(page.locator('[data-flow-ink]')).toHaveCount(0);
+  await expect(page.locator('[data-page-color-canvas]')).toHaveCount(0);
 });

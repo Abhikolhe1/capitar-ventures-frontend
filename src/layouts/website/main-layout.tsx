@@ -40,8 +40,6 @@ export function MainLayout({
           position: 'relative',
           minHeight: '100vh',
           '& main > section': { scrollMarginTop: '96px' },
-          '& [data-entrance="background"]': { opacity: 'var(--hero-flow-opacity) !important' },
-          '& main > section:first-of-type > :not([data-entrance="background"])': { opacity: 'var(--hero-content-flow-opacity) !important' },
           '& [data-flow-ink="light"]': { color: '#FFFFFF !important', WebkitTextFillColor: '#FFFFFF !important' },
           '& [data-flow-ink="dark"]': { color: '#111129 !important', WebkitTextFillColor: '#111129 !important' },
           '@media (prefers-reduced-motion: reduce)': {

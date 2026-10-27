@@ -38,7 +38,23 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
         }
         return true;
       }).map(element => ({ element, dark: brightness(saved[index].color) < 145 })));
-      sections.forEach(element => element.style.setProperty('background-color', 'var(--page-flow-color)', 'important'));
+      const canvas = document.createElement('div');
+      canvas.dataset.pageColorCanvas = '';
+      canvas.setAttribute('aria-hidden', 'true');
+      Object.assign(canvas.style, { position: 'fixed', inset: '0', zIndex: '-1', pointerEvents: 'none' });
+      const rootBackground = root.style.backgroundColor;
+      const rootIsolation = root.style.isolation;
+      root.style.backgroundColor = 'transparent';
+      root.style.isolation = 'isolate';
+      root.prepend(canvas);
+      sections.forEach(element => element.style.setProperty('background-color', 'transparent', 'important'));
+      const hero = sections[0];
+      const fading = hero ? Array.from(hero.children).filter((element): element is HTMLElement => element instanceof HTMLElement).map(element => ({
+        element,
+        background: element.matches('[data-entrance="background"]'),
+        opacity: element.style.getPropertyValue('opacity'),
+        priority: element.style.getPropertyPriority('opacity'),
+      })) : [];
       const artwork = root.querySelector<HTMLElement>('#capital-efficiency > img');
       const artworkOpacity = artwork?.style.opacity ?? '';
       const { startViewport, endViewport } = homepage.sectionTransitions;
@@ -80,7 +96,7 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
           return progress < 1;
         });
         if (color !== lastColor) {
-          root.style.setProperty('--page-flow-color', color);
+          canvas.style.backgroundColor = color;
           const luminance = brightness(color);
           const dark = luminance < 145;
           if (dark !== lastDark) {
@@ -94,8 +110,9 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
           lastColor = color;
         }
         if (heroFade !== lastHeroFade) {
-          root.style.setProperty('--hero-flow-opacity', String(1 - heroFade));
-          root.style.setProperty('--hero-content-flow-opacity', String(Math.max(0, 1 - heroFade * 1.5)));
+          fading.forEach(item => {
+            item.element.style.setProperty('opacity', String(Math.max(0, 1 - heroFade * (item.background ? 1 : 1.5))), 'important');
+          });
           lastHeroFade = heroFade;
         }
       };
@@ -111,9 +128,13 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
         observer.disconnect();
         window.removeEventListener('scroll', schedule);
         window.removeEventListener('resize', measure);
-        root.style.removeProperty('--page-flow-color');
-        root.style.removeProperty('--hero-flow-opacity');
-        root.style.removeProperty('--hero-content-flow-opacity');
+        canvas.remove();
+        root.style.backgroundColor = rootBackground;
+        root.style.isolation = rootIsolation;
+        fading.forEach(item => {
+          if (item.opacity) item.element.style.setProperty('opacity', item.opacity, item.priority);
+          else item.element.style.removeProperty('opacity');
+        });
         saved.forEach(item => {
           if (item.background) item.element.style.setProperty('background-color', item.background, item.priority);
           else item.element.style.removeProperty('background-color');
