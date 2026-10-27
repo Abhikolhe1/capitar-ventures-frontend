@@ -4,8 +4,13 @@ import type { ReactNode, MouseEvent as ReactMouseEvent, PointerEvent as ReactPoi
 import { useRef, useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import fallback from 'src/content/homepage.json';
@@ -14,6 +19,8 @@ import { footerViewportStyles } from 'src/theme/homepage-viewport';
 import { footerMobileStyles } from 'src/theme/later-section-mobile';
 
 import { HeroBackgroundVideo } from 'src/sections/home/hero/hero-background-video';
+
+import { footerAiDestination, CAPITAR_INTRODUCTION_PROMPT } from './footer-ai';
 
 function FooterLink({
   item,
@@ -167,6 +174,8 @@ function FooterLinkList({ items, label }: { items: ContentLink[]; label: string 
 }
 
 function AiShortcuts({ items }: { items: FooterShortcut[] }) {
+  const [copyPrompt, setCopyPrompt] = useState<{ label: string; href: string } | null>(null);
+  const [copyMessage, setCopyMessage] = useState('');
   const [selected, setSelected] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState<number | null>(null);
@@ -174,6 +183,7 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
   const pointerType = useRef('mouse');
   const active = hovered ?? focused ?? selected;
   return (
+    <>
     <Box
       component="nav"
       aria-label="Explore Capitar with AI"
@@ -199,21 +209,30 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
     >
       {items.map((item, index) => {
         const expanded = active === index || !item.icon;
-        const enabled = item.enabled && !!item.href;
+        // A configured CMS link takes precedence. Legacy icons without URLs use our introduction.
+        const destination = !item.href ? footerAiDestination(item.label) : undefined;
+        const enabled = item.enabled && !!item.href || !!destination && !destination.copyRequired;
+        const href = destination?.href ?? item.href;
         return (
           <Box
             key={`${index}-${item.label}`}
             component={enabled ? 'a' : 'button'}
             type={enabled ? undefined : 'button'}
-            href={enabled ? item.href : undefined}
+            href={enabled ? href : undefined}
+            target={destination && enabled ? '_blank' : undefined}
+            rel={destination && enabled ? 'noopener noreferrer' : undefined}
             aria-label={item.label}
             aria-expanded={expanded}
             data-footer-ai-index={index}
             onFocus={() => setFocused(index)}
             onBlur={() => setFocused(null)}
             onClick={(event: ReactMouseEvent<HTMLElement>) => {
+              if (destination?.copyRequired) {
+                setCopyMessage('');
+                setCopyPrompt({ label: item.label, href: destination.href });
+              }
               // First touch opens the label; a subsequent activation follows a configured link.
-              if (enabled && pointerType.current !== 'mouse' && event.detail !== 0 && selected !== index)
+              if (!destination && enabled && pointerType.current !== 'mouse' && event.detail !== 0 && selected !== index)
                 event.preventDefault();
               setSelected(index);
             }}
@@ -288,13 +307,35 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
         );
       })}
     </Box>
+    <Dialog open={!!copyPrompt} onClose={() => setCopyPrompt(null)} fullWidth maxWidth="sm" aria-labelledby="footer-ai-prompt-title">
+      <DialogTitle id="footer-ai-prompt-title">Ask {copyPrompt?.label} about Capitar</DialogTitle>
+      <DialogContent>
+        <Typography sx={{ mb: 2 }}>Copy this prompt, then paste it into {copyPrompt?.label}. You may be asked to sign in.</Typography>
+        <Box component="textarea" aria-label="Capitar introduction prompt" readOnly value={CAPITAR_INTRODUCTION_PROMPT}
+          onFocus={(event) => event.currentTarget.select()}
+          sx={{ width: '100%', minHeight: 180, p: 2, font: 'inherit', resize: 'vertical', boxSizing: 'border-box' }} />
+        <Typography role="status" sx={{ mt: 1 }}>{copyMessage}</Typography>
+      </DialogContent>
+      <DialogActions sx={{ flexWrap: 'wrap', gap: 1, p: 2 }}>
+        <Button onClick={() => setCopyPrompt(null)}>Close</Button>
+        <Button onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(CAPITAR_INTRODUCTION_PROMPT);
+            setCopyMessage('Prompt copied. Open Gemini and paste it into the chat.');
+          } catch {
+            setCopyMessage('Copy was unavailable. Select the prompt above and copy it manually, then open Gemini.');
+          }
+        }}>Copy prompt</Button>
+        <Button component="a" href={copyPrompt?.href} target="_blank" rel="noopener noreferrer">Open {copyPrompt?.label}</Button>
+      </DialogActions>
+    </Dialog>
+    </>
   );
 }
 
 export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: { url: string } }) {
   const root = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const mobile = useMediaQuery('(max-width:599.95px)');
   useEffect(() => {
     const element = root.current;
@@ -343,8 +384,9 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
         sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', bgcolor: '#0B0F2D' }}
       >
         <Box component="img" src={poster} alt="" loading="lazy" sx={mediaFraming} />
-        {visible && !reducedMotion && !mobile && (
+        {visible && !mobile && (
           <HeroBackgroundVideo
+            retryOnInteraction
             src={src}
             fallbackSrc={fallback.hero.backgroundVideo.url}
             poster={poster}
