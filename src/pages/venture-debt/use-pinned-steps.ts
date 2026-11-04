@@ -17,6 +17,8 @@ export function usePinnedSteps(count: number, enabled = true) {
     const update = () => {
       frame = 0;
       if (!media.matches) {
+        // Full-size reduced-motion layouts remain click-controlled accordions.
+        if (window.innerWidth >= 900 && window.innerHeight >= 640) return;
         // Compact screens use native scrolling through expanded rows instead of
         // pinning a panel taller than the viewport.
         const rows = Array.from(track.querySelectorAll<HTMLElement>('.vd-signal, .vd-step'));
