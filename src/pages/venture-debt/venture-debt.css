@@ -86,13 +86,17 @@
   z-index: 1000;
   display: flex;
   align-items: center;
-  padding: 8px max(24px, calc((100% - 1281px) / 2));
+  padding: 8px 0;
   min-height: 62px;
   background: rgba(250, 250, 250, 0.95);
   backdrop-filter: blur(13px);
   border-bottom: 2px solid #eee;
-  gap: 12px;
   color: #121212;
+}
+.vd-chapters-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
 }
 .vd-chapters a {
   display: flex;
@@ -103,7 +107,7 @@
   color: inherit;
   text-decoration: none;
   font-size: 18px;
-  padding: 10px 20px;
+  padding: 10px 0;
   opacity: 0.5;
 }
 .vd-chapters a[aria-current] {
@@ -112,9 +116,13 @@
 .vd-chapters a:not(:last-child)::after {
   content: '';
   height: 1px;
-  width: clamp(12px, 6vw, 100px);
+  flex: 1;
+  min-width: 12px;
   background: #bbb;
   margin-left: 20px;
+}
+.vd-chapters a:not(:last-child) {
+  flex: 1;
 }
 .vd-light {
   background: #fff;
@@ -733,7 +741,7 @@
   .vd-chapters {
     overflow-x: auto;
     justify-content: flex-start;
-    padding-inline: 10px;
+    padding-inline: 0;
     min-height: 58px;
   }
   .vd-chapters a {
@@ -833,6 +841,80 @@
     padding: 15px 20px;
   }
 }
+.vd-chapters .vd-chapters-inner a {
+  padding-inline: 0;
+}
+@media (max-width: 700px) {
+  .vd-chapters-inner {
+    gap: 16px;
+    min-width: max-content;
+  }
+  .vd-chapters-inner a:not(:last-child) {
+    flex: initial;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vd-signal-detail {
+    transition-duration: 0.65s, 0.4s, 0.65s, 0s;
+  }
+  .vd-signal,
+  .vd-step {
+    transition: opacity 0.5s ease;
+  }
+  .vd-step button {
+    transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .vd-step-number > span,
+  .vd-step-number small {
+    transition:
+      font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      letter-spacing 0.5s ease;
+  }
+}
+.vd-step-copy {
+  gap: 0;
+}
+.vd-step-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition:
+    grid-template-rows 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    transform 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s 0.65s;
+}
+.vd-step-detail .vd-step-description {
+  min-height: 0;
+  overflow: hidden;
+}
+.vd-step[data-active='true'] .vd-step-detail {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+.vd-step-detail .vd-step-description::before {
+  content: '';
+  display: block;
+  height: 13.095px;
+}
+@media (max-width: 899px), (max-height: 639px) {
+  .vd-step .vd-step-detail {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vd-step-detail {
+    transition: none;
+  }
+}
 @media (min-width: 701px) and (max-width: 1199px) {
   .vd-step button {
     grid-template-columns: 64px minmax(0, 1fr);
@@ -866,4 +948,28 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.vd-pixel-reveal {
+  position: absolute;
+  inset: 0;
+}
+.vd-pixel-reveal > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.vd-pixel-reveal > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.vd-signal-art {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
 }

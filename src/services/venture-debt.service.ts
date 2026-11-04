@@ -5,7 +5,10 @@ import axios from 'axios';
 import fallback from 'src/content/venture-debt.json';
 import { safeHref } from 'src/services/homepage.service';
 
-export type VentureDebtContent = Omit<typeof fallback, 'practice'> & {
+export type VentureDebtContent = Omit<typeof fallback, 'practice' | 'before'> & {
+  before: Omit<typeof fallback.before, 'items'> & {
+    items: ((typeof fallback.before.items)[number] & { image?: Media })[];
+  };
   practice: Omit<typeof fallback.practice, 'items'> & {
     items: ((typeof fallback.practice.items)[number] & { icon?: Media })[];
   };
@@ -30,6 +33,13 @@ function merge(template: unknown, value: unknown, key = ''): unknown {
     if ('url' in shape) {
       try {
         if (typeof incoming.url !== 'string') return template;
+        // Older CMS seeds contain only the transparent cube artwork. Replace
+        // that legacy default with the complete card exported from Figma.
+        if (
+          String(shape.url).includes('signal-card-01.png') &&
+          /\/(?:venture_debt_)?ab23b(?:_[^/]*)?\.png(?:\?.*)?$/.test(incoming.url)
+        )
+          return template;
         const url = new URL(incoming.url, origin);
         if (!['https:', 'http:'].includes(url.protocol)) return template;
         return {
@@ -56,6 +66,8 @@ function merge(template: unknown, value: unknown, key = ''): unknown {
     // Outcomes can optionally replace their default sprite with an individual CMS image.
     if (typeof shape.title === 'string' && incoming.icon)
       result.icon = merge({ url: '', alternativeText: '' }, incoming.icon);
+    if (typeof shape.title === 'string' && incoming.image)
+      result.image = merge({ url: '', alternativeText: '' }, incoming.image);
     return result;
   }
   if (key === 'section')

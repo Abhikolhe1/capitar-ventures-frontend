@@ -14,6 +14,7 @@ import { SectionBadge } from 'src/components/website/section-badge';
 import { ContentButton } from 'src/components/website/content-button';
 import { LiquidGlassButton } from 'src/components/website/liquid-glass-button';
 
+import { PixelReveal } from './pixel-reveal';
 import { usePinnedSteps } from './use-pinned-steps';
 
 const asset = (file: string) => `/assets/venture-debt/${file}`;
@@ -141,21 +142,24 @@ export default function VentureDebtPage() {
             <p data-entrance="content">{hero.description}</p>
             <div className="vd-actions" data-entrance="content">
               <ContentButton data={hero.primaryCta} arrow />
-              {hero.secondaryCta.enabled && (
-                <LiquidGlassButton data={hero.secondaryCta} />
-              )}
+              {hero.secondaryCta.enabled && <LiquidGlassButton data={hero.secondaryCta} />}
             </div>
           </div>
         </Box>
       )}
       <nav ref={chapterTimeline} className="vd-chapters" aria-label="Venture debt sections">
-        {chapters.map(([id, label], i) => (
-          <a key={id} href={`#${id}`} aria-current={chapter === id ? 'location' : undefined}>
-            <span>0{i + 1}</span>
-            <span aria-hidden="true">·</span>
-            <strong>{label}</strong>
-          </a>
-        ))}
+        <Box
+          className="vd-chapters-inner"
+          sx={{ maxWidth: 1441, mx: 'auto', width: '100%', px: { xs: '20px', sm: 6, lg: '100px' } }}
+        >
+          {chapters.map(([id, label], i) => (
+            <a key={id} href={`#${id}`} aria-current={chapter === id ? 'location' : undefined}>
+              <span>0{i + 1}</span>
+              <span aria-hidden="true">·</span>
+              <strong>{label}</strong>
+            </a>
+          ))}
+        </Box>
       </nav>
       {before.enabled && (
         <Box
@@ -220,16 +224,7 @@ export default function VentureDebtPage() {
                   className="vd-signal-art"
                   aria-label={`Signal ${signal + 1}: ${signals[signal]?.title || ''}`}
                 >
-                  <img className="vd-signal-glow" src={before.glowImage.url} alt="" />
-                  <img
-                    className="vd-signal-cube"
-                    src={before.image.url}
-                    alt={before.image.alternativeText}
-                    style={{ transform: `rotate(${signal * 12}deg)` }}
-                  />
-                  <span className="vd-signal-number" aria-hidden="true">
-                    <span key={signal}>0{signal + 1}</span>
-                  </span>
+                  <PixelReveal image={signals[signal]?.image || before.image} index={signal} />
                 </div>
               </div>
             </div>
@@ -269,7 +264,7 @@ export default function VentureDebtPage() {
                           id={`step-panel-${i}`}
                           role="region"
                           aria-labelledby={`step-${i}`}
-                          hidden={step !== i}
+                          className="vd-step-detail"
                         >
                           <span className="vd-step-description">{description}</span>
                         </span>

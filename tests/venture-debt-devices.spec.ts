@@ -1,5 +1,24 @@
 import { test, expect } from '@playwright/test';
 
+test('timeline uses the same desktop content edges as the header', async ({ page }) => {
+  await page.setViewportSize({ width:1440, height:900 });
+  await page.route('**/api/**', route => route.fulfill({ status:503, body:'{}' }));
+  await page.goto('/venture-debt');
+  await expect(page.locator('.vd-chapters a')).toHaveCount(4);
+  await expect(page.getByRole('banner').getByRole('link', { name:'Capitar Ventures home' })).toBeVisible();
+  const edges = await page.evaluate(() => {
+    const logo = document.querySelector('header a[aria-label="Capitar Ventures home"]')!.getBoundingClientRect();
+    const row = document.querySelector('header > div')!.getBoundingClientRect();
+    const header = document.querySelector('header > div')!;
+    const links = document.querySelectorAll('.vd-chapters a');
+    return { left:links[0].getBoundingClientRect().left, logo:logo.left,
+      right:links[links.length-1].getBoundingClientRect().right,
+      end:row.right-parseFloat(getComputedStyle(header).paddingRight) };
+  });
+  expect(Math.abs(edges.left-edges.logo)).toBeLessThan(2);
+  expect(Math.abs(edges.right-edges.end)).toBeLessThan(2);
+});
+
 for (const size of [
   { width: 390, height: 844 },
   { width: 768, height: 1024 },
@@ -56,5 +75,5 @@ test('reduced motion keeps sections readable without pinning', async ({ page }) 
   await expect(page.locator('.vd-signals-grid')).toHaveCSS('position', 'static');
   await page.locator('#signal-2').click();
   await expect(page.locator('#signal-panel-2')).toBeVisible();
-  await expect(page.locator('.vd-signal-number > span')).toHaveCSS('animation-name', 'none');
+  await expect(page.locator('.vd-pixel-reveal')).toHaveAttribute('data-pixel-index', '2');
 });
