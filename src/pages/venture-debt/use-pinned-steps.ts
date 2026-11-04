@@ -16,7 +16,17 @@ export function usePinnedSteps(count: number, enabled = true) {
     let frame = 0;
     const update = () => {
       frame = 0;
-      if (!media.matches) return;
+      if (!media.matches) {
+        // Compact screens use native scrolling through expanded rows instead of
+        // pinning a panel taller than the viewport.
+        const rows = Array.from(track.querySelectorAll<HTMLElement>('.vd-signal, .vd-step'));
+        let index = 0;
+        rows.forEach((row, i) => {
+          if (row.getBoundingClientRect().top <= window.innerHeight * 0.55) index = i;
+        });
+        setActive(index);
+        return;
+      }
       const panel = track.firstElementChild as HTMLElement | null;
       if (!panel) return;
       const top = Number.parseFloat(getComputedStyle(panel).top) || 0;

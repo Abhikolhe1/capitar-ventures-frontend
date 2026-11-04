@@ -209,8 +209,6 @@ export default function VentureDebtPage() {
                           role="region"
                           aria-labelledby={`signal-${i}`}
                           className="vd-signal-detail"
-                          aria-hidden={signal !== i}
-                          inert={signal !== i || undefined}
                         >
                           <p>{description}</p>
                         </div>

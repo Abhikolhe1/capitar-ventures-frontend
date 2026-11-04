@@ -72,7 +72,7 @@ test('both pinned sections advance all four items and reverse with scrolling', a
       if (prefix === 'signal') {
         await expect(page.locator('.vd-signal-number')).toHaveText(`0${index + 1}`);
         await expect(page.locator('.vd-signal-cube')).toHaveAttribute('style', `transform: rotate(${index * 12}deg);`);
-        await expect(page.locator(`#signal-panel-${index}`)).toHaveAttribute('aria-hidden', 'false');
+        await expect(page.locator(`#signal-panel-${index}`)).toBeVisible();
       }
       const panelTop = await page.locator(`${track} > .vd-pinned-panel`).evaluate(node => node.getBoundingClientRect().top);
       expect(Math.abs(panelTop - geometry.top)).toBeLessThan(2);
