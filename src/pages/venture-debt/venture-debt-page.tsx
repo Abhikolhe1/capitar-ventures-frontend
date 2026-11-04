@@ -12,6 +12,7 @@ import { MainLayout } from 'src/layouts/website/main-layout';
 
 import { SectionBadge } from 'src/components/website/section-badge';
 import { ContentButton } from 'src/components/website/content-button';
+import { LiquidGlassButton } from 'src/components/website/liquid-glass-button';
 
 import { usePinnedSteps } from './use-pinned-steps';
 
@@ -67,7 +68,7 @@ export default function VentureDebtPage() {
   const signal = Math.min(signalIndex, signals.length - 1);
   const step = Math.min(stepIndex, steps.length - 1);
   const [chapter, setChapter] = useState('before');
-  const [faq, setFaq] = useState<number | null>(1);
+  const [faq, setFaq] = useState<number | null>(0);
   useEffect(() => {
     document.title = page.title;
     const sections = chapters
@@ -141,9 +142,7 @@ export default function VentureDebtPage() {
             <div className="vd-actions" data-entrance="content">
               <ContentButton data={hero.primaryCta} arrow />
               {hero.secondaryCta.enabled && (
-                <a className="vd-secondary" href={hero.secondaryCta.href}>
-                  {hero.secondaryCta.label}
-                </a>
+                <LiquidGlassButton data={hero.secondaryCta} />
               )}
             </div>
           </div>

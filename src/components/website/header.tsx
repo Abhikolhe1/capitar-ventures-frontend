@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 
 import { Box, Stack, Button, Drawer, IconButton, Typography } from '@mui/material';
 
+import { RouterLink } from 'src/routes/components/router-link';
+import { preloadVentureDebtPage } from 'src/routes/venture-debt-loader';
+
 import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 
@@ -12,18 +15,33 @@ import { AuroraGlassButton } from 'src/components/website/aurora-glass-button';
 
 function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () => void; dark?: boolean }) {
   if (item.label === 'Venture Debt') item = { ...item, enabled: true, href: '/venture-debt' };
+  const internal = item.enabled && item.href?.startsWith('/') && !item.href.startsWith('//');
+  const preload = item.href === '/venture-debt' ? preloadVentureDebtPage : undefined;
   return (
     <Button
-      component={item.enabled && item.href ? 'a' : 'button'}
+      disableRipple
+      component={internal ? RouterLink : item.enabled && item.href ? 'a' : 'button'}
       href={item.enabled ? item.href : undefined}
       disabled={!item.enabled || !item.href}
       onClick={close}
+      onPointerEnter={preload}
+      onFocus={preload}
       sx={{
         color: dark ? '#171717' : 'text.primary',
         minHeight: 44,
         px: 0,
         fontSize: 16,
         gap: 0.5,
+        backgroundColor: 'transparent',
+        border: 0,
+        boxShadow: 'none',
+        '&:hover, &:active': {
+          backgroundColor: 'transparent',
+          color: dark ? '#171717' : 'text.primary',
+          border: 0,
+          boxShadow: 'none',
+        },
+        '&:focus:not(:focus-visible)': { outline: 'none' },
         '&.Mui-disabled': { color: dark ? '#171717' : 'text.primary', opacity: 1 },
       }}
     >
@@ -120,7 +138,7 @@ export function Header({ data }: { data: GlobalContent }) {
           }}
         >
           <Box
-            component="a"
+            component={RouterLink}
             href="/"
             aria-label="Capitar Ventures home"
             sx={{ display: 'inline-flex', flexShrink: 0 }}

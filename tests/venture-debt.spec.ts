@@ -100,8 +100,10 @@ test('venture debt sections, navigation, accordions and local assets', async ({ 
   await page.locator('#step-2').click();
   await expect(page.locator('#step-panel-2')).toBeVisible();
   await expect(page.locator('#step-panel-0')).toBeHidden();
-  await page.locator('#faq-1').click();
-  await expect(page.locator('#faq-panel-1')).toBeHidden();
+  await expect(page.locator('#faq-0')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#faq-1')).toHaveAttribute('aria-expanded', 'false');
+  await page.locator('#faq-0').click();
+  await expect(page.locator('#faq-panel-0')).toBeHidden();
   await page.locator('#faq-1').click();
   await expect(page.locator('#faq-panel-1')).toBeVisible();
   await page

@@ -12,11 +12,13 @@ import { DashboardLayout } from 'src/layouts/dashboard';
 
 import { AuthGuard, GuestGuard } from 'src/auth/guard';
 
+import { loadVentureDebtPage } from './venture-debt-loader';
+
 // ----------------------------------------------------------------------
 
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const HomePage = lazy(() => import('src/pages/home/home-page'));
-export const VentureDebtPage = lazy(() => import('src/pages/venture-debt/venture-debt-page'));
+export const VentureDebtPage = lazy(loadVentureDebtPage);
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));

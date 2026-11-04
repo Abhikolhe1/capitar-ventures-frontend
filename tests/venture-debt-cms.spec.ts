@@ -41,7 +41,7 @@ test('published CMS content drives all venture debt sections and safe links', as
   await page.locator('#step-2').click();
   await expect(page.locator('#step-panel-2')).toHaveText('CMS structure explanation');
   await expect(page.locator('#in-practice blockquote')).toContainText('CMS founder quote');
-  await page.locator('#faq-0').click();
+  await expect(page.locator('#faq-0')).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('#faq-panel-0')).toHaveText('CMS answer.');
   await expect(page.locator('.vd-chapters a').last()).toContainText('CMS FAQ');
 });
