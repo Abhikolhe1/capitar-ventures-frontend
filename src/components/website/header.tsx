@@ -11,6 +11,7 @@ import { OutlinedCta } from 'src/components/website/outlined-cta';
 import { AuroraGlassButton } from 'src/components/website/aurora-glass-button';
 
 function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () => void; dark?: boolean }) {
+  if (item.label === 'Venture Debt') item = { ...item, enabled: true, href: '/venture-debt' };
   return (
     <Button
       component={item.enabled && item.href ? 'a' : 'button'}

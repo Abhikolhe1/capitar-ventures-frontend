@@ -16,6 +16,7 @@ import { AuthGuard, GuestGuard } from 'src/auth/guard';
 
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const HomePage = lazy(() => import('src/pages/home/home-page'));
+export const VentureDebtPage = lazy(() => import('src/pages/venture-debt/venture-debt-page'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
@@ -43,6 +44,7 @@ const renderFallback = () => (
 );
 
 export const routesSection: RouteObject[] = [
+  { path: '/venture-debt', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><VentureDebtPage /></Suspense> },
   { path: '/', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><HomePage /></Suspense> },
   {
     element: (

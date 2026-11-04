@@ -1,0 +1,184 @@
+{
+  "title": "Venture Debt | Capitar Ventures",
+  "hero": {
+    "enabled": true,
+    "sectionLabel": "VENTURE DEBT",
+    "heading": "Could venture debt be ",
+    "emphasisText": "right for your next move?",
+    "description": "Venture debt gives early-stage businesses access to capital without immediately giving up additional ownership.",
+    "primaryCta": {
+      "label": "Talk to Us",
+      "href": "mailto:account@capitar.com",
+      "enabled": true
+    },
+    "secondaryCta": {
+      "label": "Explore how it works",
+      "href": "#before",
+      "enabled": true
+    },
+    "backgroundImage": {
+      "url": "/assets/venture-debt/ce421.png",
+      "alternativeText": ""
+    },
+    "glassImage": {
+      "url": "/assets/venture-debt/4d0a9.png",
+      "alternativeText": ""
+    },
+    "glowImage": {
+      "url": "/assets/venture-debt/86fbf.svg",
+      "alternativeText": ""
+    }
+  },
+  "timeline": [
+    {
+      "label": "Before",
+      "section": "before"
+    },
+    {
+      "label": "With Capitar",
+      "section": "with-capitar"
+    },
+    {
+      "label": "In Practice",
+      "section": "in-practice"
+    },
+    {
+      "label": "Before You Decide",
+      "section": "before-you-decide"
+    }
+  ],
+  "before": {
+    "enabled": true,
+    "sectionLabel": "BEFORE",
+    "heading": "right for your business?",
+    "mutedHeading": "Is venture debt ",
+    "description": "Venture debt isn't right for every company. It depends on your stage, business fundamentals and what the capital is intended to achieve.",
+    "signalsLabel": "FOUR SIGNALS TO CONSIDER",
+    "signalsHeading": "Venture debt can make sense ",
+    "signalsMutedHeading": "when you have...",
+    "image": {
+      "url": "/assets/venture-debt/ab23b.png",
+      "alternativeText": "Layered blue glass blocks"
+    },
+    "glowImage": {
+      "url": "/assets/venture-debt/b2410.svg",
+      "alternativeText": ""
+    },
+    "items": [
+      {
+        "title": "Existing equity backing",
+        "description": "You have investors around the table who understand the plan and the milestone ahead."
+      },
+      {
+        "title": "A clear use for the capital",
+        "description": "You have investors around the table who understand the plan and the milestone ahead."
+      },
+      {
+        "title": "A defined milestone ahead",
+        "description": "You have investors around the table who understand the plan and the milestone ahead."
+      },
+      {
+        "title": "A plan for repayment",
+        "description": "You have investors around the table who understand the plan and the milestone ahead."
+      }
+    ]
+  },
+  "process": {
+    "enabled": true,
+    "sectionLabel": "WITH CAPITAR",
+    "heading": "What happens,\nwhen we talk?",
+    "description": "A process designed to give you a clear answer quickly. We don't string founders along.",
+    "decoration": {
+      "url": "/assets/venture-debt/525f7.svg",
+      "alternativeText": ""
+    },
+    "items": [
+      {
+        "label": "Talk",
+        "title": "Tell us where the business is headed.",
+        "description": "Understand the business, where you are today and what the capital needs to achieve. A first conversation should feel like a conversation, not a pitch."
+      },
+      {
+        "label": "Assess",
+        "title": "We look at the business and the plan.",
+        "description": "We look at the business and the plan."
+      },
+      {
+        "label": "Structure",
+        "title": "We work out what makes sense.",
+        "description": "We work out what makes sense."
+      },
+      {
+        "label": "Close",
+        "title": "Once agreed, we get the capital moving.",
+        "description": "Once agreed, we get the capital moving."
+      }
+    ]
+  },
+  "practice": {
+    "enabled": true,
+    "sectionLabel": "IN PRACTICE",
+    "heading": "What does this look like\nin a real business?",
+    "quote": "“Founder quote goes here. What the experience meant for the business and the journey.”",
+    "attribution": "FOUNDER, COMPANY NAME",
+    "cta": {
+      "label": "View Case Study",
+      "enabled": true,
+      "href": "/#case-study"
+    },
+    "image": {
+      "url": "/assets/venture-debt/34b05.png",
+      "alternativeText": "Founder in a bright office corridor"
+    },
+    "outcomeSprite": {
+      "url": "/assets/venture-debt/bd871.png",
+      "alternativeText": ""
+    },
+    "items": [
+      {
+        "title": "THE SITUATION",
+        "description": "A founder was approaching a key business milestone and wanted additional runway without another equity round. The cap table was already under pressure and dilution was a real cost."
+      },
+      {
+        "title": "THE DECISION",
+        "description": "Capitar structured venture debt around the business’s needs — size, tenor and schedule built around the milestone, not a standard template."
+      },
+      {
+        "title": "THE OUTCOME",
+        "description": "The company gained additional runway to reach its next milestone without equity dilution at an uncertain moment. The round that followed reflected that."
+      }
+    ]
+  },
+  "faq": {
+    "enabled": true,
+    "sectionLabel": "BEFORE YOU DECIDE",
+    "heading": "The questions founders actually ask.",
+    "description": "We'd rather answer these upfront than have them remain unanswered through the process.",
+    "items": [
+      {
+        "question": "How long does it take to fully charge an EV?",
+        "answer": "Answer to be supplied. This question is placeholder copy in the design."
+      },
+      {
+        "question": "What types of charging stations are available?",
+        "answer": "There are three main types: Level 1 (standard household outlet), Level 2 (dedicated home or public charger), and DC fast charging (rapid public stations)."
+      },
+      {
+        "question": "Can I charge my EV at home?",
+        "answer": "Answer to be supplied. This question is placeholder copy in the design."
+      },
+      {
+        "question": "How much does it cost to charge an electric vehicle?",
+        "answer": "Answer to be supplied. This question is placeholder copy in the design."
+      },
+      {
+        "question": "How do I find nearby charging stations?",
+        "answer": "Answer to be supplied. This question is placeholder copy in the design."
+      },
+      {
+        "question": "Is it safe to charge in the rain?",
+        "answer": "Answer to be supplied. This question is placeholder copy in the design."
+      }
+    ]
+  }
+}

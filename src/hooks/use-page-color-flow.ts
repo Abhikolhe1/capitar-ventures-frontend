@@ -25,9 +25,10 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
         color: getComputedStyle(element).backgroundColor,
       }));
       // Hero inherits its navy background before animation.
-      if (saved[0]) saved[0].color = '#111129';
+      const hasHero = Boolean(sections[0]?.querySelector('[data-entrance="background"]'));
+      if (saved[0] && hasHero) saved[0].color = '#111129';
       const text = sections.flatMap((section, index) => Array.from(section.querySelectorAll<HTMLElement>('*')).filter(element => {
-        if (index === 0) return false;
+        if (index === 0 && hasHero) return false;
         if (!Array.from(element.childNodes).some(node => node.nodeType === Node.TEXT_NODE && node.textContent?.trim())) return false;
         let ancestor: HTMLElement | null = element;
         while (ancestor && ancestor !== section) {
@@ -48,7 +49,7 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
       root.style.isolation = 'isolate';
       root.prepend(canvas);
       sections.forEach(element => element.style.setProperty('background-color', 'transparent', 'important'));
-      const hero = sections[0];
+      const hero = hasHero ? sections[0] : undefined;
       const fading = hero ? Array.from(hero.children).filter((element): element is HTMLElement => element instanceof HTMLElement).map(element => ({
         element,
         background: element.matches('[data-entrance="background"]'),
