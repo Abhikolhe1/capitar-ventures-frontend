@@ -14,7 +14,6 @@ import { homepageViewportStyles } from 'src/theme/homepage-viewport';
 
 import { Header } from 'src/components/website/header';
 import { Footer } from 'src/components/website/footer';
-import { MotionControl } from 'src/components/website/motion-control';
 
 import { useHeroAnimation } from 'src/sections/home/hero/use-hero-animation';
 
@@ -77,7 +76,6 @@ export function MainLayout({
           {children}
         </Box>
         <Footer data={global.footer} brandLogo={global.brandLogo} />
-        <MotionControl />
       </Box>
     </ThemeProvider>
   );

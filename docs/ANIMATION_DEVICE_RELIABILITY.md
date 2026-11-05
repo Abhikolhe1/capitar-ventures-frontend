@@ -36,10 +36,8 @@ The user requested animations to work on as many devices as practical. The
 explicitly approved policy for this project is:
 
 - Full motion is the site's default even when the OS requests reduced motion.
-- A visible **Reduce animations** button switches to reduced motion;
-  **Enable animations** restores full motion. Never remove this visitor choice.
-- Save the choice under `capitar-motion`. It survives reloads and navigation,
-  synchronizes across tabs, and works for the current visit when storage is blocked.
+- User update on 5 November 2026: remove the toggle and always use full motion.
+- Ignore previous saved `capitar-motion` reduction choices.
 - This is a site-specific policy. Do not change Windows/browser preferences or
   falsify native `matchMedia` results to make the effects or tests work.
 - Phones keep native touch scrolling. At compact widths or heights, use readable
@@ -55,7 +53,7 @@ product decision and corresponding tests/documentation updates.
 
 1. Use `useSiteReducedMotion()` in React effects and
    `isSiteMotionReduced()` in event callbacks from `src/hooks/use-site-motion.ts`.
-   Set the choice with `setSiteMotionReduced()`; do not add a second preference store.
+   These helpers always return full motion; do not add a preference store.
 2. CSS effects use `html[data-motion='full']` / `html[data-motion='reduced']`.
    CSS-in-JS can scope rules with `html[data-motion="reduced"] &`.
    Do not introduce direct `prefers-reduced-motion` gates for product effects;
