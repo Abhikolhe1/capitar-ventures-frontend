@@ -3,6 +3,8 @@ import type { RefObject } from 'react';
 import gsap from 'gsap';
 import { useLayoutEffect } from 'react';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
+
 import homepage from 'src/content/homepage.json';
 
 const brightness = (color: string) => {
@@ -12,11 +14,11 @@ const brightness = (color: string) => {
 
 // Every visible section uses ONE canvas color, including during a handoff.
 export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: boolean) {
+  const reducedMotion = useSiteReducedMotion();
   useLayoutEffect(() => {
     const root = scope.current;
-    if (!root || !homepage.sectionTransitions.enabled) return undefined;
-    const media = gsap.matchMedia();
-    media.add('(prefers-reduced-motion: no-preference)', () => {
+    if (!root || !homepage.sectionTransitions.enabled || reducedMotion) return undefined;
+    const context = gsap.context(() => {
       const sections = Array.from(root.querySelectorAll<HTMLElement>('main > section, #site-footer'));
       const saved = sections.map(element => ({
         element,
@@ -185,7 +187,7 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
         text.forEach(item => item.element.removeAttribute('data-flow-ink'));
         if (artwork) artwork.style.opacity = artworkOpacity;
       };
-    });
-    return () => media.revert();
-  }, [scope, loading]);
+    }, scope);
+    return () => context.revert();
+  }, [scope, loading, reducedMotion]);
 }

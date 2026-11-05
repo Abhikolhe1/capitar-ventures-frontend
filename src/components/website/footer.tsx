@@ -161,7 +161,7 @@ function FooterLinkList({ items, label }: { items: ContentLink[]; label: string 
               transition: 'background-color 160ms ease, color 160ms ease',
               '&:hover, &:focus-within': { bgcolor: '#000', color: '#FFF' },
               '& a:hover': { color: 'inherit' },
-              '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+              'html[data-motion="reduced"] &': { transition: 'none' },
             }}
           >
             <Box aria-hidden="true" sx={{ width: 7, height: 7, ml: '2px', bgcolor: '#CC2334', transform: 'rotate(45deg)' }} />
@@ -257,7 +257,7 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
               overflow: 'hidden',
               transition: 'background-color 350ms ease, border-color 350ms ease',
               '&:focus-visible': { outline: '2px solid #193969', outlineOffset: 3 },
-              '@media (prefers-reduced-motion: reduce)': {
+              'html[data-motion="reduced"] &': {
                 transition: 'none',
                 '& .footer-ai-label': { transition: 'none' },
               },
@@ -583,7 +583,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                     },
                     '& svg': { transition: 'transform 180ms ease' },
                     '&:hover svg': { transform: data.cta.enabled ? 'translateX(3px)' : undefined },
-                    '@media (prefers-reduced-motion: reduce)': { '& svg': { transition: 'none' } },
+                    'html[data-motion="reduced"] &': { '& svg': { transition: 'none' } },
                   }}
                 >
                   <FooterLink item={data.cta}>

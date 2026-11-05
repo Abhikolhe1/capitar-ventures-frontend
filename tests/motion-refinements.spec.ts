@@ -15,9 +15,10 @@ test('desktop wheel scrolling eases and anchor navigation reaches the section', 
   await expect(page.locator('#capital-heading')).toHaveCSS('opacity', '1');
 });
 
-test('reduced motion keeps native scrolling and the reference font', async ({ page }) => {
+test('site reduced motion keeps native scrolling and the reference font', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
+  await page.getByRole('button', { name: 'Reduce animations', exact: true }).click();
   await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
   await expect(page.locator('html')).not.toHaveClass(/lenis/);
   for (const selector of ['#team h3', '#insights-news h3']) {

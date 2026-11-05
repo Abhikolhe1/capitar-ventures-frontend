@@ -5,18 +5,21 @@ import Lenis from 'lenis';
 import { useEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export function useSmoothScroll() {
+  const reducedMotion = useSiteReducedMotion();
   useEffect(() => {
     const preference = window.matchMedia(
-      '(prefers-reduced-motion: no-preference) and (pointer: fine)'
+      '(pointer: fine)'
     );
     let dispose: (() => void) | undefined;
     const configure = () => {
       dispose?.();
       dispose = undefined;
-      if (!preference.matches) return;
+      if (reducedMotion || !preference.matches) return;
       let bodyLocked = false;
       const scroll = new Lenis({
         lerp: 0.12,
@@ -89,5 +92,5 @@ export function useSmoothScroll() {
       preference.removeEventListener('change', configure);
       dispose?.();
     };
-  }, []);
+  }, [reducedMotion]);
 }

@@ -18,7 +18,10 @@ versions are outside this target.
 - Browser API polyfills load before React: IntersectionObserver, ResizeObserver,
   scroll options and older MediaQueryList change listeners.
 - Browsers that do not recognize reduced-motion queries default to animation.
-  Browsers that recognize the user's reduced-motion preference still honor it.
+  The site's approved motion policy now enables animation by default, including
+  when the OS requests reduction. The visitor can use **Reduce animations** to
+  opt out. See [the incident guide](docs/ANIMATION_DEVICE_RELIABILITY.md) for the
+  current policy, evidence boundaries and outstanding physical-device checks.
 - Card sizing uses a percentage spacer rather than CSS aspect-ratio. Viewport
   height, sticky positioning, width and positioning rules have older-CSS fallbacks.
 
@@ -49,7 +52,7 @@ Remove-Item Env:PIXEL_LEGACY_BUNDLE
 - Wait for the card image to load before starting its reveal.
 - Repaint the canvas at its current progress after viewport/orientation changes.
 - Show the image directly if visibility observation is unavailable.
-- Clear the overlay on image failure and honor reduced-motion preferences.
+- Clear the overlay on image failure and honor the saved site motion preference.
 - Support the older media-query change listener API.
 
 ## Repeatable checks
@@ -85,8 +88,10 @@ and an iPad with Safari. WebKit on Windows does not replace iOS hardware testing
 4. Rotate the device while the card is revealing and after it has finished.
    Confirm the card fits its container without stretched or leftover tiles.
 5. Repeat on a slow connection and with rapid scrolling/selection.
-6. Enable the device's reduced-motion setting: the complete card should appear
-   without the pixel animation. Restore the setting and repeat the reveal.
+6. Enable the device's reduced-motion setting: full site animation should still
+   run by default. Select **Reduce animations** on the site: the complete card
+   should appear without pixel animation. Select **Enable animations**, reload,
+   and repeat the reveal. Confirm the visitor's site choice is preserved.
 7. Switch to another app/browser tab and return; confirm the card remains usable.
 
 Record the device, OS/browser version, and any failed step. The target is modern

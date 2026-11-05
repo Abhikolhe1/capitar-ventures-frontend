@@ -2,9 +2,12 @@ import type { Media } from 'src/types/homepage';
 
 import { useRef, useEffect } from 'react';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
+
 // A small canvas overlay avoids hundreds of animated DOM tiles and never
 // samples the image, so cross-origin CMS media needs no canvas CORS access.
 export function PixelReveal({ image, index }: { image: Media; index: number }) {
+  const reducedMotion = useSiteReducedMotion();
   const root = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -15,12 +18,11 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
     if (!context) return undefined;
     const picture = element.querySelector('img');
     if (!picture) return undefined;
-    const media = matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0;
     let visible = false;
     let ready = picture.complete && picture.naturalWidth > 0;
     let imageFailed = picture.complete && !picture.naturalWidth;
-    let currentProgress = media.matches ? 1 : 0;
+    let currentProgress = reducedMotion ? 1 : 0;
     const paint = (progress: number) => {
       currentProgress = progress;
       const width = element.clientWidth,
@@ -52,7 +54,7 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
     };
     const play = () => {
       cancelAnimationFrame(frame);
-      if (media.matches || imageFailed || typeof IntersectionObserver === 'undefined') {
+      if (reducedMotion || imageFailed || typeof IntersectionObserver === 'undefined') {
         paint(1);
         return;
       }
@@ -67,7 +69,7 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
       };
       frame = requestAnimationFrame(tick);
     };
-    if (media.matches) paint(1);
+    if (reducedMotion) paint(1);
     else paint(0);
     const loaded = () => {
       ready = picture.naturalWidth > 0;
@@ -90,7 +92,7 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
               if (entry.isIntersecting) play();
               else {
                 cancelAnimationFrame(frame);
-                paint(media.matches ? 1 : 0);
+                paint(reducedMotion ? 1 : 0);
               }
             },
             { threshold: 0.15 }
@@ -103,19 +105,14 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
         ? undefined
         : new ResizeObserver(() => paint(currentProgress));
     resize?.observe(element);
-    const changed = () => (observer ? play() : paint(1));
-    if (media.addEventListener) media.addEventListener('change', changed);
-    else media.addListener(changed);
     return () => {
       cancelAnimationFrame(frame);
       observer?.disconnect();
       resize?.disconnect();
       picture.removeEventListener('load', loaded);
       picture.removeEventListener('error', failed);
-      if (media.removeEventListener) media.removeEventListener('change', changed);
-      else media.removeListener(changed);
     };
-  }, [image.url, index]);
+  }, [image.url, index, reducedMotion]);
   return (
     <div className="vd-pixel-reveal" ref={root} data-pixel-index={index}>
       <img src={image.url} alt={image.alternativeText || ''} />

@@ -1,12 +1,19 @@
 import gsap from 'gsap';
 import { type RefObject, useLayoutEffect } from 'react';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
+
 // One timeline owns all entrance targets, including the independent layout header.
 export function useHeroAnimation(scope: RefObject<HTMLDivElement | null>, ready: boolean) {
+  const reducedMotion = useSiteReducedMotion();
   useLayoutEffect(() => {
     if (!ready || !scope.current) return undefined;
     const context = gsap.context(() => {
-      // The requested homepage entrance plays on every load, including OS reduce mode.
+      if (reducedMotion) {
+        gsap.set('[data-entrance]', { autoAlpha: 1, y: 0 });
+        return undefined;
+      }
+      // Full motion is the site's default, with an explicit visitor opt-out.
         const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
         timeline
           .fromTo(
@@ -42,5 +49,5 @@ export function useHeroAnimation(scope: RefObject<HTMLDivElement | null>, ready:
       return () => timeline.kill();
     }, scope);
     return () => context.revert();
-  }, [scope, ready]);
+  }, [scope, ready, reducedMotion]);
 }

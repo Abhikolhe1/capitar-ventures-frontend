@@ -63,7 +63,7 @@ export function LiquidGlassButton({ data }: { data: ContentLink }) {
         '&:active': { boxShadow: 'inset 0 1px 4px rgba(0,0,0,.12), inset 0 -1px 2px rgba(255,255,255,.3)' },
         '&.Mui-focusVisible': { outline: '2px solid #FFFFFF', outlineOffset: 4 },
         '&.Mui-disabled': { color: '#FFFFFF', opacity: 1 },
-        '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+        'html[data-motion="reduced"] &': { transition: 'none' },
       }}
     >
       {data.label}

@@ -1,6 +1,8 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { isSiteMotionReduced } from 'src/hooks/use-site-motion';
+
 gsap.registerPlugin(ScrollTrigger);
 
 // Every scroll transition continues from the current visual state, including exits.
@@ -11,6 +13,10 @@ export function createDirectionalReveal(
   to: gsap.TweenVars,
   start = 'top 70%'
 ) {
+  if (isSiteMotionReduced()) {
+    gsap.set(targets, { ...to, duration: 0, stagger: 0 });
+    return () => {};
+  }
   let active: gsap.core.Tween | undefined;
   const duration = Math.max(1.1, Number(to.duration || 1.1));
   const hide = (upward: boolean) => {

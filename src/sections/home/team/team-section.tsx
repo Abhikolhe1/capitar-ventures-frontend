@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { isSiteMotionReduced } from 'src/hooks/use-site-motion';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
@@ -46,7 +47,7 @@ function TeamCard({ member }: { member: TeamMemberContent }) {
           '& .team-card-content': { transform: 'translateY(-8px)' },
           '& .team-bio': { gridTemplateRows: '1fr', opacity: 1, mt: 'var(--team-detail-gap)', visibility: 'visible' },
         } },
-        '@media (prefers-reduced-motion: reduce)': { '& .team-portrait, & .team-shade, & .team-shade::after, & .team-card-content, & .team-bio': { transition: 'none' } },
+        'html[data-motion="reduced"] &': { '& .team-portrait, & .team-shade, & .team-shade::after, & .team-card-content, & .team-bio': { transition: 'none' } },
       }}>
         {member.portrait && !failed ? (
           <Box component="img" className="team-portrait" src={member.portrait.url} alt={member.portrait.alternativeText || member.name} onError={() => setFailed(true)} loading="lazy" width={400} height={450} sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: `50% ${member.portraitPositionY ?? 50}%` }} />
@@ -94,7 +95,7 @@ export function TeamSection({ data }: { data?: TeamContent }) {
     const card = element?.firstElementChild;
     if (!element || !card) return;
     const distance = card.getBoundingClientRect().width + parseFloat(getComputedStyle(element).gap || '0');
-    element.scrollBy({ left: direction * distance, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    element.scrollBy({ left: direction * distance, behavior: isSiteMotionReduced() ? 'instant' : 'smooth' });
   };
   return (
     <Box ref={section} component="section" id="team" aria-labelledby="team-heading" sx={{

@@ -14,6 +14,7 @@ import { homepageViewportStyles } from 'src/theme/homepage-viewport';
 
 import { Header } from 'src/components/website/header';
 import { Footer } from 'src/components/website/footer';
+import { MotionControl } from 'src/components/website/motion-control';
 
 import { useHeroAnimation } from 'src/sections/home/hero/use-hero-animation';
 
@@ -50,7 +51,7 @@ export function MainLayout({
           '& [data-flow-cta]:focus-visible': { outline: '2px solid currentColor', outlineOffset: 4 },
           '& [data-flow-ink="light"]': { color: '#FFFFFF !important', WebkitTextFillColor: '#FFFFFF !important' },
           '& [data-flow-ink="dark"]': { color: '#111129 !important', WebkitTextFillColor: '#111129 !important' },
-          '@media (prefers-reduced-motion: reduce)': {
+          'html[data-motion="reduced"] &': {
             '& [data-entrance]': { visibility: 'visible' },
           },
         }}
@@ -76,6 +77,7 @@ export function MainLayout({
           {children}
         </Box>
         <Footer data={global.footer} brandLogo={global.brandLogo} />
+        <MotionControl />
       </Box>
     </ThemeProvider>
   );

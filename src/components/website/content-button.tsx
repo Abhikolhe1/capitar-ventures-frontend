@@ -52,7 +52,7 @@ export function ContentButton({ data, arrow = false, appearance = 'default' }: {
             component="img"
             src={difference ? '/assets/capitar/difference-arrow.svg' : '/assets/capitar/arrow.svg'}
             alt=""
-            sx={{ transform: difference ? undefined : 'rotate(180deg)', ...(difference ? { transition: 'transform 180ms ease', '@media (prefers-reduced-motion: reduce)': { transition: 'none' } } : {}) }}
+            sx={{ transform: difference ? undefined : 'rotate(180deg)', ...(difference ? { transition: 'transform 180ms ease', 'html[data-motion="reduced"] &': { transition: 'none' } } : {}) }}
           />
         </Box>
       )}

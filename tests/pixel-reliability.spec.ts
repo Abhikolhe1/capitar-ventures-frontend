@@ -123,9 +123,11 @@ test.describe(browserName, () => {
   test('reduced motion shows the complete image', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/venture-debt');
+    await page.getByRole('button', { name: 'Reduce animations', exact: true }).click();
     await page.locator('.vd-pixel-reveal').scrollIntoViewIfNeeded();
     await expect.poll(() => coverage(page)).toBe(0);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.getByRole('button', { name: 'Enable animations', exact: true }).click();
     await expect.poll(() => coverage(page)).toBe(0);
   });
 

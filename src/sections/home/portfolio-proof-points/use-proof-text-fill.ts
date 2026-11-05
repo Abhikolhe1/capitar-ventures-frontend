@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { useLayoutEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
 
 import { websiteTokens } from 'src/theme/website-theme';
@@ -11,6 +12,7 @@ import { websiteTokens } from 'src/theme/website-theme';
 gsap.registerPlugin(ScrollTrigger);
 
 export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature: string) {
+  const reducedMotion = useSiteReducedMotion();
   useLayoutEffect(() => {
     if (!scope.current) return undefined;
     const media = gsap.matchMedia();
@@ -19,6 +21,10 @@ export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature
         const heading = scope.current?.querySelector<HTMLElement>('#proof-heading');
         const words = heading?.querySelectorAll<HTMLElement>('[data-proof-word]');
         if (!heading || !words?.length) return;
+        if (reducedMotion) {
+          gsap.set(words, { color: websiteTokens.proof.ink });
+          return;
+        }
         gsap.set(words, { color: websiteTokens.proof.mutedInk });
         gsap.to(words, {
           color: websiteTokens.proof.ink,
@@ -29,5 +35,5 @@ export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature
     }, scope);
     const cancelRefresh = scheduleScrollRefresh();
     return () => { cancelRefresh(); media.revert(); context.revert(); };
-  }, [scope, signature]);
+  }, [scope, signature, reducedMotion]);
 }

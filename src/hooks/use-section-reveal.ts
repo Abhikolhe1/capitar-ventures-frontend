@@ -3,10 +3,12 @@ import type { RefObject } from 'react';
 import gsap from 'gsap';
 import { useLayoutEffect } from 'react';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
 import { createDirectionalReveal } from 'src/hooks/reveal-from-above';
 
 export function useSectionReveal(scope: RefObject<HTMLElement | null>, signature: string) {
+  const reducedMotion = useSiteReducedMotion();
   useLayoutEffect(() => {
     if (!scope.current) return undefined;
     const disposers: (() => void)[] = [];
@@ -24,5 +26,5 @@ export function useSectionReveal(scope: RefObject<HTMLElement | null>, signature
     }, scope);
     const cancel = scheduleScrollRefresh();
     return () => { cancel(); disposers.forEach(dispose => dispose()); context.revert(); };
-  }, [scope, signature]);
+  }, [scope, signature, reducedMotion]);
 }

@@ -329,19 +329,19 @@
     transform: translateY(0);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .vd-signal,
-  .vd-signal::before,
-  .vd-signal button,
-  .vd-signal-arrow,
-  .vd-signal-detail,
-  .vd-signal-cube {
-    transition: none;
-  }
-  .vd-signal-number > span {
-    animation: none;
-  }
+
+html[data-motion='reduced'] .vd-signal,
+html[data-motion='reduced'] .vd-signal::before,
+html[data-motion='reduced'] .vd-signal button,
+html[data-motion='reduced'] .vd-signal-arrow,
+html[data-motion='reduced'] .vd-signal-detail,
+html[data-motion='reduced'] .vd-signal-cube {
+  transition: none;
 }
+html[data-motion='reduced'] .vd-signal-number > span {
+  animation: none;
+}
+
 .vd-process {
   background: #0b0f2d;
   color: #fff;
@@ -875,24 +875,24 @@
     flex: initial;
   }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .vd-signal-detail {
-    transition-duration: 0.65s, 0.4s, 0.65s, 0s;
-  }
-  .vd-signal,
-  .vd-step {
-    transition: opacity 0.5s ease;
-  }
-  .vd-step button {
-    transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .vd-step-number > span,
-  .vd-step-number small {
-    transition:
-      font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-      letter-spacing 0.5s ease;
-  }
+
+html[data-motion='full'] .vd-signal-detail {
+  transition-duration: 0.65s, 0.4s, 0.65s, 0s;
 }
+html[data-motion='full'] .vd-signal,
+html[data-motion='full'] .vd-step {
+  transition: opacity 0.5s ease;
+}
+html[data-motion='full'] .vd-step button {
+  transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+html[data-motion='full'] .vd-step-number > span,
+html[data-motion='full'] .vd-step-number small {
+  transition:
+    font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    letter-spacing 0.5s ease;
+}
+
 .vd-step-copy {
   gap: 0;
 }
@@ -932,18 +932,18 @@
     transform: none;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .vd-scroll-track {
-    height: auto;
-  }
-  .vd-scroll-track > .vd-pinned-panel {
-    position: static;
-    height: auto;
-  }
-  .vd-step-detail {
-    transition: none;
-  }
+
+html[data-motion='reduced'] .vd-scroll-track {
+  height: auto;
 }
+html[data-motion='reduced'] .vd-scroll-track > .vd-pinned-panel {
+  position: static;
+  height: auto;
+}
+html[data-motion='reduced'] .vd-step-detail {
+  transition: none;
+}
+
 @media (min-width: 701px) and (max-width: 1199px) {
   .vd-step button {
     grid-template-columns: 64px minmax(0, 1fr);

@@ -1,11 +1,14 @@
 import { useRef, useState, useLayoutEffect } from 'react';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
+
 const pinnedMedia =
-  '(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)';
+  '(min-width: 900px) and (min-height: 640px)';
 
 // CSS owns the sticky layout; scroll distance drives the open accordion item.
 // No wheel interception: touchpads, keyboards and reverse scrolling stay native.
 export function usePinnedSteps(count: number, enabled = true) {
+  const reducedMotion = useSiteReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -16,7 +19,7 @@ export function usePinnedSteps(count: number, enabled = true) {
     let frame = 0;
     const update = () => {
       frame = 0;
-      if (!media.matches) {
+      if (reducedMotion || !media.matches) {
         // Full-size reduced-motion layouts remain click-controlled accordions.
         if (window.innerWidth >= 900 && window.innerHeight >= 640) return;
         // Compact screens use native scrolling through expanded rows instead of
@@ -55,13 +58,13 @@ export function usePinnedSteps(count: number, enabled = true) {
       window.removeEventListener('resize', schedule);
       media.removeEventListener('change', schedule);
     };
-  }, [count, enabled]);
+  }, [count, enabled, reducedMotion]);
 
   const select = (index: number) => {
     setActive(index);
     const track = trackRef.current;
     const panel = track?.firstElementChild as HTMLElement | null;
-    if (!track || !panel || !window.matchMedia(pinnedMedia).matches) return;
+    if (!track || !panel || reducedMotion || !window.matchMedia(pinnedMedia).matches) return;
     const top = Number.parseFloat(getComputedStyle(panel).top) || 0;
     const distance = track.offsetHeight - panel.offsetHeight;
     // Land inside the selected scroll interval so the next wheel movement continues from it.

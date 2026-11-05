@@ -22,6 +22,7 @@ test('shared background keeps its approved colors in both scroll directions and 
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('button', { name: 'Reduce animations', exact: true }).click();
   await expect(page.locator('#portfolio-proof-points')).toHaveCSS('background-color', 'rgb(248, 249, 250)');
   await expect(page.locator('[data-flow-ink]')).toHaveCount(0);
   await expect(page.locator('[data-page-color-canvas]')).toHaveCount(0);

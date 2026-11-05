@@ -70,7 +70,7 @@ export const GlassButton = styled(Button)`
 &.MuiButton-root.Mui-disabled { color: #fff; opacity: 1; }
 &.Mui-focusVisible { outline: 2px solid #fff; outline-offset: 4px; }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-motion="reduced"] & {
   &.MuiButton-root { transition: none; }
 }
 

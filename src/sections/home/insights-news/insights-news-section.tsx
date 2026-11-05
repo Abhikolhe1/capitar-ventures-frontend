@@ -8,6 +8,7 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { isSiteMotionReduced } from 'src/hooks/use-site-motion';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
@@ -170,7 +171,7 @@ function EditorialCard({ item }: { item: EditorialCardContent }) {
             borderRadius: '14px',
           },
           '& a:hover .editorial-arrow svg': { transform: 'translateX(2px)' },
-          '@media (prefers-reduced-motion: reduce)': { '& svg': { transition: 'none' } },
+          'html[data-motion="reduced"] &': { '& svg': { transition: 'none' } },
         }}
       >
         <Box
@@ -223,7 +224,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
     if (!element || !card) return;
     element.scrollBy({
       left: direction * (card.getBoundingClientRect().width + 20),
-      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      behavior: isSiteMotionReduced() ? 'instant' : 'smooth',
     });
   };
   return (
@@ -362,7 +363,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
           aria-labelledby={`editorial-tab-${active}`}
           sx={{
             '@keyframes editorial-reveal': { from: { opacity: 0 }, to: { opacity: 1 } },
-            '@media (prefers-reduced-motion: no-preference)': {
+            'html[data-motion="full"] &': {
               animation: 'editorial-reveal 180ms ease-out',
             },
           }}

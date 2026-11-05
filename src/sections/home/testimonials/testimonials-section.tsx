@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { isSiteMotionReduced } from 'src/hooks/use-site-motion';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { websiteTokens } from 'src/theme/website-theme';
@@ -239,7 +240,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
     if (!element || !card) return;
     element.scrollBy({
       left: direction * (card.getBoundingClientRect().width + 24),
-      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      behavior: isSiteMotionReduced() ? 'instant' : 'smooth',
     });
   };
   return (

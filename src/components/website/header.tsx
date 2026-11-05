@@ -7,6 +7,8 @@ import { Box, Stack, Button, Drawer, IconButton, Typography } from '@mui/materia
 import { RouterLink } from 'src/routes/components/router-link';
 import { preloadVentureDebtPage } from 'src/routes/venture-debt-loader';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
+
 import fallback from 'src/content/homepage.json';
 import { websiteTokens } from 'src/theme/website-theme';
 
@@ -51,6 +53,7 @@ function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () 
   );
 }
 export function Header({ data }: { data: GlobalContent }) {
+  const reducedMotion = useSiteReducedMotion();
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [pastHero, setPastHero] = useState(false);
@@ -64,7 +67,6 @@ export function Header({ data }: { data: GlobalContent }) {
     let previousY = window.scrollY;
     let direction = 0;
     let distance = 0;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const hero = document.querySelector('main > section');
     const onScroll = () => {
       const currentY = Math.max(0, window.scrollY);
@@ -72,7 +74,7 @@ export function Header({ data }: { data: GlobalContent }) {
       const settings = fallback.sectionTransitions;
       // The hero's surface lightens before its layout box leaves the viewport.
       // Switch logo, navigation and CTA together before that pale phase begins.
-      const whiteHeaderBoundary = settings.enabled && !reducedMotion.matches
+      const whiteHeaderBoundary = settings.enabled && !reducedMotion
         ? window.innerHeight * (settings.startViewport - (settings.startViewport - settings.endViewport) * 0.15)
         : 0;
       setPastHero(heroBottom !== undefined && heroBottom <= whiteHeaderBoundary);
@@ -96,13 +98,11 @@ export function Header({ data }: { data: GlobalContent }) {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
-    reducedMotion.addEventListener('change', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
-      reducedMotion.removeEventListener('change', onScroll);
     };
-  }, [open]);
+  }, [open, reducedMotion]);
   return (
     <>
       <Box

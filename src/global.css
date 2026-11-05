@@ -25,6 +25,15 @@ html {
   height: 100%;
   -webkit-overflow-scrolling: touch;
 }
+
+/* The visitor's site setting applies to CSS effects as well as JS timelines. */
+html[data-motion='reduced'] *,
+html[data-motion='reduced'] *::before,
+html[data-motion='reduced'] *::after {
+  animation-play-state: paused !important;
+  transition-duration: 0s !important;
+  scroll-behavior: auto !important;
+}
 body,
 #root,
 #root__layout {

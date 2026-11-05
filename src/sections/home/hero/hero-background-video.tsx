@@ -4,9 +4,12 @@ import { useRef, useState, useEffect } from 'react';
 
 import { Box } from '@mui/material';
 
+import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
+
 type Props = { src: string; fallbackSrc: string; poster?: string; sx: SxProps<Theme>; retryOnInteraction?: boolean };
 
 export function HeroBackgroundVideo({ src, fallbackSrc, poster, sx, retryOnInteraction = false }: Props) {
+  const reducedMotion = useSiteReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [failedSrc, setFailedSrc] = useState<string>();
   const activeSrc = failedSrc === src ? fallbackSrc : src;
@@ -17,7 +20,7 @@ export function HeroBackgroundVideo({ src, fallbackSrc, poster, sx, retryOnInter
     const bounds = video.getBoundingClientRect();
     let inViewport = bounds.bottom > 0 && bounds.top < window.innerHeight;
     const play = () => {
-      if (!inViewport || document.visibilityState !== 'visible') {
+      if (reducedMotion || !inViewport || document.visibilityState !== 'visible') {
         video.pause();
         return;
       }
@@ -52,13 +55,13 @@ export function HeroBackgroundVideo({ src, fallbackSrc, poster, sx, retryOnInter
         window.removeEventListener('pageshow', play);
       }
     };
-  }, [activeSrc, retryOnInteraction]);
+  }, [activeSrc, retryOnInteraction, reducedMotion]);
 
   return (
     <Box
       ref={videoRef}
       component="video"
-      autoPlay
+      autoPlay={!reducedMotion}
       muted
       loop
       playsInline

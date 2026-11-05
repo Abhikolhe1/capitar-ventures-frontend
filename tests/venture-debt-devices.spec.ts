@@ -67,11 +67,12 @@ for (const size of [
   });
 }
 
-test('reduced motion keeps sections readable without pinning', async ({ page }) => {
+test('site reduced motion keeps sections readable without pinning', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.route('**/api/**', (route) => route.fulfill({ status: 503, body: '{}' }));
   await page.goto('/venture-debt');
+  await page.getByRole('button', { name: 'Reduce animations', exact: true }).click();
   await expect(page.locator('.vd-signals-grid')).toHaveCSS('position', 'static');
   await page.locator('#signal-2').click();
   await expect(page.locator('#signal-panel-2')).toBeVisible();

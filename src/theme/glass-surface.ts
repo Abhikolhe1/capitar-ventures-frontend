@@ -49,6 +49,6 @@ export const liquidGlassButton = {
     boxShadow: 'inset 0 1px 3px rgba(255,255,255,.65), inset 0 -1px 4px rgba(213,231,249,.22), 0 6px 18px rgba(10,14,38,.15), 0 0 12px rgba(210,202,249,.08)',
   },
   '&.Mui-focusVisible': { outline: '2px solid rgba(255,255,255,.85)', outlineOffset: 4 },
-  '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+  'html[data-motion="reduced"] &': { transition: 'none' },
   '&.Mui-disabled': { color: '#FFFFFF', opacity: 1 },
 } as const;

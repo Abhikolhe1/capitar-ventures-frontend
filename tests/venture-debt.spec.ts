@@ -82,6 +82,7 @@ test('both pinned sections advance all four items and reverse with scrolling', a
     await expect.poll(() => page.locator(`${track} > .vd-pinned-panel`).evaluate(node => node.getBoundingClientRect().top)).toBeLessThan(geometry.top - 100);
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('button', { name: 'Reduce animations', exact: true }).click();
   await expect.poll(() => page.locator('.vd-signals-grid').evaluate(node => getComputedStyle(node).position)).toBe('static');
 });
 
