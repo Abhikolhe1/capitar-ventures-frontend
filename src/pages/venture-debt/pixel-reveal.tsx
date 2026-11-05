@@ -13,9 +13,16 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
     if (!element || !surface) return undefined;
     const context = surface.getContext('2d');
     if (!context) return undefined;
+    const picture = element.querySelector('img');
+    if (!picture) return undefined;
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0;
+    let visible = false;
+    let ready = picture.complete && picture.naturalWidth > 0;
+    let imageFailed = picture.complete && !picture.naturalWidth;
+    let currentProgress = media.matches ? 1 : 0;
     const paint = (progress: number) => {
+      currentProgress = progress;
       const width = element.clientWidth,
         height = element.clientHeight;
       const ratio = Math.min(devicePixelRatio || 1, 2);
@@ -45,11 +52,13 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
     };
     const play = () => {
       cancelAnimationFrame(frame);
-      if (media.matches) {
+      if (media.matches || imageFailed || typeof IntersectionObserver === 'undefined') {
         paint(1);
         return;
       }
       paint(0);
+      // A slow connection must not consume the reveal before the image arrives.
+      if (!ready || !visible) return;
       const start = performance.now();
       const tick = (time: number) => {
         const progress = Math.min(1, (time - start) / 950);
@@ -60,22 +69,51 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
     };
     if (media.matches) paint(1);
     else paint(0);
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) play();
-        else {
-          cancelAnimationFrame(frame);
-          paint(media.matches ? 1 : 0);
-        }
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(element);
-    media.addEventListener('change', play);
+    const loaded = () => {
+      ready = picture.naturalWidth > 0;
+      imageFailed = !ready;
+      play();
+    };
+    const failed = () => {
+      imageFailed = true;
+      cancelAnimationFrame(frame);
+      paint(1);
+    };
+    picture.addEventListener('load', loaded);
+    picture.addEventListener('error', failed);
+    const observer =
+      typeof IntersectionObserver === 'undefined'
+        ? undefined
+        : new IntersectionObserver(
+            ([entry]) => {
+              visible = entry.isIntersecting;
+              if (entry.isIntersecting) play();
+              else {
+                cancelAnimationFrame(frame);
+                paint(media.matches ? 1 : 0);
+              }
+            },
+            { threshold: 0.15 }
+          );
+    observer?.observe(element);
+    // Keep the image usable when an older browser lacks visibility observation.
+    if (!observer) paint(1);
+    const resize =
+      typeof ResizeObserver === 'undefined'
+        ? undefined
+        : new ResizeObserver(() => paint(currentProgress));
+    resize?.observe(element);
+    const changed = () => (observer ? play() : paint(1));
+    if (media.addEventListener) media.addEventListener('change', changed);
+    else media.addListener(changed);
     return () => {
       cancelAnimationFrame(frame);
-      observer.disconnect();
-      media.removeEventListener('change', play);
+      observer?.disconnect();
+      resize?.disconnect();
+      picture.removeEventListener('load', loaded);
+      picture.removeEventListener('error', failed);
+      if (media.removeEventListener) media.removeEventListener('change', changed);
+      else media.removeListener(changed);
     };
   }, [image.url, index]);
   return (
