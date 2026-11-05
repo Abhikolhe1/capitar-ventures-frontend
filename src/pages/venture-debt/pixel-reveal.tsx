@@ -61,9 +61,10 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
       paint(0);
       // A slow connection must not consume the reveal before the image arrives.
       if (!ready || !visible) return;
-      const start = performance.now();
+      // Let the active signal settle before revealing its image.
+      const start = performance.now() + 250;
       const tick = (time: number) => {
-        const progress = Math.min(1, (time - start) / 950);
+        const progress = Math.max(0, Math.min(1, (time - start) / 950));
         paint(progress);
         if (progress < 1) frame = requestAnimationFrame(tick);
       };
