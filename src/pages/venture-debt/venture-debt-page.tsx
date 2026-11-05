@@ -224,6 +224,9 @@ export default function VentureDebtPage() {
                   className="vd-signal-art"
                   aria-label={`Signal ${signal + 1}: ${signals[signal]?.title || ''}`}
                 >
+                  <div className="vd-signal-background" aria-hidden="true">
+                    <img src="/assets/venture-debt/signal-background-glow.svg" alt="" />
+                  </div>
                   <PixelReveal image={signals[signal]?.image || before.image} index={signal} />
                 </div>
               </div>

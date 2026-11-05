@@ -152,3 +152,21 @@ For each new device-specific issue, append: date, affected screen, local/public
 URL type, browser/OS/version, CSS viewport and zoom, input type, native and site
 motion preferences, reproduction steps, cause, fix, exact checks/results and
 remaining physical-browser checks. Record no secrets or private browsing data.
+
+## 5 November 2026: separate signal background and foreground
+
+Four Signals now keeps the navy/glow card background fixed and animates only
+transparent foreground artwork. Confirmed sequence: shield/network, capital
+chart, target, repayment calendar. Figma sources: `2134:752`, `2295:2785`,
+`2295:2782`, `2295:2788`, `2295:2789`. Original PNGs are retained with the
+Figma image-fill crops; no screenshot is used as a runtime asset.
+
+The reveal draws image tiles onto a transparent foreground canvas and returns
+to the image after completion. It preserves the 250 ms start delay and
+image-loading/resize safeguards. Per-signal CMS images remain supported; missing
+CMS images use the corresponding local artwork, rather than repeating the first.
+Compact layouts retain native scrolling and their existing active-row behavior.
+
+Figma comment numbering was confirmed by the user after the connector reached
+its tool-call limit; local-browser access was unavailable. Physical-device
+validation remains pending as described above.

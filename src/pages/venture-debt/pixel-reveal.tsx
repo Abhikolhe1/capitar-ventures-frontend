@@ -1,12 +1,23 @@
+import type { CSSProperties } from 'react';
 import type { Media } from 'src/types/homepage';
 
 import { useRef, useEffect } from 'react';
 
 import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
 
-// A small canvas overlay avoids hundreds of animated DOM tiles and never
-// samples the image, so cross-origin CMS media needs no canvas CORS access.
+// Exact image-fill crops returned by Figma. Keep the source files intact.
+const crops = [
+  { width: 142.82, height: 124.79, left: -21.41, top: 0 },
+  { width: 363.21, height: 223.09, left: -212.42, top: 0 },
+  { width: 353.21, height: 272.65, left: -58.77, top: -142.99 },
+  { width: 315.8, height: 260.54, left: -185.24, top: -133.1 },
+];
+// Draw only the foreground; transparent pixels expose the fixed background.
 export function PixelReveal({ image, index }: { image: Media; index: number }) {
+  const isFigmaAsset = /signal-(shield|finance-sprite)\.png$/.test(image.url);
+  const crop = isFigmaAsset
+    ? crops[index % crops.length]
+    : { width: 100, height: 100, left: 0, top: 0 };
   const reducedMotion = useSiteReducedMotion();
   const root = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -37,6 +48,9 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
       }
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
       context.clearRect(0, 0, width, height);
+      picture.style.opacity = progress >= 1 ? '1' : '0';
+      element.dataset.revealProgress = String(progress);
+      if (progress >= 1 || !ready) return;
       const size = Math.max(14, width / 22);
       const rows = Math.ceil(height / size),
         columns = Math.ceil(width / size);
@@ -44,10 +58,20 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
         for (let col = 0; col < columns; col += 1) {
           const noise = ((col * 73 + row * 37 + index * 19) % 101) / 101;
           const threshold = (1 - row / rows) * 0.68 + noise * 0.25;
-          if (progress >= threshold + 0.07) continue;
-          context.globalAlpha = Math.min(1, Math.max(0, (threshold + 0.07 - progress) / 0.07));
-          context.fillStyle = '#ffffff';
-          context.fillRect(col * size, row * size, size + 0.5, size + 0.5);
+          if (progress <= threshold) continue;
+          context.save();
+          context.globalAlpha = Math.min(1, (progress - threshold) / 0.07);
+          context.beginPath();
+          context.rect(col * size, row * size, size + 0.5, size + 0.5);
+          context.clip();
+          context.drawImage(
+            picture,
+            (width * crop.left) / 100,
+            (height * crop.top) / 100,
+            (width * crop.width) / 100,
+            (height * crop.height) / 100
+          );
+          context.restore();
         }
       }
       context.globalAlpha = 1;
@@ -112,11 +136,28 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
       resize?.disconnect();
       picture.removeEventListener('load', loaded);
       picture.removeEventListener('error', failed);
+      picture.style.opacity = '1';
     };
-  }, [image.url, index, reducedMotion]);
+  }, [image.url, index, reducedMotion, crop.width, crop.height, crop.left, crop.top]);
   return (
-    <div className="vd-pixel-reveal" ref={root} data-pixel-index={index}>
-      <img src={image.url} alt={image.alternativeText || ''} />
+    <div
+      className="vd-pixel-reveal"
+      ref={root}
+      data-pixel-index={index}
+      data-figma-art={isFigmaAsset ? index : undefined}
+    >
+      <img
+        src={image.url}
+        alt={image.alternativeText || ''}
+        style={
+          {
+            '--art-width': `${crop.width}%`,
+            '--art-height': `${crop.height}%`,
+            '--art-left': `${crop.left}%`,
+            '--art-top': `${crop.top}%`,
+          } as CSSProperties
+        }
+      />
       <canvas ref={canvas} aria-hidden="true" />
     </div>
   );

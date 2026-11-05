@@ -33,8 +33,8 @@ test('older browser APIs still boot, scroll through signals, and animate the car
     }) as typeof window.scroll;
     Object.defineProperty(window, '__forceSmoothScrollPolyfill__', { value: true });
     // Count drawn intermediate frames without relying on automation timing.
-    const paint = CanvasRenderingContext2D.prototype.fillRect;
-    CanvasRenderingContext2D.prototype.fillRect = function (...args) {
+    const paint = CanvasRenderingContext2D.prototype.drawImage;
+    CanvasRenderingContext2D.prototype.drawImage = function (...args) {
       if (this.canvas.closest('.vd-pixel-reveal') && this.globalAlpha > 0 && this.globalAlpha < 1)
         this.canvas.dataset.animated = 'true';
       return paint.apply(this, args);

@@ -54,8 +54,8 @@ for (const size of [
     await page.setViewportSize(size);
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addInitScript(() => {
-      const draw = CanvasRenderingContext2D.prototype.fillRect;
-      CanvasRenderingContext2D.prototype.fillRect = function (...args) {
+      const draw = CanvasRenderingContext2D.prototype.drawImage;
+      CanvasRenderingContext2D.prototype.drawImage = function (...args) {
         if (this.canvas.closest('.vd-pixel-reveal') && this.globalAlpha > 0 && this.globalAlpha < 1)
           this.canvas.dataset.animated = 'true';
         return draw.apply(this, args);

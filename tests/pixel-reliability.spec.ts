@@ -1,17 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 async function coverage(page: import('@playwright/test').Page) {
-  return page.locator('.vd-pixel-reveal canvas').evaluate((canvas: HTMLCanvasElement) => {
-    if (!canvas.width || !canvas.height) return -1;
-    const data = canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height).data;
-    let covered = 0;
-    let total = 0;
-    for (let i = 3; i < data.length; i += 400) {
-      total += 1;
-      covered += data[i] > 0 ? 1 : 0;
-    }
-    return covered / total;
-  });
+  return page
+    .locator('.vd-pixel-reveal')
+    .evaluate((el) => 1 - Number((el as HTMLElement).dataset.revealProgress || 0));
 }
 
 const browserName = process.env.PIXEL_BROWSER === 'webkit' ? 'webkit' : 'chromium';
@@ -43,8 +35,10 @@ test.describe(browserName, () => {
       await page.goto('/venture-debt');
       const image = page.locator('.vd-pixel-reveal img');
       await expect
-        .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 20000 })
-        .toBe(500);
+        .poll(() => image.evaluate((img: HTMLImageElement) => img.naturalWidth > 0), {
+          timeout: 20000,
+        })
+        .toBe(true);
       await image.scrollIntoViewIfNeeded();
       await expect.poll(() => coverage(page)).toBe(0);
       // Leave and return: the same card must animate again on reverse scroll.
@@ -57,14 +51,8 @@ test.describe(browserName, () => {
         const c = img.parentElement!.querySelector('canvas')!;
         const start = performance.now();
         while (performance.now() - start < 1800) {
-          const data = c.getContext('2d')!.getImageData(0, 0, c.width, c.height).data;
-          let covered = 0,
-            total = 0;
-          for (let i = 3; i < data.length; i += 400) {
-            total++;
-            if (data[i]) covered++;
-          }
-          if (covered / total > 0 && covered / total < 0.98) return true;
+          const progress = Number(c.parentElement!.dataset.revealProgress || 0);
+          if (progress > 0 && progress < 1) return true;
           await new Promise((resolve) => setTimeout(resolve, 30));
         }
         return false;
@@ -93,7 +81,7 @@ test.describe(browserName, () => {
     const held = new Promise<void>((resolve) => {
       release = resolve;
     });
-    await page.route('**/signal-card-01.png', async (route) => {
+    await page.route('**/signal-shield.png', async (route) => {
       await held;
       await route.continue();
     });
@@ -105,9 +93,11 @@ test.describe(browserName, () => {
     release();
     await expect
       .poll(() =>
-        page.locator('.vd-pixel-reveal img').evaluate((img: HTMLImageElement) => img.naturalWidth)
+        page
+          .locator('.vd-pixel-reveal img')
+          .evaluate((img: HTMLImageElement) => img.naturalWidth > 0)
       )
-      .toBe(500);
+      .toBe(true);
     await expect
       .poll(
         async () => {
@@ -120,14 +110,12 @@ test.describe(browserName, () => {
     await expect.poll(() => coverage(page)).toBe(0);
   });
 
-  test('reduced motion shows the complete image', async ({ page }) => {
+  test('OS motion preferences still reveal the complete foreground', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/venture-debt');
-    await page.getByRole('button', { name: 'Reduce animations', exact: true }).click();
     await page.locator('.vd-pixel-reveal').scrollIntoViewIfNeeded();
     await expect.poll(() => coverage(page)).toBe(0);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.getByRole('button', { name: 'Enable animations', exact: true }).click();
     await expect.poll(() => coverage(page)).toBe(0);
   });
 

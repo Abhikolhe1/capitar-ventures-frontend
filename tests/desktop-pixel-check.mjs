@@ -11,7 +11,7 @@ for (const [name, engine] of Object.entries({chromium,firefox,webkit})) {
    try {
     await page.goto('http://72.61.232.63:3051/venture-debt');
     await expect(page.locator('main')).toHaveAttribute('aria-busy','false',{timeout:20000});
-    await expect.poll(()=>page.locator('.vd-pixel-reveal img').evaluate(i=>i.naturalWidth),{timeout:20000}).toBe(500);
+    await expect.poll(()=>page.locator('.vd-pixel-reveal img').evaluate(i=>i.naturalWidth>0),{timeout:20000}).toBe(true);
     const results=[];
     for(const index of [0,1,3,2]) {
      const result=await page.evaluate(async ({index,height})=>{

@@ -67,19 +67,35 @@
     "items": [
       {
         "title": "Existing equity backing",
-        "description": "You have investors around the table who understand the plan and the milestone ahead."
+        "description": "You have investors around the table who understand the plan and the milestone ahead.",
+        "image": {
+          "url": "/assets/venture-debt/signal-shield.png",
+          "alternativeText": "Equity backing: glass shield and network"
+        }
       },
       {
         "title": "A clear use for the capital",
-        "description": "You have investors around the table who understand the plan and the milestone ahead."
+        "description": "You have investors around the table who understand the plan and the milestone ahead.",
+        "image": {
+          "url": "/assets/venture-debt/signal-finance-sprite.png",
+          "alternativeText": "Capital allocation: glass chart and rupee coin"
+        }
       },
       {
         "title": "A defined milestone ahead",
-        "description": "You have investors around the table who understand the plan and the milestone ahead."
+        "description": "You have investors around the table who understand the plan and the milestone ahead.",
+        "image": {
+          "url": "/assets/venture-debt/signal-finance-sprite.png",
+          "alternativeText": "Business milestone: glass target and arrow"
+        }
       },
       {
         "title": "A plan for repayment",
-        "description": "You have investors around the table who understand the plan and the milestone ahead."
+        "description": "You have investors around the table who understand the plan and the milestone ahead.",
+        "image": {
+          "url": "/assets/venture-debt/signal-finance-sprite.png",
+          "alternativeText": "Repayment plan: glass calendar and rupee coin"
+        }
       }
     ]
   },

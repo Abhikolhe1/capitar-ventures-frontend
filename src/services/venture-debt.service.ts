@@ -24,7 +24,9 @@ function merge(template: unknown, value: unknown, key = ''): unknown {
   if (Array.isArray(template)) {
     if (!Array.isArray(value)) return template;
     if (!value.length && key === 'items' && object(template[0])?.title) return template;
-    return value.filter((item) => object(item)).map((item) => merge(template[0], item));
+    return value
+      .filter((item) => object(item))
+      .map((item, index) => merge(template[index] ?? template[0], item));
   }
   const shape = object(template);
   if (shape) {
