@@ -167,6 +167,23 @@ image-loading/resize safeguards. Per-signal CMS images remain supported; missing
 CMS images use the corresponding local artwork, rather than repeating the first.
 Compact layouts retain native scrolling and their existing active-row behavior.
 
+## 6 November 2026: prevent raw signal artwork flashing before reveal
+
+The user reported the next full foreground image appearing before its pixel
+animation. The image previously rendered with default opacity, reset in a passive
+effect, and became visible again during effect cleanup. Source/index changes could
+therefore expose it before the next reveal initialized. PixelReveal now renders
+the foreground hidden and initializes/reset paints in a layout effect, before
+browser paint. Cleanup only disposes resources. The raw image becomes visible at
+reveal completion; a missing or throwing canvas context still exposes the fallback
+image. The fixed background and 250 ms start delay are preserved.
+
+Validation at localhost:3041: automated desktop wheel progression through all
+four signals and reverse scrolling, sampling every animation frame with OS reduce,
+no-preference and real-system preference; saved reduction choice remains ignored.
+Existing desktop/phone layered-artwork completion checks also pass. These are
+automated browser checks, not physical-device certification.
+
 Figma comment numbering was confirmed by the user after the connector reached
 its tool-call limit; local-browser access was unavailable. Physical-device
 validation remains pending as described above.

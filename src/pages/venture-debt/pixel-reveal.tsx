@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { Media } from 'src/types/homepage';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 
 import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
 
@@ -21,14 +21,24 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
   const reducedMotion = useSiteReducedMotion();
   const root = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = root.current;
     const surface = canvas.current;
     if (!element || !surface) return undefined;
-    const context = surface.getContext('2d');
-    if (!context) return undefined;
     const picture = element.querySelector('img');
     if (!picture) return undefined;
+    // Reset before the browser can paint a new source or active signal.
+    picture.style.opacity = reducedMotion ? '1' : '0';
+    let context: CanvasRenderingContext2D | null;
+    try {
+      context = surface.getContext('2d');
+    } catch {
+      context = null;
+    }
+    if (!context) {
+      picture.style.opacity = '1';
+      return undefined;
+    }
     let frame = 0;
     let visible = false;
     let ready = picture.complete && picture.naturalWidth > 0;
@@ -136,7 +146,6 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
       resize?.disconnect();
       picture.removeEventListener('load', loaded);
       picture.removeEventListener('error', failed);
-      picture.style.opacity = '1';
     };
   }, [image.url, index, reducedMotion, crop.width, crop.height, crop.left, crop.top]);
   return (
@@ -151,6 +160,7 @@ export function PixelReveal({ image, index }: { image: Media; index: number }) {
         alt={image.alternativeText || ''}
         style={
           {
+            opacity: reducedMotion ? 1 : 0,
             '--art-width': `${crop.width}%`,
             '--art-height': `${crop.height}%`,
             '--art-left': `${crop.left}%`,

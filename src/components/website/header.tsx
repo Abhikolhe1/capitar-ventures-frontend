@@ -17,6 +17,7 @@ import { AuroraGlassButton } from 'src/components/website/aurora-glass-button';
 
 function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () => void; dark?: boolean }) {
   if (item.label === 'Venture Debt') item = { ...item, enabled: true, href: '/venture-debt' };
+  if (item.label === 'Portfolio') item = { ...item, enabled: true, href: '/portfolio' };
   const internal = item.enabled && item.href?.startsWith('/') && !item.href.startsWith('//');
   const preload = item.href === '/venture-debt' ? preloadVentureDebtPage : undefined;
   return (

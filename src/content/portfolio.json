@@ -1,0 +1,170 @@
+{
+  "hero": {
+    "heading": "The founders we've backed,",
+    "emphasis": "and what we did together.",
+    "description": "Twenty-four companies across eight sectors, from first cheques to follow-on rounds."
+  },
+  "conversation": {
+    "heading": "Curious how venture debt works?",
+    "description": "Capital that lets you grow without giving up more of your company. See how we structure it.",
+    "cta": { "label": "Know more about venture debt", "enabled": true, "href": "/venture-debt" }
+  },
+  "companies": [
+    {
+      "id": "melorra",
+      "name": "Melorra",
+      "logo": "melorra",
+      "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
+      "sector": "D2C / B2C",
+      "stage": "Series B",
+      "status": "Since acquired",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "ikayu",
+      "name": "Ikayu Foodlabs",
+      "logo": "ikayu",
+      "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "craftpac",
+      "name": "Craftpac Hospitality",
+      "logo": "craftpac",
+      "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "clensta",
+      "name": "Clensta International",
+      "logo": "melorra",
+      "description": "Personal care brand across hygiene, skincare, and wellness. Brand since sold.",
+      "sector": "D2C / B2C",
+      "stage": "Series B",
+      "status": "Since acquired",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "bioprime",
+      "name": "Bioprime Agrisolutions",
+      "logo": "ikayu",
+      "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "daryaganj",
+      "name": "Daryaganj Hospitality",
+      "logo": "craftpac",
+      "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "fatakpay",
+      "name": "Fatakpay Digital",
+      "logo": "melorra",
+      "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
+      "sector": "D2C / B2C",
+      "stage": "Series B",
+      "status": "Since acquired",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "feathersoft",
+      "name": "Feathersoft Info Solutions (ThinkBio)",
+      "logo": "ikayu",
+      "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "finsall",
+      "name": "Finsall Resources",
+      "logo": "craftpac",
+      "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "melorra-august",
+      "name": "Melorra (August Jewellery Pvt. Ltd.)",
+      "logo": "melorra",
+      "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
+      "sector": "D2C / B2C",
+      "stage": "Series B",
+      "status": "Since acquired",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "ikayu-foodlabs",
+      "name": "Ikayu Foodlabs",
+      "logo": "ikayu",
+      "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    },
+    {
+      "id": "craftpac-harajuku",
+      "name": "Craftpac Hospitality (Harajuku)",
+      "logo": "craftpac",
+      "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
+      "sector": "F&B / Agri",
+      "stage": "Pre Series A",
+      "status": "",
+      "founder": {
+        "name": "Arjun Mehta",
+        "role": "Founder & CEO"
+      }
+    }
+  ]
+}

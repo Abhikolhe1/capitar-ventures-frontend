@@ -353,7 +353,9 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
   const logo = data.brandLogo?.url || fallback.global.footer.brandLogo.url || brandLogo?.url;
   const logoMonochrome = data.brandLogo ? data.logoMonochrome : fallback.global.footer.logoMonochrome;
   const navigation = data.navigation.map((item) =>
-    item.label.trim().toLowerCase() === 'about us' && !item.href
+    item.label.trim().toLowerCase() === 'portfolio'
+      ? { ...item, href: '/portfolio', enabled: true }
+      : item.label.trim().toLowerCase() === 'about us' && !item.href
       ? { ...item, href: '#capitar-difference', enabled: true }
       : item
   );

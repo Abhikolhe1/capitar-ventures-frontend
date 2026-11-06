@@ -19,6 +19,7 @@ import { loadVentureDebtPage } from './venture-debt-loader';
 export const DashboardPage = lazy(() => import('src/pages/dashboard'));
 export const HomePage = lazy(() => import('src/pages/home/home-page'));
 export const VentureDebtPage = lazy(loadVentureDebtPage);
+export const PortfolioPage = lazy(() => import('src/pages/portfolio/portfolio-page'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
@@ -46,6 +47,7 @@ const renderFallback = () => (
 );
 
 export const routesSection: RouteObject[] = [
+  { path: '/portfolio', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><PortfolioPage /></Suspense> },
   { path: '/venture-debt', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><VentureDebtPage /></Suspense> },
   { path: '/', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><HomePage /></Suspense> },
   {

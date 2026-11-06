@@ -9,7 +9,7 @@ import { SectionBadge } from 'src/components/website/section-badge';
 import { CaseStudyCard } from './case-study-card';
 import { useCaseStudyAnimation } from './use-case-study-animation';
 
-export function CaseStudySection({ data }: { data?: CaseStudyContent }) {
+export function CaseStudySection({ data, variant }: { data?: CaseStudyContent; variant?: 'portfolio' }) {
   const mobile = useMediaQuery('(max-width:599px)');
   const scope = useRef<HTMLElement>(null);
   const [selected, setSelected] = useState(0);
@@ -27,7 +27,7 @@ export function CaseStudySection({ data }: { data?: CaseStudyContent }) {
   )) };
   const active = Math.min(selected, Math.max(0, data.items.length - 1));
   const move = (direction: number) => setSelected((active + direction + data.items.length) % data.items.length);
-  return <Box component="section" ref={scope} id="case-study" aria-labelledby="case-study-heading" sx={{ position: 'relative', zIndex: 3, bgcolor: '#FFFFFF', color: '#121212' }}>
+  return <Box component="section" className={variant === 'portfolio' ? 'portfolio-stories' : undefined} ref={scope} id="case-study" aria-labelledby="case-study-heading" sx={{ position: 'relative', zIndex: 3, bgcolor: '#FFFFFF', color: '#121212' }}>
     <Box sx={{ maxWidth: 1440, mx: 'auto', px: { xs: '20px', sm: 6, lg: '50px' }, pt: { xs: 6, sm: 6, md: '60px' }, pb: { xs: 6, sm: 6, md: '51px' }, minHeight: { lg: 800 } }}>
       <Box data-case-header sx={{ px: { lg: '10px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0,1fr) minmax(0,1fr) 170px', lg: 'minmax(0,487px) minmax(0,394px) 170px' }, alignItems: 'end', columnGap: { md: 3 }, justifyContent: 'space-between', rowGap: { xs: '12px', md: 3 } }}>
         <Box><SectionBadge compactMobile text={data.sectionLabel} minWidth={122} fontWeight={500} /><Typography component="h2" id="case-study-heading" sx={{ mt: '20px', fontSize: { xs: 28, sm: 38, lg: 42 }, lineHeight: 1.2, letterSpacing: '-0.02em', fontWeight: 400, whiteSpace: { lg: 'pre-line' } }}>{data.heading}</Typography></Box>
