@@ -13,7 +13,7 @@ const brightness = (color: string) => {
 };
 
 // Every visible section uses ONE canvas color, including during a handoff.
-export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: boolean) {
+export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: boolean, contentVersion?: string) {
   const reducedMotion = useSiteReducedMotion();
   useLayoutEffect(() => {
     const root = scope.current;
@@ -189,5 +189,5 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
       };
     }, scope);
     return () => context.revert();
-  }, [scope, loading, reducedMotion]);
+  }, [scope, loading, reducedMotion, contentVersion]);
 }

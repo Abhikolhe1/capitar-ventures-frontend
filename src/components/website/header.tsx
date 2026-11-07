@@ -68,8 +68,8 @@ export function Header({ data }: { data: GlobalContent }) {
     let previousY = window.scrollY;
     let direction = 0;
     let distance = 0;
-    const hero = document.querySelector('main > section');
     const onScroll = () => {
+      const hero = document.querySelector('main > section');
       const currentY = Math.max(0, window.scrollY);
       const heroBottom = hero?.getBoundingClientRect().bottom;
       const settings = fallback.sectionTransitions;
@@ -78,7 +78,7 @@ export function Header({ data }: { data: GlobalContent }) {
       const whiteHeaderBoundary = settings.enabled && !reducedMotion
         ? window.innerHeight * (settings.startViewport - (settings.startViewport - settings.endViewport) * 0.15)
         : 0;
-      setPastHero(heroBottom !== undefined && heroBottom <= whiteHeaderBoundary);
+      setPastHero(!hero?.querySelector('[data-entrance="background"]') || heroBottom !== undefined && heroBottom <= whiteHeaderBoundary);
       const delta = currentY - previousY;
       previousY = currentY;
       if (open || currentY <= 24) {
@@ -99,7 +99,11 @@ export function Header({ data }: { data: GlobalContent }) {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
+    const contentObserver = new MutationObserver(onScroll);
+    const main = document.querySelector('main');
+    if (main) contentObserver.observe(main, { childList: true });
     return () => {
+      contentObserver.disconnect();
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };

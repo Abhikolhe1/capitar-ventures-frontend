@@ -1,19 +1,34 @@
 {
   "hero": {
+    "enabled": true,
     "heading": "The founders we've backed,",
     "emphasis": "and what we did together.",
-    "description": "Twenty-four companies across eight sectors, from first cheques to follow-on rounds."
+    "description": "Twenty-four companies across eight sectors, from first cheques to follow-on rounds.",
+    "backgroundImage": {
+      "url": "/assets/portfolio/hero-background.webp",
+      "alternativeText": ""
+    },
+    "cta": {
+      "label": "Talk to Us",
+      "enabled": true,
+      "href": "mailto:ACCOUNT@CAPITAR.COM"
+    }
   },
   "conversation": {
+    "enabled": true,
+    "sectionLabel": "THE CONVERSATION",
     "heading": "Curious how venture debt works?",
     "description": "Capital that lets you grow without giving up more of your company. See how we structure it.",
-    "cta": { "label": "Know more about venture debt", "enabled": true, "href": "/venture-debt" }
+    "cta": {
+      "label": "Know more about venture debt",
+      "enabled": true,
+      "href": "/venture-debt"
+    }
   },
   "companies": [
     {
-      "id": "melorra",
+      "key": "melorra",
       "name": "Melorra",
-      "logo": "melorra",
       "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
       "sector": "D2C / B2C",
       "stage": "Series B",
@@ -21,12 +36,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/melorra.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "ikayu",
+      "key": "ikayu",
       "name": "Ikayu Foodlabs",
-      "logo": "ikayu",
       "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -34,12 +52,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/ikayu.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "craftpac",
+      "key": "craftpac",
       "name": "Craftpac Hospitality",
-      "logo": "craftpac",
       "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -47,12 +68,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/craftpac.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "clensta",
+      "key": "clensta",
       "name": "Clensta International",
-      "logo": "melorra",
       "description": "Personal care brand across hygiene, skincare, and wellness. Brand since sold.",
       "sector": "D2C / B2C",
       "stage": "Series B",
@@ -60,12 +84,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/melorra.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "bioprime",
+      "key": "bioprime",
       "name": "Bioprime Agrisolutions",
-      "logo": "ikayu",
       "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -73,12 +100,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/ikayu.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "daryaganj",
+      "key": "daryaganj",
       "name": "Daryaganj Hospitality",
-      "logo": "craftpac",
       "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -86,12 +116,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/craftpac.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "fatakpay",
+      "key": "fatakpay",
       "name": "Fatakpay Digital",
-      "logo": "melorra",
       "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
       "sector": "D2C / B2C",
       "stage": "Series B",
@@ -99,12 +132,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/melorra.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "feathersoft",
+      "key": "feathersoft",
       "name": "Feathersoft Info Solutions (ThinkBio)",
-      "logo": "ikayu",
       "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -112,12 +148,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/ikayu.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "finsall",
+      "key": "finsall",
       "name": "Finsall Resources",
-      "logo": "craftpac",
       "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -125,12 +164,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/craftpac.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "melorra-august",
+      "key": "melorra-august",
       "name": "Melorra (August Jewellery Pvt. Ltd.)",
-      "logo": "melorra",
       "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
       "sector": "D2C / B2C",
       "stage": "Series B",
@@ -138,12 +180,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/melorra.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "ikayu-foodlabs",
+      "key": "ikayu-foodlabs",
       "name": "Ikayu Foodlabs",
-      "logo": "ikayu",
       "description": "Daily-wear fine jewellery for younger customers, typically worn with Western attire. Since acquired.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -151,12 +196,15 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/ikayu.webp",
+        "alternativeText": ""
       }
     },
     {
-      "id": "craftpac-harajuku",
+      "key": "craftpac-harajuku",
       "name": "Craftpac Hospitality (Harajuku)",
-      "logo": "craftpac",
       "description": "Japanese café-restaurant and teahouse blending casual dining with Tokyo-style pop culture and street food.",
       "sector": "F&B / Agri",
       "stage": "Pre Series A",
@@ -164,7 +212,87 @@
       "founder": {
         "name": "Arjun Mehta",
         "role": "Founder & CEO"
+      },
+      "logo": {
+        "url": "/assets/portfolio/craftpac.webp",
+        "alternativeText": ""
       }
     }
-  ]
+  ],
+  "title": "Portfolio | Capitar Ventures",
+  "featuredStories": {
+    "enabled": true,
+    "sectionLabel": "FEATURED STORIES",
+    "heading": "What founder-first capital\nactually looks like.",
+    "description": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital.",
+    "items": [
+      {
+        "name": "Qubehealth",
+        "number": "01",
+        "description": "Strategic capital helping founders reach their next growth milestone.",
+        "image": {
+          "url": "/assets/capitar/case-qubehealth.webp",
+          "alternativeText": "A family spending time together in a bright living room."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-qubehealth-logo.webp",
+          "alternativeText": "Qubehealth"
+        }
+      },
+      {
+        "name": "mPokket",
+        "number": "02",
+        "image": {
+          "url": "/assets/capitar/case-mpokket.webp",
+          "alternativeText": "People meeting across a table."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-mpokket-logo.webp",
+          "alternativeText": "mPokket"
+        },
+        "description": "Strategic capital helping founders reach their next growth milestone."
+      },
+      {
+        "name": "Craev",
+        "number": "03",
+        "image": {
+          "url": "/assets/capitar/case-craev.webp",
+          "alternativeText": "A family spending time together in a bright living room."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-craev-logo.webp",
+          "alternativeText": "Craev"
+        },
+        "description": "Strategic capital helping founders reach their next growth milestone."
+      },
+      {
+        "name": "Pidge",
+        "number": "04",
+        "image": {
+          "url": "/assets/capitar/case-pidge.webp",
+          "alternativeText": "A person speaking at an event."
+        },
+        "logo": {
+          "url": "/assets/capitar/case-pidge-logo.webp",
+          "alternativeText": "Pidge"
+        },
+        "description": "Strategic capital helping founders reach their next growth milestone."
+      }
+    ]
+  },
+  "companiesSection": {
+    "enabled": true,
+    "sectionLabel": "THE COMPANIES",
+    "heading": "Built by founders, backed with conviction.",
+    "resultsLabel": "Showing results",
+    "sectorLabel": "Sector",
+    "stageLabel": "Stage at investment",
+    "allSectorsLabel": "All Sectors",
+    "allStagesLabel": "All Investments",
+    "companyLabel": "company",
+    "companiesLabel": "companies",
+    "cardTagsLabel": "Sectors",
+    "emptyHeading": "No companies match these filters.",
+    "resetLabel": "View all companies"
+  }
 }

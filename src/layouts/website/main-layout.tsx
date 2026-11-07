@@ -20,16 +20,18 @@ import { useHeroAnimation } from 'src/sections/home/hero/use-hero-animation';
 export function MainLayout({
   global,
   loading = false,
+  contentVersion,
   children,
 }: {
   global: GlobalContent;
   loading?: boolean;
+  contentVersion?: string;
   children: ReactNode;
 }) {
   const scope = useRef<HTMLDivElement>(null);
   useSmoothScroll();
   useHeroAnimation(scope, true);
-  usePageColorFlow(scope, loading);
+  usePageColorFlow(scope, loading, contentVersion);
   return (
     <ThemeProvider theme={websiteTheme}>
       <CssBaseline />
