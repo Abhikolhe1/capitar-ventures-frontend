@@ -90,6 +90,14 @@ function TeamCard({
         alt=""
         loading="lazy"
       />
+      {!member.dark && (
+        <img
+          className="about-team-shadow about-team-shadow--hover"
+          src={artwork('team-navy-shadow.png')}
+          alt=""
+          loading="lazy"
+        />
+      )}
       <div className="about-team-caption">
         <button
           type="button"
@@ -163,7 +171,11 @@ export default function AboutUsPage() {
       </section>
       <>
         <section className="about-mission" id="mission" aria-labelledby="mission-title">
-          <div className="about-section-art about-section-art--light" data-flow-artwork>
+          <div
+            className="about-section-art about-section-art--light"
+            data-flow-artwork
+            data-flow-artwork-hold="40"
+          >
             <img
               className="about-mission-map"
               src={content.mission.image}
@@ -234,7 +246,7 @@ export default function AboutUsPage() {
           className="about-belief"
           id="belief"
           aria-labelledby="belief-title"
-          style={{ '--belief-scroll': `${content.belief.items.length * 65}vh` } as CSSProperties}
+          style={{ '--belief-scroll': `${content.belief.items.length * 75}vh` } as CSSProperties}
         >
           <div className="about-belief-stage">
             <div className="about-section-art" data-flow-artwork aria-hidden="true">
@@ -264,11 +276,8 @@ export default function AboutUsPage() {
                       <span className="about-principle-copy">
                         <span className="about-principle-title">{item.title}</span>
                         {item.description && (
-                          <span
-                            className="about-principle-description"
-                            id={`about-principle-${index}`}
-                          >
-                            {item.description}
+                          <span className="about-principle-detail" id={`about-principle-${index}`}>
+                            <span className="about-principle-description">{item.description}</span>
                           </span>
                         )}
                       </span>

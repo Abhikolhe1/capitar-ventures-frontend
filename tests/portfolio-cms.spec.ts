@@ -40,8 +40,12 @@ test('Portfolio uses CMS sections, company media and filters independently of ho
   await expect(page.locator('#companies-heading')).toHaveText('CMS companies');
   await expect(page.locator('#conversation-heading')).toHaveText('CMS conversation');
   await expect(page.locator('.portfolio-card')).toHaveCount(1);
-  await expect(page.getByLabel('Industry', { exact: true })).toContainText('Technology');
-  await expect(page.getByLabel('Investment round')).toContainText('Series A');
+  await page.getByRole('combobox', { name: 'Industry', exact: true }).click();
+  await expect(page.getByRole('option', { name: 'Technology', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.getByRole('combobox', { name: 'Investment round', exact: true }).click();
+  await expect(page.getByRole('option', { name: 'Series A', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
   const card = page.locator('.portfolio-card');
   await card.scrollIntoViewIfNeeded();
   await expect(card).toContainText('CMS Founder');
@@ -49,6 +53,26 @@ test('Portfolio uses CMS sections, company media and filters independently of ho
   await expect
     .poll(() => card.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth))
     .toBeGreaterThan(0);
+});
+
+test('View Casestudy appears only for companies with a safe case study link', async ({ page }) => {
+  const data = structuredClone(fallback);
+  const base = data.companies[0];
+  data.companies = [
+    { ...base, key: 'with-study', name: 'With Study', caseStudyUrl: '/case-studies/with-study' },
+    { ...base, key: 'without-study', name: 'Without Study' },
+    { ...base, key: 'unsafe-study', name: 'Unsafe Study', caseStudyUrl: 'javascript:alert(1)' },
+  ] as typeof data.companies;
+  await page.route('**/api/portfolio', (route) => route.fulfill({ json: { data } }));
+  await page.goto('/portfolio');
+  const cards = page.locator('.portfolio-card');
+  await expect(cards).toHaveCount(3);
+  const link = cards.nth(0).getByRole('link', { name: 'View Casestudy' });
+  await expect(link).toHaveAttribute('href', '/case-studies/with-study');
+  await expect(cards.nth(1).locator('.portfolio-card__case-study')).toHaveCount(0);
+  await expect(cards.nth(2).locator('.portfolio-card__case-study')).toHaveCount(0);
+  await expect(cards.nth(0)).toContainText('Founders');
+  await expect(cards.nth(0)).toContainText('Stage of Investment');
 });
 
 test('empty CMS company list and disabled sections are respected; unsafe CTAs stay disabled', async ({

@@ -92,14 +92,15 @@
 .portfolio-results strong {
   font-weight: 400;
 }
-.portfolio-filters label {
+.portfolio-filter {
   display: flex;
   flex-direction: column;
   gap: 10px;
   min-width: 200px;
   font-size: 16px;
 }
-.portfolio-filters select {
+/* Trigger: equal 16px padding on both sides, chevron inset from the right edge. */
+.portfolio-filter .portfolio-select {
   font: inherit;
   font-size: 14px;
   color: #666;
@@ -107,11 +108,94 @@
   border: 1px solid #eee;
   border-radius: 24px;
   min-height: 38px;
-  padding: 8px 32px 8px 16px;
-  cursor: pointer;
-  max-width: 100%;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 }
-.portfolio-filters select:focus-visible,
+.portfolio-filter .portfolio-select:hover {
+  border-color: #d9d9d9;
+}
+.portfolio-filter .portfolio-select.Mui-focused {
+  border-color: #cc2334;
+  background: #fff;
+}
+.portfolio-filter .portfolio-select .MuiSelect-select {
+  padding: 9px 44px 9px 16px;
+  min-height: 0;
+  line-height: 1.4;
+  border-radius: 24px;
+  background: transparent;
+}
+.portfolio-filter .portfolio-select .MuiSelect-select:focus {
+  background: transparent;
+}
+.portfolio-filter .portfolio-select .MuiSelect-icon {
+  top: 50%;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  color: #666;
+  transform: translateY(-50%);
+  transition: transform 0.25s ease;
+}
+.portfolio-filter .portfolio-select .MuiSelect-iconOpen {
+  transform: translateY(-50%) rotate(180deg);
+}
+/* Open list (rendered in a portal, so styled globally). */
+.MuiPaper-root.portfolio-select-menu {
+  margin-top: 8px;
+  min-width: 220px;
+  padding: 6px;
+  border-radius: 16px;
+  background: #fff;
+  color: #121212;
+  border: 1px solid #ececec;
+  box-shadow:
+    0 12px 32px rgba(17, 17, 41, 0.12),
+    0 2px 6px rgba(17, 17, 41, 0.06);
+}
+/* Five 40px rows plus their 2px gaps are visible; longer lists scroll. */
+.portfolio-select-menu .MuiList-root {
+  padding: 0;
+}
+.MuiPaper-root.portfolio-select-menu {
+  max-height: calc(5 * 40px + 4 * 2px + 12px + 2px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #d4d6dd transparent;
+}
+.portfolio-select-menu .portfolio-select-option {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-family: 'LT Superior', sans-serif;
+  font-size: 14px;
+  color: #3a3a3a;
+}
+.portfolio-select-menu .portfolio-select-option + .portfolio-select-option {
+  margin-top: 2px;
+}
+.portfolio-select-menu .portfolio-select-option:hover,
+.portfolio-select-menu .portfolio-select-option.Mui-focusVisible {
+  background: #f4f5f8;
+}
+.portfolio-select-menu .portfolio-select-option.Mui-selected,
+.portfolio-select-menu .portfolio-select-option.Mui-selected:hover,
+.portfolio-select-menu .portfolio-select-option.Mui-selected.Mui-focusVisible {
+  background: #cc23340f;
+  color: #cc2334;
+  font-weight: 500;
+}
+.portfolio-select-check {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.portfolio-filter .portfolio-select .MuiSelect-select:focus-visible,
 .portfolio-reset:focus-visible {
   outline: 2px solid #cc2334;
   outline-offset: 4px;
@@ -144,7 +228,7 @@
   border: 1px solid #00000005;
   border-radius: 16px;
   min-height: 452px;
-  background: #f8f8f8;
+  background: #f8f9fb;
   color: #121212;
   padding: 26px;
   display: flex;
@@ -218,58 +302,88 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 .portfolio-card__logo {
-  width: 62px;
-  height: 62px;
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
   object-fit: contain;
   flex-shrink: 0;
 }
-.portfolio-card__founder {
-  border-left: 1px solid #cc2334;
-  padding-left: 8px;
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  line-height: 1.4;
+/* Sits above the full-card highlight toggle so it stays clickable. */
+.portfolio-card__case-study {
+  position: relative;
+  z-index: 3;
+  margin-left: auto;
 }
-.portfolio-card__founder small {
-  font-size: 11px;
+.portfolio-card__case-study .MuiButton-root {
+  min-height: 38px;
+  gap: 10px;
+  padding: 3px 3px 3px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #121212;
+  white-space: nowrap;
+  border: 1px solid #00000014;
+}
+.portfolio-card__case-study .MuiButton-root > span {
+  width: 32px;
+  height: 32px;
 }
 .portfolio-card h3 {
-  font-size: 28px;
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.14;
-  margin: 0 0 18px;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 16px;
 }
 .portfolio-card__copy p {
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0 0 28px;
 }
 .portfolio-card__bottom {
   margin-top: auto;
 }
-.portfolio-card__bottom > p {
-  font-size: 14px;
-  margin: 0 0 12px;
+.portfolio-card h4 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
 }
-.portfolio-tags {
+.portfolio-card__founders {
+  margin-bottom: 20px;
+}
+.portfolio-card__founders p {
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 0;
+}
+/* Short divider under the founders, as in the design. */
+.portfolio-card__founders::after {
+  content: '';
+  display: block;
+  width: 115px;
+  height: 1px;
+  margin-top: 14px;
+  background: #8080804d;
+}
+.portfolio-card__meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 16px 20px;
 }
-.portfolio-tags span {
+.portfolio-tag {
+  display: inline-block;
   background: #fff;
-  border: 1px solid #00000008;
+  border: 1px solid #00000014;
   color: #222;
-  padding: 8px 14px;
+  padding: 8px 16px;
   border-radius: 30px;
   line-height: 1.2;
-  font-size: 14px;
+  font-size: 16px;
 }
 .portfolio-empty {
   padding: 50px 20px;
@@ -359,7 +473,7 @@
   .portfolio-results {
     width: 100%;
   }
-  .portfolio-filters label {
+  .portfolio-filter {
     flex: 1;
   }
   .portfolio-conversation h2 {
@@ -410,14 +524,19 @@
   .portfolio-filters {
     gap: 16px;
   }
-  .portfolio-filters label {
+  .portfolio-filter {
     min-width: 0;
     width: calc(50% - 8px);
     font-size: 13px;
   }
-  .portfolio-filters select {
+  .portfolio-filter .portfolio-select {
     font-size: 12px;
-    padding-left: 12px;
+  }
+  .portfolio-filter .portfolio-select .MuiSelect-select {
+    padding: 9px 36px 9px 12px;
+  }
+  .portfolio-filter .portfolio-select .MuiSelect-icon {
+    right: 12px;
   }
   .portfolio-grid {
     grid-template-columns: 1fr;

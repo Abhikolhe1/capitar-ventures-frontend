@@ -4,7 +4,11 @@ import source from '../../../public/assets/about/quote-decoration.svg?raw';
 
 // Trusted, unchanged Figma vector paths. Inline SVG lets the native lighten/plus-lighter
 // layers composite against the page canvas instead of flattening onto an image surface.
-const markup = source.replace('<svg ', '<svg preserveAspectRatio="none" aria-hidden="true" ');
+// The 10% translucent shape fills are dropped so the section keeps the same flat navy
+// as The Belief; only the curved line design is drawn on top of it.
+const markup = source
+  .replace('<svg ', '<svg preserveAspectRatio="none" aria-hidden="true" ')
+  .replace(/<use[^>]*fill-opacity="0\.1"[^>]*\/>/g, '');
 export function QuoteArtwork({ src }: { src: string }) {
   const [replacement, setReplacement] = useState<string>();
   useEffect(() => {

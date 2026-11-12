@@ -66,6 +66,8 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
         element,
         color: gsap.utils.splitColor(section.color),
         opacity: element.style.getPropertyValue('--section-art-opacity'),
+        // Optional colour distance the artwork stays fully visible for before fading.
+        hold: gsap.utils.clamp(0, 50, Number(element.dataset.flowArtworkHold) || 0),
       })));
       const { startViewport, endViewport } = homepage.sectionTransitions;
       const transitions = saved.slice(1).map((section, offset) => {
@@ -149,7 +151,10 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
           const canvasRGB = gsap.utils.splitColor(color);
           surfaces.forEach(surface => {
             const distance = Math.max(...surface.color.slice(0, 3).map((channel, index) => Math.abs(channel - canvasRGB[index])));
-            const opacity = gsap.utils.clamp(0, 1, 1 - distance / 60);
+            // A held surface fades later but still finishes before the light-blue midpoint.
+            const opacity = gsap.utils.clamp(0, 1, surface.hold
+              ? 1 - (distance - surface.hold) / (68 - surface.hold)
+              : 1 - distance / 60);
             surface.element.style.setProperty('--section-art-opacity', String(opacity * opacity * (3 - 2 * opacity)));
           });
           lastColor = color;

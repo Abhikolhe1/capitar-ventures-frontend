@@ -1,4 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+// The filters are custom listboxes, so pick options the way a visitor does.
+async function choose(page: Page, name: string, option: string) {
+  await page.getByRole('combobox', { name, exact: true }).click();
+  await page.getByRole('option', { name: option, exact: true }).click();
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+}
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('capitar-motion', 'reduced'));
@@ -29,9 +36,9 @@ for (const reducedMotion of ['reduce', 'no-preference', null] as const) {
     await page.mouse.move(0, 0);
     await card.getByRole('button').focus();
     await expect(card).toHaveCSS('color', 'rgb(255, 255, 255)');
-    await page.getByLabel('Sector', { exact: true }).selectOption('D2C / B2C');
+    await choose(page, 'Sector', 'D2C / B2C');
     await expect(page.locator('.portfolio-grid > li')).toHaveCount(4);
-    await page.getByLabel('Stage at investment').selectOption('Pre Series A');
+    await choose(page, 'Stage at investment', 'Pre Series A');
     await expect(page.getByText('No companies match these filters.')).toBeVisible();
     await page.getByRole('button', { name: 'View all companies' }).click();
     await expect(page.locator('.portfolio-grid > li')).toHaveCount(12);
@@ -64,7 +71,7 @@ test('phone layout supports tap highlight, filters and navigation', async ({ bro
   await toggle.tap();
   await expect(toggle).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.portfolio-card').first()).toHaveCSS('color', 'rgb(255, 255, 255)');
-  await page.getByLabel('Sector', { exact: true }).selectOption('D2C / B2C');
+  await choose(page, 'Sector', 'D2C / B2C');
   await expect(page.locator('.portfolio-grid > li')).toHaveCount(4);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(
     true

@@ -292,6 +292,9 @@
     "companyLabel": "company",
     "companiesLabel": "companies",
     "cardTagsLabel": "Sectors",
+    "foundersLabel": "Founders",
+    "cardStageLabel": "Stage of Investment",
+    "caseStudyLabel": "View Casestudy",
     "emptyHeading": "No companies match these filters.",
     "resetLabel": "View all companies"
   }

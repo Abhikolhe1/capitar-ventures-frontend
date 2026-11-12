@@ -315,10 +315,13 @@
   border-left: 1px solid #fff3;
   min-width: 0;
 }
+/* Mirrors the Venture Debt "With Capitar" steps: rows dim to 60%, the active
+   row grows smoothly and its description expands with a fade and slide. */
 .about-principle {
-  height: 130px;
+  position: relative;
   border-bottom: 1px solid #fff3;
-  transition: height 0.4s ease;
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
 }
 .about-principle:last-child {
   border-bottom: 0;
@@ -329,11 +332,10 @@
   align-items: center;
   gap: 62px;
   width: 100%;
-  height: 100%;
   border: 0;
   background: transparent;
   padding: 32px 42px;
-  color: #fff6;
+  color: #fff;
   text-align: left;
   cursor: pointer;
 }
@@ -341,36 +343,52 @@
   font-size: 32px;
   line-height: 1.2;
   font-weight: 400;
-  transition: font-size 0.4s ease;
+  transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .about-principle-title {
   display: block;
   font-size: 28px;
   line-height: 1.1;
   font-weight: 400;
+  transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.about-principle-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition:
+    grid-template-rows 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    transform 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s 0.65s;
 }
 .about-principle-description {
-  display: none;
+  display: block;
+  min-height: 0;
+  overflow: hidden;
   font-size: 16px;
   line-height: 22px;
   color: #ffffffb3;
-  margin-top: 13px;
+}
+.about-principle-description::before {
+  content: '';
+  display: block;
+  height: 13px;
 }
 .about-principle[data-active='true'] {
-  height: 200px;
-  position: relative;
+  opacity: 1;
 }
 .about-principle[data-active='true']::before {
   content: '';
   position: absolute;
   left: -1px;
   top: 0;
-  height: 200px;
-  border-left: 2px solid #cc2334;
+  bottom: 0;
+  width: 2px;
+  background: #cc2334;
   pointer-events: none;
-}
-.about-principle[data-active='true'] button {
-  color: #fff;
 }
 .about-principle[data-active='true'] .about-principle-number {
   font-size: 72px;
@@ -378,8 +396,12 @@
 .about-principle[data-active='true'] .about-principle-title {
   font-size: 32px;
 }
-.about-principle[data-active='true'] .about-principle-description {
-  display: block;
+.about-principle[data-active='true'] .about-principle-detail {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
 }
 .about-people {
   background: #fff;
@@ -419,6 +441,49 @@
   border-radius: 21.093px;
   box-shadow: 0 5.086px 11.442px #1a67e71a;
   container-type: inline-size;
+}
+/* Portfolio-card hover: navy fill with blue rings, layered under the portrait. */
+.about-team-card:before,
+.about-team-card:after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.about-team-card:before {
+  background: #11054a;
+  transition: opacity 0.35s;
+}
+.about-team-card:after {
+  background: url('/assets/portfolio/hover-rings.png') left top/100% auto no-repeat;
+  filter: brightness(0.6) sepia(1) saturate(12) hue-rotate(190deg) blur(4px);
+  mix-blend-mode: screen;
+  transition: opacity 0.4s;
+}
+.about-team-crop,
+.about-team-shadow {
+  z-index: 2;
+}
+.about-team-shadow--hover {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.about-team-card[data-open='true']:before,
+.about-team-card[data-open='true']:after,
+.about-team-card[data-open='true'] .about-team-shadow--hover,
+.about-team-card:focus-within:before,
+.about-team-card:focus-within:after,
+.about-team-card:focus-within .about-team-shadow--hover {
+  opacity: 1;
+}
+@media (hover: hover) {
+  .about-team-card:hover:before,
+  .about-team-card:hover:after,
+  .about-team-card:hover .about-team-shadow--hover {
+    opacity: 1;
+  }
 }
 .about-team-light {
   position: absolute;
@@ -465,7 +530,7 @@
   top: 85.78%;
   color: #fff;
   transition: transform 0.8s cubic-bezier(0.347, 0.008, 0.246, 0.992);
-  z-index: 2;
+  z-index: 3;
 }
 .about-team-toggle {
   display: flex;
@@ -938,9 +1003,6 @@
   .about-journey-fade {
     top: 580px;
   }
-  .about-principle {
-    height: 120px;
-  }
   .about-principle button {
     padding: 20px 16px;
     grid-template-columns: 48px minmax(0, 1fr);
@@ -948,12 +1010,6 @@
   }
   .about-principle-title {
     font-size: 21px;
-  }
-  .about-principle[data-active='true'] {
-    height: 230px;
-  }
-  .about-principle[data-active='true']::before {
-    height: 230px;
   }
   .about-principle[data-active='true'] .about-principle-number {
     font-size: 42px;

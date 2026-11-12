@@ -13,6 +13,8 @@ import { ContentButton } from 'src/components/website/content-button';
 
 import { CaseStudySection } from 'src/sections/home/case-study/case-study-section';
 
+import { FilterSelect } from './filter-select';
+
 export default function PortfolioPage() {
   const { content, loading } = useHomepage();
   const { data, loading: portfolioLoading } = usePortfolio();
@@ -102,42 +104,28 @@ export default function PortfolioPage() {
                     : data.companiesSection.companiesLabel}
                 </strong>
               </div>
-              <label>
-                {data.companiesSection.sectorLabel}
-                <select
-                  aria-label={data.companiesSection.sectorLabel}
-                  value={sector}
-                  onChange={(event) => {
-                    setSector(event.target.value);
-                    setSelected(null);
-                  }}
-                >
-                  <option value="">{data.companiesSection.allSectorsLabel}</option>
-                  {Array.from(new Set(data.companies.map((company) => company.sector))).map(
-                    (value) => (
-                      <option key={value}>{value}</option>
-                    )
-                  )}
-                </select>
-              </label>
-              <label>
-                {data.companiesSection.stageLabel}
-                <select
-                  aria-label={data.companiesSection.stageLabel}
-                  value={stage}
-                  onChange={(event) => {
-                    setStage(event.target.value);
-                    setSelected(null);
-                  }}
-                >
-                  <option value="">{data.companiesSection.allStagesLabel}</option>
-                  {Array.from(new Set(data.companies.map((company) => company.stage))).map(
-                    (value) => (
-                      <option key={value}>{value}</option>
-                    )
-                  )}
-                </select>
-              </label>
+              <FilterSelect
+                id="portfolio-sector"
+                label={data.companiesSection.sectorLabel}
+                allLabel={data.companiesSection.allSectorsLabel}
+                value={sector}
+                options={Array.from(new Set(data.companies.map((company) => company.sector)))}
+                onChange={(value) => {
+                  setSector(value);
+                  setSelected(null);
+                }}
+              />
+              <FilterSelect
+                id="portfolio-stage"
+                label={data.companiesSection.stageLabel}
+                allLabel={data.companiesSection.allStagesLabel}
+                value={stage}
+                options={Array.from(new Set(data.companies.map((company) => company.stage)))}
+                onChange={(value) => {
+                  setStage(value);
+                  setSelected(null);
+                }}
+              />
             </div>
             <ul className="portfolio-grid" aria-label="Portfolio companies">
               {companies.map((company) => (
@@ -155,31 +143,49 @@ export default function PortfolioPage() {
                           className="portfolio-card__logo"
                           src={company.logo?.url}
                           alt=""
-                          width="62"
-                          height="62"
+                          width="80"
+                          height="80"
                           loading="lazy"
                         />
                       )}
-                      <div className="portfolio-card__founder">
-                        <span>{company.founder.name}</span>
-                        <small>{company.founder.role}</small>
-                      </div>
+                      {company.caseStudyUrl && (
+                        <div className="portfolio-card__case-study">
+                          <ContentButton
+                            arrow
+                            data={{
+                              label: data.companiesSection.caseStudyLabel,
+                              href: company.caseStudyUrl,
+                              enabled: true,
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
                     <div className="portfolio-card__copy">
                       <h3>{company.name}</h3>
                       <p>{company.description}</p>
                     </div>
                     <div className="portfolio-card__bottom">
-                      <p>{data.companiesSection.cardTagsLabel}</p>
-                      <div className="portfolio-tags">
-                        <span>{company.sector}</span>
-                        <span>{company.stage}</span>
-                      </div>
-                      {company.status && (
-                        <div className="portfolio-tags">
-                          <span>{company.status}</span>
+                      {company.founder.name && (
+                        <div className="portfolio-card__founders">
+                          <h4>{data.companiesSection.foundersLabel}</h4>
+                          <p>{company.founder.name}</p>
                         </div>
                       )}
+                      <div className="portfolio-card__meta">
+                        {company.sector && (
+                          <div>
+                            <h4>{data.companiesSection.cardTagsLabel}</h4>
+                            <span className="portfolio-tag">{company.sector}</span>
+                          </div>
+                        )}
+                        {company.stage && (
+                          <div>
+                            <h4>{data.companiesSection.cardStageLabel}</h4>
+                            <span className="portfolio-tag">{company.stage}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </article>
                 </li>

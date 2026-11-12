@@ -13,6 +13,7 @@ type Company = {
   sector: string;
   stage: string;
   status: string;
+  caseStudyUrl?: string;
   logo?: Media;
   founder: { name: string; role: string };
 };
@@ -92,6 +93,8 @@ export function normalizePortfolio(payload: unknown): PortfolioContent {
             sector: text(company.sector),
             stage: text(company.stage),
             status: text(company.status),
+            // The case study button appears only for companies with a safe link.
+            caseStudyUrl: safeHref(company.caseStudyUrl),
             logo: media(company.logo),
             founder: { name: text(founder.name), role: text(founder.role) },
           },
