@@ -187,3 +187,15 @@ automated browser checks, not physical-device certification.
 Figma comment numbering was confirmed by the user after the connector reached
 its tool-call limit; local-browser access was unavailable. Physical-device
 validation remains pending as described above.
+
+## 12 November 2026: About Us section discovery
+
+The About Us page nested every below-hero section inside a div. The shared color-flow hook selects main > section, so it could discover only the hero and footer. Keep About sections directly under main; MainLayout now accepts an optional main ref/class for page-scoped reveals. The page-specific hook reuses createDirectionalReveal for larger text, heading-child and original-artwork entrances and rebuilds after CMS updates. No OS preference gates, toggle, scroll pinning or replacement artwork were added.
+
+Observed intermediate and settled text/artwork entrances and section-color handoffs using normal wheel input in the user's existing Windows Chrome window at localhost:3039/about-us. Automated tests separately sample intermediate artwork opacity/transform and canvas colors under OS reduce, no-preference and real-system preferences; they wait for the lazy-loaded page before recording frames. This does not certify physical mobile hardware.
+
+## 12 November 2026: blend About artwork with the canvas
+
+The first About reveal moved full-bleed source artwork down 56px independently of the scroll color canvas. The opaque image fills and clipped SVG then exposed rectangular top/side edges during handoffs. About background layers now stay fixed in section-sized artwork surfaces. The shared color-flow hook grades these opt-in surfaces by their source section color, smoothly removing opaque backgrounds while the canvas changes tone and restoring them in both scroll directions. Source-edge masks follow the Homepage background treatment; light and dark source layers use multiply/lighten compositing. Text and card directional reveals remain separate. Original Figma files, source crops, CMS media and native touch scrolling are retained.
+
+Regression checks sample fixed surface transforms, intermediate opacity/color values, and light-blue handoffs for every section at desktop and phone widths. Existing normal-profile Chrome wheel verification complements automated engine coverage.

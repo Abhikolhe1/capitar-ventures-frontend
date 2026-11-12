@@ -2,7 +2,7 @@ import 'src/theme/website-fonts.css';
 
 import type { GlobalContent } from 'src/types/homepage';
 
-import { useRef, type ReactNode } from 'react';
+import { useRef, type Ref, type ReactNode } from 'react';
 
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 
@@ -22,11 +22,15 @@ export function MainLayout({
   loading = false,
   contentVersion,
   children,
+  mainRef,
+  mainClassName,
 }: {
   global: GlobalContent;
   loading?: boolean;
   contentVersion?: string;
   children: ReactNode;
+  mainRef?: Ref<HTMLElement>;
+  mainClassName?: string;
 }) {
   const scope = useRef<HTMLDivElement>(null);
   useSmoothScroll();
@@ -49,9 +53,18 @@ export function MainLayout({
             color: '#FFFFFF !important',
             '& .liquid-glass-cta__label': { color: '#FFFFFF', WebkitTextFillColor: '#FFFFFF' },
           },
-          '& [data-flow-cta]:focus-visible': { outline: '2px solid currentColor', outlineOffset: 4 },
-          '& [data-flow-ink="light"]': { color: '#FFFFFF !important', WebkitTextFillColor: '#FFFFFF !important' },
-          '& [data-flow-ink="dark"]': { color: '#111129 !important', WebkitTextFillColor: '#111129 !important' },
+          '& [data-flow-cta]:focus-visible': {
+            outline: '2px solid currentColor',
+            outlineOffset: 4,
+          },
+          '& [data-flow-ink="light"]': {
+            color: '#FFFFFF !important',
+            WebkitTextFillColor: '#FFFFFF !important',
+          },
+          '& [data-flow-ink="dark"]': {
+            color: '#111129 !important',
+            WebkitTextFillColor: '#111129 !important',
+          },
           'html[data-motion="reduced"] &': {
             '& [data-entrance]': { visibility: 'visible' },
           },
@@ -74,7 +87,14 @@ export function MainLayout({
           Skip to content
         </Box>
         <Header data={global} />
-        <Box component="main" id="main-content" aria-busy={loading} sx={homepageViewportStyles}>
+        <Box
+          component="main"
+          ref={mainRef}
+          className={mainClassName}
+          id="main-content"
+          aria-busy={loading}
+          sx={homepageViewportStyles}
+        >
           {children}
         </Box>
         <Footer data={global.footer} brandLogo={global.brandLogo} />

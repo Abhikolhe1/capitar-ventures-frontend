@@ -355,8 +355,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
   const navigation = data.navigation.map((item) =>
     item.label.trim().toLowerCase() === 'portfolio'
       ? { ...item, href: '/portfolio', enabled: true }
-      : item.label.trim().toLowerCase() === 'about us' && !item.href
-      ? { ...item, href: '#capitar-difference', enabled: true }
+      : item.label.trim().toLowerCase() === 'about us'
+      ? { ...item, href: '/about-us', enabled: true }
       : item
   );
   const socialLinks = data.socialLinks.filter((item) => item.label.trim().toLowerCase() !== 'facebook');

@@ -1,0 +1,1058 @@
+/* Desktop UI / About US, 2424:3579. Artwork comes from native Figma exports. */
+.about-page {
+  font-family: 'LT Superior', sans-serif;
+  color: #fff;
+  background: #0b0f2d;
+  position: relative;
+}
+.about-page * {
+  box-sizing: border-box;
+}
+.about-page section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.about-container {
+  position: relative;
+  width: min(1240px, calc(100% - 80px));
+  margin-inline: auto;
+}
+.about-page h1,
+.about-page h2,
+.about-page h3,
+.about-page p,
+.about-page figure {
+  margin: 0;
+}
+.about-page h2 {
+  font-size: 42px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  white-space: pre-line;
+}
+.about-page strong {
+  font-weight: 600;
+}
+.about-page p {
+  font-size: 16px;
+  line-height: 1.4;
+}
+.about-page button {
+  font: inherit;
+}
+.about-page button:focus-visible {
+  outline: 2px solid #cc2334;
+  outline-offset: 5px;
+}
+.about-hero {
+  height: 738px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.about-hero-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #010729;
+  pointer-events: none;
+}
+.about-hero-image {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(-1);
+  overflow: hidden;
+}
+.about-hero-image img {
+  position: absolute;
+  max-width: none;
+  width: 124.94756%;
+  height: 137.30577%;
+  left: -13.80274%;
+  top: 0;
+}
+.about-hero-tint {
+  position: absolute;
+  inset: 0;
+  background: #0b0f2d80;
+}
+.about-hero-bottom-fade {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  pointer-events: none;
+}
+.about-hero-overlay {
+  position: absolute;
+  max-width: none;
+  width: 76.96044%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+.about-hero-copy {
+  padding-top: 198px;
+}
+.about-hero h1 {
+  width: 853px;
+  max-width: 100%;
+  font-size: 72px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  white-space: pre-line;
+  margin: 24px 0;
+}
+.about-hero p {
+  font-size: 20px;
+  line-height: 28px;
+  max-width: 556px;
+  margin-bottom: 24px;
+}
+.about-mission {
+  height: 698px;
+  background: #fff;
+  color: #121212;
+}
+.about-mission-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+.about-mission-inner {
+  height: 100%;
+  padding-top: 85px;
+}
+.about-mission h2 {
+  width: 375px;
+  margin-top: 21px;
+  color: #121212cc;
+}
+.about-mission h2 strong {
+  color: #121212;
+  font-weight: 500;
+}
+.about-mission-inner > p {
+  position: absolute;
+  width: 358.59px;
+  right: -29px;
+  bottom: 59px;
+  font-size: 20px;
+  line-height: 26px;
+  color: #121212cc;
+}
+.about-journey {
+  height: 864px;
+  background: #010729;
+}
+.about-journey-art {
+  position: absolute;
+  width: 69.51389%;
+  height: 136.11111%;
+  left: 32.70833%;
+  top: -8.21759%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.about-journey-art img {
+  position: absolute;
+  width: 100%;
+  max-width: none;
+  height: 143.43075%;
+  left: 0;
+  top: -15.29475%;
+}
+.about-journey-fade {
+  position: absolute;
+  max-width: none;
+  width: 100%;
+  height: 44.5602%;
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+.about-journey-glow {
+  position: absolute;
+  width: 85.6944%;
+  max-width: none;
+  height: auto;
+  left: 5.7276%;
+  pointer-events: none;
+}
+.about-journey-glow--blue {
+  top: 55.977%;
+}
+.about-journey-glow--cyan {
+  top: 60.104%;
+}
+.about-journey-inner {
+  position: relative;
+  width: min(1260px, calc(100% - 80px));
+  height: 100%;
+  margin-inline: auto;
+  padding-top: 72px;
+}
+.about-journey-copy {
+  width: 616px;
+  max-width: 60%;
+}
+.about-journey h2 {
+  font-size: 50px;
+  line-height: 1;
+  letter-spacing: 0;
+  margin-top: 32px;
+  white-space: normal;
+}
+.about-journey-copy > p {
+  font-size: 20px;
+  line-height: 26px;
+  max-width: 605px;
+  margin-top: 32px;
+}
+.about-milestones {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 72.43px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.about-milestones li {
+  position: relative;
+  height: 299px;
+  background: #0000001f;
+  border: 1px solid #f0f0f01f;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+.about-milestones h3 {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  white-space: pre-line;
+}
+.about-milestone-period {
+  position: absolute;
+  top: 134.5px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
+  line-height: 30px;
+}
+.about-milestones li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 151px;
+  left: 69%;
+  width: 63%;
+  border-top: 1px dotted #ffffff66;
+  pointer-events: none;
+}
+.about-milestones p {
+  margin-top: auto;
+  width: 220px;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 18px;
+  white-space: pre-line;
+  color: #ffffff99;
+}
+.about-belief {
+  min-height: 735px;
+  background: #0b0f2d;
+  padding: 0;
+}
+.about-belief-stage {
+  position: relative;
+  min-height: 735px;
+  padding: 72px 0;
+  overflow: hidden;
+}
+.about-belief-waves {
+  position: absolute;
+  width: 67.384%;
+  max-width: none;
+  height: auto;
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+.about-belief-inner {
+  position: relative;
+  width: min(1279px, calc(100% - 80px));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 421fr 778fr;
+  gap: 80px;
+  align-items: start;
+}
+.about-belief h2 {
+  margin-top: 21px;
+}
+.about-belief-copy > p {
+  margin-top: 24px;
+  max-width: 421px;
+  color: #ffffffb3;
+  font-size: 16px;
+  line-height: 22px;
+}
+.about-principles {
+  border-left: 1px solid #fff3;
+  min-width: 0;
+}
+.about-principle {
+  height: 130px;
+  border-bottom: 1px solid #fff3;
+  transition: height 0.4s ease;
+}
+.about-principle:last-child {
+  border-bottom: 0;
+}
+.about-principle button {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  align-items: center;
+  gap: 62px;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  padding: 32px 42px;
+  color: #fff6;
+  text-align: left;
+  cursor: pointer;
+}
+.about-principle-number {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 400;
+  transition: font-size 0.4s ease;
+}
+.about-principle-title {
+  display: block;
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 400;
+}
+.about-principle-description {
+  display: none;
+  font-size: 16px;
+  line-height: 22px;
+  color: #ffffffb3;
+  margin-top: 13px;
+}
+.about-principle[data-active='true'] {
+  height: 200px;
+  position: relative;
+}
+.about-principle[data-active='true']::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  height: 200px;
+  border-left: 2px solid #cc2334;
+  pointer-events: none;
+}
+.about-principle[data-active='true'] button {
+  color: #fff;
+}
+.about-principle[data-active='true'] .about-principle-number {
+  font-size: 72px;
+}
+.about-principle[data-active='true'] .about-principle-title {
+  font-size: 32px;
+}
+.about-principle[data-active='true'] .about-principle-description {
+  display: block;
+}
+.about-people {
+  background: #fff;
+  color: #121212;
+  padding: 61.65px 0 139.67px;
+}
+.about-people-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 50.45px;
+  min-height: 150px;
+}
+.about-people-header h2 {
+  margin-top: 21px;
+  max-width: 487px;
+}
+.about-people-header > p {
+  width: 394.13px;
+  max-width: 40%;
+  font-size: 16px;
+  line-height: 22px;
+}
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.about-team-card {
+  position: relative;
+  aspect-ratio: 400/478.07764;
+  overflow: hidden;
+  isolation: isolate;
+  background: #f9fafb;
+  border: 2.109px solid #f0f0f0;
+  border-radius: 21.093px;
+  box-shadow: 0 5.086px 11.442px #1a67e71a;
+  container-type: inline-size;
+}
+.about-team-light {
+  position: absolute;
+  width: 100%;
+  max-width: none;
+  left: 0;
+  top: 0;
+  height: auto;
+  pointer-events: none;
+}
+.about-team-highlight {
+  position: absolute;
+  width: 98%;
+  max-width: none;
+  left: 0;
+  top: 0;
+  height: auto;
+  pointer-events: none;
+}
+.about-team-crop {
+  position: absolute;
+  inset: 0 0 0 -0.1%;
+  width: 99.526%;
+  overflow: hidden;
+}
+.about-team-crop img {
+  position: absolute;
+  max-width: none;
+  object-fit: fill;
+}
+.about-team-shadow {
+  position: absolute;
+  max-width: none;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  height: auto;
+  pointer-events: none;
+}
+.about-team-caption {
+  position: absolute;
+  left: 7.75%;
+  right: 7.75%;
+  top: 85.78%;
+  color: #fff;
+  transition: transform 0.8s cubic-bezier(0.347, 0.008, 0.246, 0.992);
+  z-index: 2;
+}
+.about-team-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  background: transparent;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.about-team-toggle > span {
+  min-width: 0;
+}
+.about-team-name {
+  display: block;
+  font-size: clamp(14px, 1.67vw, 24px);
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.about-team-role {
+  display: block;
+  font-size: 14px;
+  line-height: 1.1;
+  margin-top: 12px;
+  font-weight: 400;
+}
+.about-team-toggle > img {
+  flex-shrink: 0;
+}
+.about-team-bio {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  margin-top: 24px;
+  transition:
+    opacity 0.4s ease,
+    grid-template-rows 0.8s ease,
+    visibility 0.4s;
+}
+.about-team-bio p {
+  overflow: hidden;
+  min-height: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+.about-team-card[data-open='true'] .about-team-caption,
+.about-team-card:focus-within .about-team-caption {
+  transform: translateY(-84px);
+}
+.about-team-card[data-open='true'] .about-team-bio,
+.about-team-card:focus-within .about-team-bio {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+}
+@media (hover: hover) {
+  .about-team-card:hover .about-team-caption {
+    transform: translateY(-84px);
+  }
+  .about-team-card:hover .about-team-bio {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+.about-quote {
+  height: 445px;
+  background: #0b0f2d;
+  text-align: center;
+  padding: 55px 24px 53px;
+}
+.about-quote-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  background: transparent;
+}
+.about-quote-decoration > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.about-quote figure {
+  position: relative;
+  width: 867px;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.about-quote-mark {
+  display: block;
+  width: 75px;
+  height: 60px;
+  margin: 0 auto 40px;
+}
+.about-quote blockquote {
+  margin: 0;
+  font-size: 48px;
+  line-height: 48px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+.about-quote figcaption {
+  margin: 40px auto 0;
+  padding-top: 40px;
+  position: relative;
+  font-size: 18px;
+  line-height: 13px;
+  text-transform: uppercase;
+  font-style: normal;
+}
+.about-quote figcaption::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 211px;
+  border-top: 1px solid #ffffff33;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@supports (font-size: 1cqw) {
+  .about-team-name {
+    font-size: 6cqw;
+  }
+  .about-team-role {
+    font-size: 3.5cqw;
+    margin-top: 3cqw;
+  }
+  .about-team-bio p {
+    font-size: 3.5cqw;
+    line-height: 5cqw;
+  }
+}
+@media (min-width: 1442px) {
+  .about-hero-copy {
+    width: 1240px;
+  }
+  .about-mission-map {
+    left: 50%;
+    width: 1441px;
+    max-width: none;
+    transform: translateX(-50%);
+  }
+  .about-hero-art {
+    width: 100%;
+  }
+  .about-journey-art {
+    width: 1001px;
+    height: 1176px;
+    left: calc(50% - 249px);
+    top: -71px;
+  }
+  .about-belief-waves {
+    width: 971px;
+    left: calc(50% - 720px);
+  }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+  .about-hero h1 {
+    font-size: 60px;
+    width: 730px;
+  }
+  .about-hero-copy {
+    padding-top: 190px;
+  }
+  .about-mission-inner > p {
+    right: 0;
+    width: 285px;
+  }
+  .about-journey h2 {
+    font-size: 42px;
+  }
+  .about-journey-copy {
+    max-width: 65%;
+  }
+  .about-milestones li {
+    padding: 20px 16px;
+  }
+  .about-belief-inner {
+    gap: 35px;
+    grid-template-columns: 34fr 66fr;
+  }
+  .about-principle button {
+    gap: 20px;
+    padding-inline: 25px;
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+  .about-principle-title {
+    font-size: 24px;
+  }
+  .about-principle[data-active='true'] .about-principle-title {
+    font-size: 28px;
+  }
+  .about-principle[data-active='true'] .about-principle-number {
+    font-size: 60px;
+  }
+}
+@media (max-width: 899px) {
+  .about-container {
+    width: calc(100% - 48px);
+  }
+  .about-page h2 {
+    font-size: 36px;
+    line-height: 1.15;
+  }
+  .about-hero {
+    height: auto;
+    min-height: 738px;
+    padding-bottom: 72px;
+  }
+  .about-hero-copy {
+    padding-top: 180px;
+  }
+  .about-hero h1 {
+    width: 700px;
+    font-size: clamp(42px, 7.5vw, 64px);
+    line-height: 1.05;
+  }
+  .about-hero p {
+    font-size: 18px;
+    line-height: 26px;
+    max-width: 520px;
+  }
+  .about-hero-art {
+    min-width: 850px;
+    left: auto;
+    width: 100%;
+    right: 0;
+  }
+  .about-mission {
+    height: auto;
+    min-height: 760px;
+  }
+  .about-mission-map {
+    top: 155px;
+    height: auto;
+    aspect-ratio: 1440/699;
+    object-fit: contain;
+    width: calc(100% + 300px);
+    max-width: none;
+    left: -150px;
+  }
+  .about-mission-inner {
+    padding-top: 56px;
+    padding-bottom: 56px;
+    min-height: 760px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 360px;
+  }
+  .about-mission h2 {
+    font-size: 36px;
+    width: auto;
+    max-width: 375px;
+  }
+  .about-mission-inner > p {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    align-self: flex-end;
+    width: 359px;
+    max-width: 100%;
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .about-journey {
+    height: auto;
+    min-height: 1000px;
+    padding: 56px 0;
+  }
+  .about-journey-inner {
+    width: calc(100% - 48px);
+    padding-top: 0;
+  }
+  .about-journey-copy {
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 210px;
+  }
+  .about-journey h2 {
+    font-size: 40px;
+    margin-top: 24px;
+  }
+  .about-journey-copy > p {
+    font-size: 18px;
+    line-height: 26px;
+    margin-top: 24px;
+    max-width: 520px;
+  }
+  .about-journey-art {
+    width: 700px;
+    height: 820px;
+    left: auto;
+    right: -160px;
+    top: 110px;
+  }
+  .about-journey-fade {
+    width: 1800px;
+    left: calc(50% - 900px);
+    top: 590px;
+  }
+  .about-journey-glow {
+    width: 1300px;
+    left: calc(50% - 650px);
+    top: 430px;
+  }
+  .about-milestones {
+    position: relative;
+    inset: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .about-milestones li {
+    height: 270px;
+  }
+  .about-milestones li::after {
+    display: none;
+  }
+  .about-milestone-period {
+    top: 110px;
+  }
+  .about-belief {
+    min-height: 0;
+  }
+  .about-belief-stage {
+    padding: 56px 0;
+    min-height: 0;
+  }
+  .about-belief-inner {
+    width: calc(100% - 48px);
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .about-belief-copy > p {
+    max-width: 540px;
+  }
+  .about-belief-waves {
+    width: 1000px;
+    left: -300px;
+    top: 200px;
+  }
+  .about-principle button {
+    padding: 24px;
+    gap: 24px;
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+  .about-principle-title {
+    font-size: 24px;
+  }
+  .about-principle[data-active='true'] .about-principle-title {
+    font-size: 26px;
+  }
+  .about-principle[data-active='true'] .about-principle-number {
+    font-size: 56px;
+  }
+  .about-people {
+    padding: 56px 0 72px;
+  }
+  .about-people-header {
+    min-height: 0;
+    display: grid;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+  .about-people-header > p {
+    width: 100%;
+    max-width: 520px;
+  }
+  .about-team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .about-team-name {
+    font-size: 20px;
+  }
+  .about-team-role {
+    font-size: 12px;
+  }
+  .about-quote {
+    height: auto;
+    min-height: 445px;
+    padding-block: 55px;
+  }
+  .about-quote blockquote {
+    font-size: 36px;
+    line-height: 1.1;
+    max-width: 650px;
+    margin-inline: auto;
+  }
+  .about-quote figcaption {
+    font-size: 16px;
+  }
+}
+@media (max-width: 599px) {
+  .about-page h2 {
+    font-size: 32px;
+  }
+  .about-hero {
+    min-height: 744px;
+  }
+  .about-hero-copy {
+    padding-top: 170px;
+  }
+  .about-hero h1 {
+    font-size: 42px;
+    letter-spacing: -0.025em;
+    margin-top: 24px;
+    white-space: normal;
+  }
+  .about-hero p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .about-hero-art {
+    right: -240px;
+    opacity: 0.8;
+  }
+  .about-mission-inner {
+    min-height: 790px;
+    gap: 350px;
+  }
+  .about-mission-map {
+    top: 210px;
+    width: 850px;
+    left: calc(50% - 425px);
+    height: 413px;
+  }
+  .about-mission h2 {
+    font-size: 32px;
+  }
+  .about-mission-inner > p {
+    font-size: 16px;
+    line-height: 23px;
+  }
+  .about-journey h2 {
+    font-size: 34px;
+  }
+  .about-journey-copy > p {
+    font-size: 16px;
+    line-height: 23px;
+  }
+  .about-journey-copy {
+    padding-bottom: 220px;
+  }
+  .about-milestones {
+    grid-template-columns: 1fr;
+  }
+  .about-milestones li {
+    height: 240px;
+    padding: 24px;
+  }
+  .about-milestone-period {
+    top: 97px;
+    font-size: 24px;
+  }
+  .about-milestones p {
+    width: auto;
+    max-width: 270px;
+  }
+  .about-journey-fade {
+    top: 580px;
+  }
+  .about-principle {
+    height: 120px;
+  }
+  .about-principle button {
+    padding: 20px 16px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .about-principle-title {
+    font-size: 21px;
+  }
+  .about-principle[data-active='true'] {
+    height: 230px;
+  }
+  .about-principle[data-active='true']::before {
+    height: 230px;
+  }
+  .about-principle[data-active='true'] .about-principle-number {
+    font-size: 42px;
+  }
+  .about-principle[data-active='true'] .about-principle-title {
+    font-size: 24px;
+  }
+  .about-principle-description {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .about-team-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 400px;
+    margin-inline: auto;
+  }
+  .about-team-name {
+    font-size: 22px;
+  }
+  .about-team-role {
+    font-size: 13px;
+  }
+  .about-quote-mark {
+    width: 60px;
+    height: 48px;
+    margin-bottom: 32px;
+  }
+  .about-quote blockquote {
+    font-size: 32px;
+    line-height: 1.1;
+  }
+  .about-quote figcaption {
+    font-size: 14px;
+    margin-top: 32px;
+    padding-top: 32px;
+  }
+}
+html[data-motion='reduced'] .about-page * {
+  transition: none;
+}
+
+/* The shared fixed canvas owns section color handoffs. */
+#main-content.about-page {
+  background: transparent;
+}
+.about-team-crop img:not([style]) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Match the Homepage background treatment: art fades into the shared scroll canvas.
+   Masks blend source edges; they do not replace any Figma illustration. */
+.about-page section {
+  isolation: auto;
+}
+.about-section-art {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--section-art-opacity, 1);
+  mix-blend-mode: lighten;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 120px,
+    #000 calc(100% - 120px),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 120px,
+    #000 calc(100% - 120px),
+    transparent
+  );
+}
+.about-section-art--light {
+  mix-blend-mode: multiply;
+}
+.about-journey-art {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 14%, #000 88%, transparent);
+}
+
+/* Same compact/native-scroll policy as the site's other sticky sequences. */
+@media (min-width: 900px) and (min-height: 700px) and (pointer: fine) {
+  .about-page .about-belief[data-belief-sticky='true'] {
+    height: calc(100vh - 68px + var(--belief-scroll));
+    overflow: visible;
+  }
+  .about-belief[data-belief-sticky='true'] .about-belief-stage {
+    position: sticky;
+    top: 68px;
+    height: calc(100vh - 68px);
+    min-height: 0;
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+  }
+}

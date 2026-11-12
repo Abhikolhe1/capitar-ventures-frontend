@@ -60,6 +60,13 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
       })) : [];
       const artwork = root.querySelector<HTMLElement>('#capital-efficiency > img');
       const artworkOpacity = artwork?.style.opacity ?? '';
+      // Opt-in artwork surfaces follow the same canvas as their section. Opaque image
+      // backgrounds must fade out before the canvas changes tone, in either direction.
+      const surfaces = saved.flatMap(section => Array.from(section.element.querySelectorAll<HTMLElement>('[data-flow-artwork]')).map(element => ({
+        element,
+        color: gsap.utils.splitColor(section.color),
+        opacity: element.style.getPropertyValue('--section-art-opacity'),
+      })));
       const { startViewport, endViewport } = homepage.sectionTransitions;
       const transitions = saved.slice(1).map((section, offset) => {
         const previous = saved[offset].color;
@@ -139,6 +146,12 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
             lastDark = dark;
           }
           if (artwork) artwork.style.opacity = String(gsap.utils.clamp(0, 1, 1 - luminance / 100));
+          const canvasRGB = gsap.utils.splitColor(color);
+          surfaces.forEach(surface => {
+            const distance = Math.max(...surface.color.slice(0, 3).map((channel, index) => Math.abs(channel - canvasRGB[index])));
+            const opacity = gsap.utils.clamp(0, 1, 1 - distance / 60);
+            surface.element.style.setProperty('--section-art-opacity', String(opacity * opacity * (3 - 2 * opacity)));
+          });
           lastColor = color;
           lastTint = transitionTint;
         }
@@ -183,6 +196,10 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
         saved.forEach(item => {
           if (item.background) item.element.style.setProperty('background-color', item.background, item.priority);
           else item.element.style.removeProperty('background-color');
+        });
+        surfaces.forEach(surface => {
+          if (surface.opacity) surface.element.style.setProperty('--section-art-opacity', surface.opacity);
+          else surface.element.style.removeProperty('--section-art-opacity');
         });
         text.forEach(item => item.element.removeAttribute('data-flow-ink'));
         if (artwork) artwork.style.opacity = artworkOpacity;

@@ -1,0 +1,193 @@
+{
+  "fileKey": "Z3woTbcJz1KVV7ukDtBy6o",
+  "page": "Desktop UI",
+  "frame": "2424:3579",
+  "sourceURL": "https://www.figma.com/design/Z3woTbcJz1KVV7ukDtBy6o/Capitar-Website?node-id=2424-3580",
+  "acquisition": "Downloaded through the existing Chrome Figma UI. Two original image fills were extracted unchanged from the native .fig downloaded through File > Save local copy. Other files are original image-fill downloads or Figma layer exports. No screenshot crops or newly generated replacement artwork.",
+  "assets": [
+    {
+      "file": "neon-blue-glass-panel-corridor.png",
+      "node": "2424:3580",
+      "usage": "Hero image fill; original source crop and horizontal reflection.",
+      "sourceImageHash": "edb0d600b06e565b2b31c16c6011203d06030fd2",
+      "bytes": 1485789,
+      "sha256": "99625c35d4f66221fe124461ad50a0007fb996075a730028867955eec31e16ee",
+      "width": 1672,
+      "height": 941
+    },
+    {
+      "file": "hero-navy-overlay.png",
+      "node": "2424:3581",
+      "usage": "Hero left navy overlay, exported with original blur and ancestor clipping.",
+      "bytes": 678779,
+      "sha256": "1d2178e22eb9ff1df0126e9a0a270444a86b93e406908e1d98c65d62a0512073",
+      "width": 1109,
+      "height": 738
+    },
+    {
+      "file": "hero-bottom-fade.png",
+      "node": "2424:3625",
+      "usage": "Hero bottom fade.",
+      "bytes": 248945,
+      "sha256": "2e0c9173ddede8bc753f8d62b347eb664144128ec8ac53a78faf07abe83918c5",
+      "width": 1441,
+      "height": 369
+    },
+    {
+      "file": "mission-map.png",
+      "node": "2441:1208",
+      "usage": "Mission map composition, including both source maps, native mask and fades.",
+      "bytes": 487953,
+      "sha256": "4dc460ce0ff5d3594ce0add5600a4cd67c519887c990dd3b9b4108207ecb3f69",
+      "width": 1440,
+      "height": 698
+    },
+    {
+      "file": "glowing-glass-map-of-india.png",
+      "node": "2441:1209",
+      "usage": "Original background source retained for the mission-map composition; not a separate runtime image.",
+      "sourceImageHash": "54cfa3e72467f787b6b0390af8c010e29a147aba",
+      "bytes": 1701332,
+      "sha256": "f9463f19c7e023a7db073c55dffa480f9780a34a33e98b2412c436bec5bdd0f4",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "india-network-foreground-source.png",
+      "node": "2442:6913",
+      "usage": "Original foreground source from the browser-downloaded native .fig; embedded by Figma in mission-map.png.",
+      "sourceImageHash": "ba531502277506e3b17d19381634a19c9d342920",
+      "bytes": 880441,
+      "sha256": "6ff0c572fb5b6e2c9251b2a1fbd2e8f14788f08bac3139bbc63ce05dbad6f786",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "journey-glass-growth.png",
+      "node": "2438:1113",
+      "usage": "Journey luminous glass pillars, with the original Figma image-fill crop.",
+      "sourceImageHash": "ee4d06f9aeb6af3f648d23317cb97f6025276859",
+      "bytes": 1220829,
+      "sha256": "e66b7d5bcbd20a131eccad8467e4f60406b1d8f2112bfeced761717cf8326b9c",
+      "width": 941,
+      "height": 1672
+    },
+    {
+      "file": "journey-navy-fade.png",
+      "node": "2438:1121",
+      "usage": "Journey bottom navy fade.",
+      "bytes": 102187,
+      "sha256": "9267822593743472c59aee6f4e7a3dd6caa9712a460783cca23496aa73384bc6",
+      "width": 1440,
+      "height": 385
+    },
+    {
+      "file": "journey-blue-glow.png",
+      "node": "2438:1115",
+      "usage": "Blue glow behind the journey milestones.",
+      "bytes": 282005,
+      "sha256": "91f1a711df08f3045e2a60cad4c08f21fde2b514e82c422997a4d554ccaa9c2e",
+      "width": 1234,
+      "height": 321
+    },
+    {
+      "file": "journey-cyan-glow.png",
+      "node": "2438:1114",
+      "usage": "Cyan glow behind the journey milestones.",
+      "bytes": 268254,
+      "sha256": "fcd5c973014320f2fce72c3fc6f73e637c39d6a6a8e7c7b042d23e569b4be5b2",
+      "width": 1234,
+      "height": 321
+    },
+    {
+      "file": "belief-waves.png",
+      "node": "2424:3752",
+      "usage": "Belief waves, exported with native gradients and clipping.",
+      "bytes": 384481,
+      "sha256": "a0ca4f1fab50fa6ae8c6ea1f8c908e30be9b78928d5b90be1998cd37bd754c8f",
+      "width": 971,
+      "height": 634
+    },
+    {
+      "file": "team-source.png",
+      "node": "2424:3772 / 2364:1672",
+      "usage": "Original portrait sheet; Figma source crops select the two corresponding portraits.",
+      "sourceImageHash": "963957147692124791bb86ff1fce9fb679172211",
+      "bytes": 1022167,
+      "sha256": "e893238ff6f3896c90e6766fcc07d7c010d9d7b62300b2161c7ab83008e7c36e",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "file": "bikramjit-source.png",
+      "node": "2424:3773 image-fill override",
+      "usage": "Original turban portrait from browser-downloaded native .fig; Figma crop retained.",
+      "sourceImageHash": "afac4984abfbcbf09982f302ef6bea22f558dd89",
+      "bytes": 1287636,
+      "sha256": "1c6d14d85573c09647539828a6700078be6175324ec0160663ee8801d5ef386b",
+      "width": 1152,
+      "height": 1366
+    },
+    {
+      "file": "team-red-light.png",
+      "node": "2424:3772 / 2364:1692",
+      "usage": "Red light at the top of the team cards.",
+      "bytes": 43394,
+      "sha256": "df379e62e41deaa13844a7815445a6e2e0dee891f26bef64bdc117f3c9dc9e6e",
+      "width": 400,
+      "height": 336
+    },
+    {
+      "file": "team-white-highlight.png",
+      "node": "2424:3772 / 2364:1680",
+      "usage": "White ring highlight in the team cards.",
+      "bytes": 30137,
+      "sha256": "eab6b00f837d054822991bf56859927845582a5896b7bdf8bf9f679275a9a622",
+      "width": 392,
+      "height": 359
+    },
+    {
+      "file": "team-shadow.png",
+      "node": "2424:3772 / 2364:1673",
+      "usage": "Light team-card foreground shadow.",
+      "bytes": 85999,
+      "sha256": "e2129e5b74d6bf40c825efb3aa4a4f6ddf3de0893b4639465b7bf2a865770b97",
+      "width": 400,
+      "height": 194
+    },
+    {
+      "file": "team-navy-shadow.png",
+      "node": "2424:3778",
+      "usage": "Dark team-card shadow in the four matching design slots.",
+      "bytes": 85393,
+      "sha256": "e33a6f1daeaadfd1c94aa9c1303a004d76a0d737bfb2360ccb43e8e267cc5030",
+      "width": 400,
+      "height": 204
+    },
+    {
+      "file": "linkedin.png",
+      "node": "2424:3784",
+      "usage": "Actual 18px social icon in each team card; no source destination URL is supplied.",
+      "bytes": 327,
+      "sha256": "e39cb98b7f051f038347753e8848faa54acbb0b506dc08054c0cc8ad68280265",
+      "width": 18,
+      "height": 18
+    },
+    {
+      "file": "quote-decoration.svg",
+      "node": "2424:3816",
+      "usage": "Closing quotation background decoration.",
+      "bytes": 21002,
+      "sha256": "4a9aeb0b45be5d1b7c3ecd797c5a50dbdec102aadb0a0717667609d589150dcd"
+    },
+    {
+      "file": "quotation-mark.png",
+      "node": "2424:3840",
+      "usage": "Closing quotation mark.",
+      "bytes": 1150,
+      "sha256": "6bec534cae37e582849cb9e321ddcc5b9e8624c3478298db560a8dfc634c1427",
+      "width": 75,
+      "height": 60
+    }
+  ]
+}

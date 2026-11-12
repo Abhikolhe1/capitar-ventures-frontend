@@ -1,0 +1,149 @@
+{
+  "title": "About Us | Capitar Ventures",
+  "source": {
+    "fileKey": "Z3woTbcJz1KVV7ukDtBy6o",
+    "page": "Desktop UI",
+    "frame": "2424:3579",
+    "mobilePage": "1295:916",
+    "mobileDesignAvailable": false
+  },
+  "hero": {
+    "label": "About Us",
+    "heading": "Indian founders were\nunderserved by venture debt.",
+    "emphasis": "So we built Capitar.",
+    "description": "Capitar Ventures is a SEBI-registered Category II AIF that provides venture debt to pre-seed and seed-A founders in India.",
+    "cta": {
+      "label": "Talk to Us",
+      "href": "mailto:account@capitar.com",
+      "enabled": true
+    }
+  },
+  "mission": {
+    "label": "Our Mission",
+    "heading": "Your One-Stop\nCredit Partner for",
+    "emphasis": "Indian Businesses",
+    "description": "Empowering India's emerging businesses with tailored credit solutions that create lasting value for founders, venture capital partners, and investors.",
+    "image": "/assets/about/mission-map.png"
+  },
+  "journey": {
+    "label": "The Journery",
+    "heading": "Started with venture debt.",
+    "emphasis": "Built to grow with founders.",
+    "description": "The Indian start-up ecosystem is underserved by venture debt. As the ecosystem matures, venture debt will become an integral part of the capital structure.",
+    "milestones": [
+      {
+        "title": "Founded",
+        "period": "[2023]",
+        "description": "Capitar Ventures launches\nits first venture debt fund,\na SEBI-registered Category II AIF."
+      },
+      {
+        "title": "First founders backed",
+        "period": "[2023–24]",
+        "description": "Deploying initial credit lines\nto pre-seed & Series A pioneers\nacross enterprise SaaS & D2C."
+      },
+      {
+        "title": "30+ companies, \n₹400 cr+ deployed",
+        "period": "[2024–26]",
+        "description": "High-velocity non-dilutive credit\nsyndicated alongside India's\npremier venture capital firms."
+      },
+      {
+        "title": "Beyond debt",
+        "period": "Next",
+        "description": "Equity and advisory, built on the same founder-first approach."
+      }
+    ]
+  },
+  "belief": {
+    "label": "The Belief",
+    "heading": "How we think \nabout Capitar",
+    "description": "A good doctor will refer you to another specialist if that is genuinely better for you. We hold ourselves to the same standard. If debt is not the right answer for your business, we will say so, even when it costs us the deal.",
+    "items": [
+      {
+        "number": "01",
+        "title": "Independent credit assessment.",
+        "description": "We evaluate and underwrite every credit ourselves, going deep into the business to understand its building blocks from the ground up."
+      },
+      {
+        "number": "02",
+        "title": "Founder first.",
+        "description": ""
+      },
+      {
+        "number": "03",
+        "title": "Value beyond the capital.",
+        "description": ""
+      },
+      {
+        "number": "04",
+        "title": "Value beyond the capital.",
+        "description": ""
+      }
+    ]
+  },
+  "people": {
+    "label": "The people",
+    "heading": "The people you'll\nwork with",
+    "description": "Over 100 years of combined experience in underwriting and structuring credit. Behind that number are the people you will speak to directly.",
+    "biography": "Years spent across the capital markets, venture and operating world have shaped how we think about what founders actually need from capital.",
+    "team": [
+      {
+        "portrait": "rahul",
+        "name": "Rahul Mahipal",
+        "role": "Managing Partner",
+        "dark": false
+      },
+      {
+        "portrait": "bikramjit",
+        "name": "Bikramjit Singh Kalra",
+        "role": "Managing Partner",
+        "dark": false
+      },
+      {
+        "portrait": "partner",
+        "name": "Rahul Mahipal",
+        "role": "Partner",
+        "dark": false
+      },
+      {
+        "portrait": "rahul",
+        "name": "Rahul Mahipal",
+        "role": "Managing Partner",
+        "dark": true
+      },
+      {
+        "portrait": "partner",
+        "name": "Rahul Mahipal",
+        "role": "Partner",
+        "dark": false
+      },
+      {
+        "portrait": "bikramjit",
+        "name": "Bikramjit Singh Kalra",
+        "role": "Managing Partner",
+        "dark": true
+      },
+      {
+        "portrait": "bikramjit",
+        "name": "Bikramjit Singh Kalra",
+        "role": "Managing Partner",
+        "dark": true
+      },
+      {
+        "portrait": "partner",
+        "name": "Rahul Mahipal",
+        "role": "Partner",
+        "dark": false
+      },
+      {
+        "portrait": "rahul",
+        "name": "Rahul Mahipal",
+        "role": "Managing Partner",
+        "dark": true
+      }
+    ]
+  },
+  "quote": {
+    "label": "The Capitar view",
+    "statement": "Founders deserve a credit partner who understands where the business is going, not only where it stands today."
+  }
+}

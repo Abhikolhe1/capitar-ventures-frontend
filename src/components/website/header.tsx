@@ -18,6 +18,7 @@ import { AuroraGlassButton } from 'src/components/website/aurora-glass-button';
 function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () => void; dark?: boolean }) {
   if (item.label === 'Venture Debt') item = { ...item, enabled: true, href: '/venture-debt' };
   if (item.label === 'Portfolio') item = { ...item, enabled: true, href: '/portfolio' };
+  if (item.label === 'About Us') item = { ...item, enabled: true, href: '/about-us' };
   const internal = item.enabled && item.href?.startsWith('/') && !item.href.startsWith('//');
   const preload = item.href === '/venture-debt' ? preloadVentureDebtPage : undefined;
   return (
@@ -75,7 +76,7 @@ export function Header({ data }: { data: GlobalContent }) {
       const settings = fallback.sectionTransitions;
       // The hero's surface lightens before its layout box leaves the viewport.
       // Switch logo, navigation and CTA together before that pale phase begins.
-      const whiteHeaderBoundary = settings.enabled && !reducedMotion
+      const whiteHeaderBoundary = hero?.id === 'about-hero' ? 68 : settings.enabled && !reducedMotion
         ? window.innerHeight * (settings.startViewport - (settings.startViewport - settings.endViewport) * 0.15)
         : 0;
       setPastHero(!hero?.querySelector('[data-entrance="background"]') || heroBottom !== undefined && heroBottom <= whiteHeaderBoundary);
