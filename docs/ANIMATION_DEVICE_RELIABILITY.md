@@ -199,3 +199,79 @@ Observed intermediate and settled text/artwork entrances and section-color hando
 The first About reveal moved full-bleed source artwork down 56px independently of the scroll color canvas. The opaque image fills and clipped SVG then exposed rectangular top/side edges during handoffs. About background layers now stay fixed in section-sized artwork surfaces. The shared color-flow hook grades these opt-in surfaces by their source section color, smoothly removing opaque backgrounds while the canvas changes tone and restoring them in both scroll directions. Source-edge masks follow the Homepage background treatment; light and dark source layers use multiply/lighten compositing. Text and card directional reveals remain separate. Original Figma files, source crops, CMS media and native touch scrolling are retained.
 
 Regression checks sample fixed surface transforms, intermediate opacity/color values, and light-blue handoffs for every section at desktop and phone widths. Existing normal-profile Chrome wheel verification complements automated engine coverage.
+
+## 14 November 2026: mobile Four Signals sticky progression
+
+The user requested the desktop-style scroll sequence on mobile while preserving
+all four signal titles and the matching artwork in view. Four Signals now opts
+into a compact sticky panel below 900px wide at viewport heights of at least
+600px. Only the active description expands, and native page scroll advances the
+existing foreground-art reveal in both directions. Selecting a title also moves
+to its scroll interval. No wheel/touch interception was added. Shorter viewports
+retain expanded native document flow; desktop and the process panel retain
+their existing layout and behavior. This is a user-authorized mobile exception
+to the earlier unpinned compact-layout guidance, sized for the mobile viewport.
+
+Validation uses localhost:3039: TypeScript, targeted ESLint and production build;
+Chrome mobile layout checks at 320x600, 390x844 and 768x1024; scroll progression,
+reverse scrolling and title selection under OS reduce, no-preference and system
+preferences; and short-screen/desktop layout regression. Native touch input was
+also emulated at 390x844 under OS reduce, observing artwork indices 0, 1, 2, 3
+without Lenis on the coarse pointer. Saved first/last states were visually
+inspected. These checks do not certify physical phones or historical browsers.
+
+Firefox and WebKit mobile checks cover the same three OS preferences, viewport
+fits and short-screen/desktop resize behavior. Initial runs exposed test waits
+that started before deferred CMS/fallback content was ready under concurrent
+build/browser load; tests now await the page's aria-busy=false state. The affected
+cases passed on retry. Existing six Venture Debt device regressions passed
+(including the deferred-content wait retry). Production build reports the
+existing app unused-import and large-chunk warnings.
+Firefox's synthetic native wheel inertia also continued after the reverse-scroll
+assertion reached signal zero, racing a subsequent automated title click. The
+selection check now waits for scroll position to settle before beginning that
+separate interaction; its retry passed. No runtime wheel interception was added.
+
+Mobile spacing follow-up: the viewport-height Signals panel centered a compact
+content group, leaving excessive blank space above and below. Its mobile-only
+alignment now places text and artwork together at the top with 8px internal
+padding, and lets artwork grow to 350px on taller screens (short-screen sizing
+is retained). Desktop CSS and scroll progression are unchanged.
+
+Mobile ratio refinement: the user requested 60% for signal text and 40% for
+artwork. The mobile sticky panel now uses 3fr/2fr grid rows, preserving the
+original artwork aspect ratio inside its row. Text keeps a min-content floor
+on short screens so all four choices remain readable. Desktop is unchanged.
+
+16 November follow-up: adjusted the mobile allocation to 65% text / 35% artwork
+at the user's request for a slightly shorter image. The text min-content floor,
+artwork aspect ratio and desktop layout remain unchanged.
+
+## 16 November 2026: With Capitar mobile sticky steps
+
+At the user's request, With Capitar now opts into the same native-scroll mobile
+progression as Four Signals below 900px wide and at least 600px tall. Its own
+compact panel keeps the heading, introduction and all four step titles within
+one screen; only the active description expands. The existing decorative SVG
+curves are retained. CSS is scoped to mobile; desktop layout/progression are
+unchanged. Shorter viewports retain the original expanded document flow. The
+shared hook's opt-in parameter is named mobileEnabled to cover both panels.
+
+Validation at localhost:3039: TypeScript and targeted ESLint passed. Twelve
+Playwright checks passed, including forward/reverse wheel progression under OS
+reduce, no-preference and system settings, 320x600/390x844/768x1024 panel fits,
+and existing Venture Debt desktop/compact-width regressions. Chrome touch
+emulation at 390x844 under OS reduce traversed steps 0 through 3 with no Lenis
+on the coarse pointer. First/last mobile screenshots were visually inspected.
+These are emulated checks, not certification on physical mobile hardware.
+
+## 16 November 2026: keep inactive mobile process descriptions closed
+
+The compact-layout fallback explicitly expanded every With Capitar description
+below 600px tall, while taller pinned panels inherited a delayed visibility
+transition on outgoing text. The user requested desktop-style active-only copy
+on all mobile heights. Inactive mobile descriptions now collapse to zero height
+and hide immediately, including short native-flow layouts. The active step still
+uses the existing reveal; scroll tracking, native touch and desktop CSS are
+unchanged. Added short/tall mobile regression coverage checks all three inactive
+descriptions have zero height while stepping forward and back.

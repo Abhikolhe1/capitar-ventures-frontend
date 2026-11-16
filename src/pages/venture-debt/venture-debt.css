@@ -867,12 +867,24 @@ html[data-motion='reduced'] .vd-signal-number > span {
   padding-inline: 0;
 }
 @media (max-width: 700px) {
+  .vd-chapters {
+    overflow: hidden;
+  }
   .vd-chapters-inner {
     gap: 16px;
-    min-width: max-content;
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .vd-chapters-inner a:not(:last-child) {
-    flex: initial;
+  .vd-chapters .vd-chapters-inner a {
+    flex: 0 0 auto;
+  }
+  .vd-chapters-inner::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -1038,4 +1050,216 @@ html[data-motion='reduced'] .vd-step-detail {
   max-width: none;
   left: var(--art-left); top: var(--art-top);
   object-fit: fill;
+}
+/* Mobile Four Signals: keep all four choices and the current illustration in view.
+   Native page scrolling drives the same accordion/image progression as desktop. */
+@media (max-width: 899px) and (min-height: 600px) {
+  .vd-signals-track[data-mobile-pinned='true'] {
+    position: relative;
+    height: calc(400vh - 78px);
+    height: calc(400svh - 78px);
+  }
+  .vd-signals-track[data-mobile-pinned='true'] > .vd-signals-grid {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 62px;
+    height: calc(100vh - 78px);
+    height: calc(100svh - 78px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(min-content, 13fr) minmax(0, 7fr);
+    align-items: start;
+    gap: 12px;
+    padding-block: 8px;
+    box-sizing: border-box;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signals-grid > div:first-child {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signals-grid h2 {
+    font-size: clamp(22px, 3.2svh, 28px);
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin-top: 12px;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signals {
+    margin-top: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signal {
+    flex: 1;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signal button {
+    min-height: 38px;
+    padding: 10px 0;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    gap: 12px;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signal:not([data-active='true']) .vd-signal-detail {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signal[data-active='true'] .vd-signal-detail {
+    max-height: 100px;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signal p {
+    margin: 0 0 12px 22px;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signal-art {
+    justify-self: center;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    aspect-ratio: 1 / 1.0291904;
+    margin: 0;
+  }
+  .vd-signals-track[data-mobile-pinned='true'] .vd-signal-art::before {
+    display: none;
+  }
+}
+@media (max-width: 700px) and (min-height: 600px) {
+  .vd-signals-track[data-mobile-pinned='true'] {
+    height: calc(400vh - 74px);
+    height: calc(400svh - 74px);
+  }
+  .vd-signals-track[data-mobile-pinned='true'] > .vd-signals-grid {
+    top: 58px;
+    height: calc(100vh - 74px);
+    height: calc(100svh - 74px);
+  }
+}
+
+/* Close inactive mobile descriptions immediately, including short viewports.
+   The next step's reveal must not overlap the outgoing description. */
+@media (max-width: 899px) {
+  .vd-process-track .vd-step:not([data-active='true']) .vd-step-detail {
+    grid-template-rows: 0fr;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* With Capitar uses a compact, native-scroll sticky panel on mobile. */
+@media (max-width: 899px) and (min-height: 600px) {
+  .vd-process { padding-block: 16px; }
+  .vd-process-track[data-mobile-pinned='true'] {
+    position: relative;
+    height: calc(400vh - 78px);
+    height: calc(400svh - 78px);
+  }
+  .vd-process-track[data-mobile-pinned='true'] > .vd-process-grid {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 62px;
+    height: calc(100vh - 78px);
+    height: calc(100svh - 78px);
+    box-sizing: border-box;
+    padding-block: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+  .vd-process-track[data-mobile-pinned='true'] h2 {
+    font-size: clamp(24px, 3.5svh, 34px);
+    line-height: 1.05;
+    margin-top: 12px;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-process-grid > div:first-child > p {
+    font-size: 14px;
+    line-height: 1.35;
+    max-width: none;
+    margin: 12px 0 0;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-steps {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step { flex: 1; }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step button {
+    height: 100%;
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 12px;
+    padding: 10px 12px;
+    font-size: 16px;
+    line-height: 1.15;
+    letter-spacing: -0.2px;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step[data-active='true'] button {
+    font-size: 18px;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step-number { gap: 4px; }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step-number > span { font-size: 24px; }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step[data-active='true'] .vd-step-number > span {
+    font-size: 36px;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step-number small,
+  .vd-process-track[data-mobile-pinned='true'] .vd-step[data-active='true'] .vd-step-number small {
+    font-size: 11px;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step-description {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step-description::before { height: 8px; }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step:not([data-active='true']) .vd-step-detail {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+  }
+  .vd-process-track[data-mobile-pinned='true'] .vd-process-curves {
+    position: absolute;
+    pointer-events: none;
+  }
+}
+@media (max-width: 700px) and (min-height: 600px) {
+  .vd-process-track[data-mobile-pinned='true'] {
+    height: calc(400vh - 74px);
+    height: calc(400svh - 74px);
+  }
+  .vd-process-track[data-mobile-pinned='true'] > .vd-process-grid {
+    top: 58px;
+    height: calc(100vh - 74px);
+    height: calc(100svh - 74px);
+  }
+}
+
+/* Mobile Figma order: heading, photo, quote, then the left-aligned CTA. */
+@media (max-width: 899px) {
+  .vd-practice-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .vd-practice-copy { display: contents; }
+  .vd-practice-heading { grid-row: 1; }
+  .vd-practice-grid > .vd-office { grid-row: 2; }
+  .vd-practice-grid blockquote {
+    grid-row: 3;
+    margin: 0;
+  }
+  .vd-practice-grid [data-scroll-reveal='practice-cta'] {
+    grid-row: 4;
+    justify-self: start;
+  }
+  .vd-practice .vd-outcomes { margin-top: 28px; }
 }

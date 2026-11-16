@@ -11,9 +11,9 @@ import { MainLayout } from 'src/layouts/website/main-layout';
 import { SectionBadge } from 'src/components/website/section-badge';
 import { ContentButton } from 'src/components/website/content-button';
 
-import { CaseStudySection } from 'src/sections/home/case-study/case-study-section';
-
 import { FilterSelect } from './filter-select';
+
+// import { CaseStudySection } from 'src/sections/home/case-study/case-study-section';
 
 export default function PortfolioPage() {
   const { content, loading } = useHomepage();
@@ -52,7 +52,7 @@ export default function PortfolioPage() {
     setStage('');
     setSelected(null);
   };
-  const stories = data.featuredStories;
+  // const stories = data.featuredStories;
   return (
     <MainLayout
       global={content.global}
@@ -82,7 +82,9 @@ export default function PortfolioPage() {
           </div>
         </section>
       )}
+      {/* Featured Stories is temporarily hidden on desktop and mobile.
       <CaseStudySection data={stories} variant="portfolio" />
+      */}
       {data.companiesSection.enabled && (
         <section className="portfolio-companies" ref={scope} aria-labelledby="companies-heading">
           <div className="portfolio-container">

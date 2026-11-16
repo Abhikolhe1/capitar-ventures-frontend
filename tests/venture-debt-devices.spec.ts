@@ -38,11 +38,13 @@ for (const size of [
     await page.route('**/api/**', (route) => route.fulfill({ status: 503, body: '{}' }));
     await page.goto('/venture-debt');
     await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false', { timeout: 20000 });
-    const pinned = size.width >= 900 && size.height >= 640;
     for (const [selector, prefix] of [
       ['.vd-signals-track', 'signal'],
       ['.vd-process-track', 'step'],
     ]) {
+      const pinned =
+        (size.width >= 900 && size.height >= 640) ||
+        (size.width < 900 && size.height >= 600);
       for (const index of [0, 1, 2, 3, 2, 1, 0]) {
         await page.locator(selector).evaluate(
           (track, args) => {
@@ -79,6 +81,7 @@ test('OS reduction keeps full site motion and foreground selection', async ({ pa
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.route('**/api/**', (route) => route.fulfill({ status: 503, body: '{}' }));
   await page.goto('/venture-debt');
+  await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false', { timeout: 20000 });
   await expect(page.locator('.vd-signals-grid')).toHaveCSS('position', 'sticky');
   await page.locator('#signal-2').click();
   await expect(page.locator('#signal-panel-2')).toBeVisible();

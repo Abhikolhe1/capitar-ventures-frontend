@@ -7,7 +7,7 @@ const pinnedMedia =
 
 // CSS owns the sticky layout; scroll distance drives the open accordion item.
 // No wheel interception: touchpads, keyboards and reverse scrolling stay native.
-export function usePinnedSteps(count: number, enabled = true) {
+export function usePinnedSteps(count: number, enabled = true, mobileEnabled = false) {
   const reducedMotion = useSiteReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -15,10 +15,17 @@ export function usePinnedSteps(count: number, enabled = true) {
   useLayoutEffect(() => {
     const track = trackRef.current;
     if (!track || !enabled) return undefined;
-    const media = window.matchMedia(pinnedMedia);
+    const mediaQuery = mobileEnabled
+      ? `${pinnedMedia}, (max-width: 899px) and (min-height: 600px)`
+      : pinnedMedia;
+    const media = window.matchMedia(mediaQuery);
     let frame = 0;
     const update = () => {
       frame = 0;
+      // Mobile panels opt in to a compact layout; desktop progression stays unchanged.
+      if (mobileEnabled && !reducedMotion && media.matches && window.innerWidth < 900 && count > 1)
+        track.dataset.mobilePinned = 'true';
+      else delete track.dataset.mobilePinned;
       if (reducedMotion || !media.matches) {
         // Full-size reduced-motion layouts remain click-controlled accordions.
         if (window.innerWidth >= 900 && window.innerHeight >= 640) return;
@@ -57,14 +64,18 @@ export function usePinnedSteps(count: number, enabled = true) {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       media.removeEventListener('change', schedule);
+      delete track.dataset.mobilePinned;
     };
-  }, [count, enabled, reducedMotion]);
+  }, [count, enabled, reducedMotion, mobileEnabled]);
 
   const select = (index: number) => {
     setActive(index);
     const track = trackRef.current;
     const panel = track?.firstElementChild as HTMLElement | null;
-    if (!track || !panel || reducedMotion || !window.matchMedia(pinnedMedia).matches) return;
+    const mediaQuery = mobileEnabled
+      ? `${pinnedMedia}, (max-width: 899px) and (min-height: 600px)`
+      : pinnedMedia;
+    if (!track || !panel || reducedMotion || !window.matchMedia(mediaQuery).matches) return;
     const top = Number.parseFloat(getComputedStyle(panel).top) || 0;
     const distance = track.offsetHeight - panel.offsetHeight;
     // Land inside the selected scroll interval so the next wheel movement continues from it.

@@ -60,12 +60,12 @@ export default function VentureDebtPage() {
     trackRef: signalsTrack,
     active: signalIndex,
     select: setSignal,
-  } = usePinnedSteps(Math.max(1, signals.length), before.enabled);
+  } = usePinnedSteps(Math.max(1, signals.length), before.enabled, true);
   const {
     trackRef: processTrack,
     active: stepIndex,
     select: setStep,
-  } = usePinnedSteps(Math.max(1, steps.length), process.enabled);
+  } = usePinnedSteps(Math.max(1, steps.length), process.enabled, true);
   const signal = Math.min(signalIndex, signals.length - 1);
   const step = Math.min(stepIndex, steps.length - 1);
   const [chapter, setChapter] = useState('before');
@@ -150,6 +150,7 @@ export default function VentureDebtPage() {
       <nav ref={chapterTimeline} className="vd-chapters" aria-label="Venture debt sections">
         <Box
           className="vd-chapters-inner"
+          data-scroll-native
           sx={{ maxWidth: 1441, mx: 'auto', width: '100%', px: { xs: '20px', sm: 6, lg: '100px' } }}
         >
           {chapters.map(([id, label], i) => (
@@ -294,13 +295,15 @@ export default function VentureDebtPage() {
         >
           <div className="vd-container">
             <div className="vd-practice-grid">
-              <div>
-                <div data-scroll-reveal="practice-label">
-                  <Badge>{practice.sectionLabel}</Badge>
+              <div className="vd-practice-copy">
+                <div className="vd-practice-heading">
+                  <div data-scroll-reveal="practice-label">
+                    <Badge>{practice.sectionLabel}</Badge>
+                  </div>
+                  <h2 id="vd-practice-title" data-scroll-reveal="practice-heading">
+                    {practice.heading}
+                  </h2>
                 </div>
-                <h2 id="vd-practice-title" data-scroll-reveal="practice-heading">
-                  {practice.heading}
-                </h2>
                 <blockquote data-scroll-reveal="practice-quote">
                   <p>{practice.quote}</p>
                   <cite>{practice.attribution}</cite>

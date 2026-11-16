@@ -446,6 +446,25 @@
   .portfolio-card h3 {
     font-size: 28px;
   }
+  .portfolio-card__meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .portfolio-card__meta > div {
+    min-width: 0;
+  }
+  .portfolio-card__meta h4 {
+    font-size: 14px;
+    min-height: 2.6em;
+  }
+  .portfolio-card__meta .portfolio-tag {
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
   .portfolio-companies h2 {
     font-size: 38px;
   }
@@ -522,18 +541,31 @@
     margin: 20px 0 30px;
   }
   .portfolio-filters {
-    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 22px;
+  }
+  .portfolio-results {
+    grid-column: 1 / -1;
+    order: 1;
+    width: auto;
+    margin-right: 0;
+    font-size: 20px;
   }
   .portfolio-filter {
     min-width: 0;
-    width: calc(50% - 8px);
-    font-size: 13px;
+    width: auto;
+    gap: 8px;
+    font-size: 14px;
   }
   .portfolio-filter .portfolio-select {
-    font-size: 12px;
+    min-height: 48px;
+    font-size: clamp(12px, 3.6vw, 14px);
+    color: #333;
   }
   .portfolio-filter .portfolio-select .MuiSelect-select {
-    padding: 9px 36px 9px 12px;
+    padding: 12px 32px 12px 12px;
   }
   .portfolio-filter .portfolio-select .MuiSelect-icon {
     right: 12px;
