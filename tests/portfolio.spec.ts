@@ -49,9 +49,8 @@ for (const reducedMotion of ['reduce', 'no-preference', null] as const) {
           images.every((image) => (image as HTMLImageElement).naturalWidth > 0)
         )
     ).toBe(true);
-    await page.locator('[data-case-header]').scrollIntoViewIfNeeded();
-    await page.getByRole('button', { name: 'Next case study', exact: true }).click();
-    await expect(page.locator('#case-study [role="status"]')).toHaveText('mPokket');
+    // Featured Stories is intentionally hidden until editorial content is ready.
+    await expect(page.locator('[data-case-header]')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 }
