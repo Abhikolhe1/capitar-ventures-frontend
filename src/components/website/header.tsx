@@ -19,6 +19,7 @@ function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () 
   if (item.label === 'Venture Debt') item = { ...item, enabled: true, href: '/venture-debt' };
   if (item.label === 'Portfolio') item = { ...item, enabled: true, href: '/portfolio' };
   if (item.label === 'About Us') item = { ...item, enabled: true, href: '/about-us' };
+  if (item.label === 'News & Insights') item = { ...item, enabled: true, href: '/blog' };
   const internal = item.enabled && item.href?.startsWith('/') && !item.href.startsWith('//');
   const preload = item.href === '/venture-debt' ? preloadVentureDebtPage : undefined;
   return (
@@ -70,7 +71,7 @@ export function Header({ data }: { data: GlobalContent }) {
     let direction = 0;
     let distance = 0;
     const onScroll = () => {
-      const hero = document.querySelector('main > section');
+      const hero = document.querySelector<HTMLElement>('main > section');
       const currentY = Math.max(0, window.scrollY);
       const heroBottom = hero?.getBoundingClientRect().bottom;
       const settings = fallback.sectionTransitions;

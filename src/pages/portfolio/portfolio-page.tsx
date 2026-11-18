@@ -9,9 +9,9 @@ import { useSectionReveal } from 'src/hooks/use-section-reveal';
 import { MainLayout } from 'src/layouts/website/main-layout';
 
 import { SectionBadge } from 'src/components/website/section-badge';
+import { FilterSelect } from 'src/components/website/filter-select';
 import { ContentButton } from 'src/components/website/content-button';
 
-import { FilterSelect } from './filter-select';
 
 // import { CaseStudySection } from 'src/sections/home/case-study/case-study-section';
 
@@ -109,9 +109,14 @@ export default function PortfolioPage() {
               <FilterSelect
                 id="portfolio-sector"
                 label={data.companiesSection.sectorLabel}
-                allLabel={data.companiesSection.allSectorsLabel}
+                className="portfolio-filter"
                 value={sector}
-                options={Array.from(new Set(data.companies.map((company) => company.sector)))}
+                options={[
+                  { value: '', label: data.companiesSection.allSectorsLabel },
+                  ...Array.from(new Set(data.companies.map((company) => company.sector))).map(
+                    (item) => ({ value: item, label: item })
+                  ),
+                ]}
                 onChange={(value) => {
                   setSector(value);
                   setSelected(null);
@@ -120,9 +125,14 @@ export default function PortfolioPage() {
               <FilterSelect
                 id="portfolio-stage"
                 label={data.companiesSection.stageLabel}
-                allLabel={data.companiesSection.allStagesLabel}
+                className="portfolio-filter"
                 value={stage}
-                options={Array.from(new Set(data.companies.map((company) => company.stage)))}
+                options={[
+                  { value: '', label: data.companiesSection.allStagesLabel },
+                  ...Array.from(new Set(data.companies.map((company) => company.stage))).map(
+                    (item) => ({ value: item, label: item })
+                  ),
+                ]}
                 onChange={(value) => {
                   setStage(value);
                   setSelected(null);

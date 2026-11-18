@@ -73,6 +73,14 @@ product decision and corresponding tests/documentation updates.
 
 ## Validation before reporting success
 
+Blog listing note (18 November 2026): use a full-viewport hero (`min-height:
+100svh`, with a 100vh fallback), as requested for consistency with the site's
+other pages. Do not use the fixed 602px Figma authoring-frame height as the
+responsive page height. A short hero can otherwise trigger the shared color
+handoff at scroll zero. The blog now uses the existing shared timing without
+special overrides. Verify the hero's viewport coverage and wrapper opacity
+at scroll zero, not just a child heading's own opacity.
+
 For changes affecting motion or layout, select meaningful checks from this matrix.
 For text-only changes, do not add redundant animation tests.
 

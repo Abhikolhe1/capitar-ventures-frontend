@@ -357,6 +357,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
       ? { ...item, href: '/portfolio', enabled: true }
       : item.label.trim().toLowerCase() === 'about us'
       ? { ...item, href: '/about-us', enabled: true }
+        : item.label.trim().toLowerCase() === 'insights'
+        ? { ...item, href: '/blog', enabled: true }
       : item
   );
   const socialLinks = data.socialLinks.filter((item) => item.label.trim().toLowerCase() !== 'facebook');

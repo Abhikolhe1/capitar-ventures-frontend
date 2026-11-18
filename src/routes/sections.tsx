@@ -49,6 +49,7 @@ const renderFallback = () => (
 );
 
 export const routesSection: RouteObject[] = [
+  { path: '/blog', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><BlogPage /></Suspense> },
   { path: '/portfolio', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><PortfolioPage /></Suspense> },
   { path: '/portfolio/:slug', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><CaseStudyPage /></Suspense> },
   { path: '/about-us', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><AboutUsPage /></Suspense> },
@@ -69,7 +70,6 @@ export const routesSection: RouteObject[] = [
       { path: 'dashboard', element: <DashboardPage /> },
       { path: 'user', element: <UserPage /> },
       { path: 'products', element: <ProductsPage /> },
-      { path: 'blog', element: <BlogPage /> },
     ],
   },
   {
