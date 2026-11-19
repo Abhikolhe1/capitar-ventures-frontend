@@ -283,3 +283,14 @@ and hide immediately, including short native-flow layouts. The active step still
 uses the existing reveal; scroll tracking, native touch and desktop CSS are
 unchanged. Added short/tall mobile regression coverage checks all three inactive
 descriptions have zero height while stepping forward and back.
+
+## 19 November 2026: CMS team portraits cropped after fallback replacement
+
+React can retain an empty style attribute after removing the fallback portrait's
+inline crop. The img:not([style]) selector then stops matching CMS photos, leaving
+them at intrinsic size and showing a corner instead of the face. CMS portrait
+sizing now uses an explicit data-cms-portrait marker, independent of inline style
+attributes. Original Figma fallback crops and the motion policy remain intact.
+Portrait alt text uses the member's name, role and Capitar Ventures. Verification
+must inspect fitted image bounds after asynchronous CMS replacement and scroll
+reveals, rather than treating a successful image load as proof of correct display.

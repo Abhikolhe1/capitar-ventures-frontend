@@ -79,8 +79,9 @@ function TeamCard({
       <div className="about-team-crop">
         <img
           src={member.image || artwork(image)}
+          data-cms-portrait={member.image ? '' : undefined}
           style={member.image ? undefined : crop}
-          alt=""
+          alt={`${member.name}, ${member.role}, Capitar Ventures`}
           loading="lazy"
         />
       </div>

@@ -1056,7 +1056,7 @@ html[data-motion='reduced'] .about-page * {
 #main-content.about-page {
   background: transparent;
 }
-.about-team-crop img:not([style]) {
+.about-team-crop img[data-cms-portrait] {
   width: 100%;
   height: 100%;
   object-fit: cover;
