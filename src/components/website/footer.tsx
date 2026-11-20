@@ -32,10 +32,14 @@ function FooterLink({
   underline?: boolean;
 }) {
   const enabled = item.enabled && !!item.href;
+  // Other sites (e.g. LinkedIn) open in a new tab; site paths and mailto/tel stay in place.
+  const external = enabled && /^https?:\/\//i.test(item.href ?? '');
   return (
     <Box
       component={enabled ? 'a' : 'span'}
       href={enabled ? item.href : undefined}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
       aria-disabled={!enabled || undefined}
       sx={{
         color: 'inherit',
