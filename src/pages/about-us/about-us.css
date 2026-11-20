@@ -751,7 +751,8 @@
     font-size: 32px;
   }
   .about-hero {
-    min-height: 744px;
+    /* At least one screen, so tall phones don't start the colour handoff at load. */
+    min-height: max(744px, 100svh);
   }
   .about-hero-copy {
     padding-top: 170px;

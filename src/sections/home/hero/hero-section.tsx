@@ -26,7 +26,9 @@ export function HeroSection({ data }: { data: HeroContent }) {
         position: 'relative',
         bgcolor: websiteTokens.navy,
         overflow: 'hidden',
-        minHeight: { xs: 620, sm: 850, md: '100svh' },
+        // At least one full screen, so the next section (and the colour handoff
+        // it triggers) never starts inside the first view on tall phones.
+        minHeight: { xs: 'max(620px, 100svh)', sm: 'max(850px, 100svh)', md: '100svh' },
         '@media (min-width: 900px)': {
           minHeight: 0,
           height: '100svh',
@@ -164,8 +166,9 @@ export function HeroSection({ data }: { data: HeroContent }) {
           variant="h1"
           sx={{
             width: { xs: '100%', sm: 680, lg: 760 },
-            maxWidth: '100%',
-            fontSize: { xs: 36, sm: 64, lg: 72 },
+            // Mobile: larger type in a narrower box, so the heading sets in three lines.
+            maxWidth: { xs: 330, sm: '100%' },
+            fontSize: { xs: 40, sm: 64, lg: 72 },
             '@media (min-width: 900px) and (max-height: 700px)': {
               fontSize: 'clamp(40px, 9svh, 60px)',
             },

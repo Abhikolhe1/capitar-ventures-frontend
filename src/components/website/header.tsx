@@ -2,7 +2,7 @@ import type { ContentLink, GlobalContent } from 'src/types/homepage';
 
 import { useState, useEffect } from 'react';
 
-import { Box, Stack, Button, Drawer, IconButton, Typography } from '@mui/material';
+import { Box, Stack, Button, Drawer, IconButton } from '@mui/material';
 
 import { RouterLink } from 'src/routes/components/router-link';
 import { preloadVentureDebtPage } from 'src/routes/venture-debt-loader';
@@ -204,7 +204,24 @@ export function Header({ data, colorFlow = true }: { data: GlobalContent; colorF
         slotProps={{ paper: { sx: { width: 'min(340px, 100vw)', p: 3, borderRadius: 0 } } }}
       >
         <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography>Navigation</Typography>
+          {data.brandLogo ? (
+            <Box
+              component={RouterLink}
+              href="/"
+              aria-label="Capitar Ventures home"
+              onClick={() => setOpen(false)}
+              sx={{ display: 'inline-flex' }}
+            >
+              <Box
+                component="img"
+                src={data.brandLogo.url}
+                alt="Capitar Ventures"
+                width={121.5}
+                height={32}
+                sx={{ width: 112, objectFit: 'contain' }}
+              />
+            </Box>
+          ) : <span />}
           <IconButton aria-label="Close navigation" onClick={() => setOpen(false)}>
             ×
           </IconButton>

@@ -754,7 +754,8 @@ html[data-motion='reduced'] .vd-signal-number > span {
   }
   .vd-hero {
     height: auto;
-    min-height: 740px;
+    /* At least one screen, so tall phones don't start the colour handoff at load. */
+    min-height: max(740px, 100svh);
     /* Figma mobile: copy near the top, leaving the lower hero for the discs. */
     align-items: flex-start;
   }
