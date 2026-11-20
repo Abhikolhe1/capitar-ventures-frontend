@@ -10,6 +10,7 @@ import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { MainLayout } from 'src/layouts/website/main-layout';
 
+import { PageMeta } from 'src/components/website/page-meta';
 import { SectionBadge } from 'src/components/website/section-badge';
 import { ContentButton } from 'src/components/website/content-button';
 
@@ -32,6 +33,9 @@ export default function VentureDebtPage() {
   const { content, loading: globalLoading } = useHomepage();
   const { content: page, loading: pageLoading } = useVentureDebt();
   const loading = globalLoading || pageLoading;
+  // Hold the CMS-edited hero copy and chapter labels until the CMS answers (or times out),
+  // so the bundled fallback wording never flashes first.
+  const pendingCopy = { opacity: pageLoading ? 0 : 1, transition: 'opacity 400ms ease' };
   const { hero, before, process, practice, faq: faqContent } = page;
   const chapters = useMemo(
     () =>
@@ -127,6 +131,16 @@ export default function VentureDebtPage() {
   };
   return (
     <MainLayout global={global} loading={loading}>
+      <PageMeta
+        title={page.title}
+        description="Understand how venture debt works, when it can make sense for your startup, and how Capitar Ventures structures it."
+        path="/venture-debt"
+        jsonLd={faqContent.enabled && questions.length ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: questions.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })),
+        } : undefined}
+      />
       {hero.enabled && (
         <Box component="section" className="vd-hero" id="venture-debt" aria-labelledby="vd-title">
           <div className="vd-hero-art" data-entrance="background" aria-hidden="true">
@@ -136,21 +150,24 @@ export default function VentureDebtPage() {
             <img className="vd-hero-glow" src={hero.glowImage.url} alt="" />
           </div>
           <div className="vd-hero-copy vd-container">
-            <div data-entrance="content">
-              <Badge light>{hero.sectionLabel}</Badge>
-            </div>
-            <h1 id="vd-title" data-entrance="heading">
-              {hero.heading}
-              <strong>{hero.emphasisText}</strong>
-            </h1>
-            <p data-entrance="content">{hero.description}</p>
-            <div className="vd-actions" data-entrance="content">
-              <ContentButton data={hero.primaryCta} arrow />
+            {/* Inner wrapper: the page colour flow controls the outer element's opacity. */}
+            <div className="vd-hero-copy-inner" style={pendingCopy}>
+              <div data-entrance="content">
+                <Badge light>{hero.sectionLabel}</Badge>
+              </div>
+              <h1 id="vd-title" data-entrance="heading">
+                {hero.heading}
+                <strong>{hero.emphasisText}</strong>
+              </h1>
+              <p data-entrance="content">{hero.description}</p>
+              <div className="vd-actions" data-entrance="content">
+                <ContentButton data={hero.primaryCta} arrow />
+              </div>
             </div>
           </div>
         </Box>
       )}
-      <nav ref={chapterTimeline} className="vd-chapters" aria-label="Venture debt sections">
+      <nav ref={chapterTimeline} className="vd-chapters" aria-label="Venture debt sections" style={pendingCopy}>
         <Box
           className="vd-chapters-inner"
           data-scroll-native

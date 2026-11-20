@@ -5,7 +5,9 @@ import { Box, Typography } from '@mui/material';
 import { websiteTokens } from 'src/theme/website-theme';
 
 export function ProofMetric({ metric }: { metric: ProofMetricContent }) {
-  const spoken = `${metric.prefix || ''}${metric.value}${metric.valueSuffix || ''} ${metric.suffix || ''}`.trim();
+  // Word suffixes keep a space (2 wks, 400 Cr+); symbols attach directly (30+, 50%+).
+  const gap = /^[A-Za-z]/.test(metric.suffix || '') ? ' ' : '';
+  const spoken = `${metric.prefix || ''}${metric.value}${metric.valueSuffix || ''}${gap}${metric.suffix || ''}`.trim();
   return (
     <Box data-proof-metric sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0, position: 'relative', gap: '12px' }}>
       <Typography component="dt" sx={{ order: 2, fontSize: { xs: 13, sm: 18, md: 20 }, fontWeight: 500, lineHeight: 1.4, letterSpacing: '0.02em', textAlign: 'center', color: websiteTokens.red }}>
@@ -24,7 +26,7 @@ export function ProofMetric({ metric }: { metric: ProofMetricContent }) {
             <Box component="span" data-proof-number data-value={metric.value} sx={{ gridArea: '1 / 1', textAlign: 'center' }}>{metric.value}</Box>
           </Box>
           {metric.valueSuffix}
-          {metric.suffix && <Box component="span" sx={{ fontSize: '0.72em', fontWeight: 400 }}>{' '}{metric.suffix}</Box>}
+          {metric.suffix && <Box component="span" sx={{ fontSize: '0.72em', fontWeight: 400 }}>{gap}{metric.suffix}</Box>}
         </Box>
       </Typography>
     </Box>

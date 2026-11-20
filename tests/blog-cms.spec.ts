@@ -45,7 +45,7 @@ test('published CMS content controls all sections, categories, sorting and pagin
   await page.goto('/blog');
   await expect(page.locator('h1')).toHaveText('CMS insights');
   await expect(page.locator('.blog-feature h2')).toContainText('CMS featured');
-  await expect(page.getByRole('link', { name: 'Known More' })).toHaveAttribute('href', '/venture-debt');
+  await expect(page.getByRole('link', { name: 'Know More' })).toHaveAttribute('href', '/venture-debt');
   await expect(page.locator('.blog-card')).toHaveCount(3);
   await expect(page.locator('.blog-card h3').first()).toHaveText('Article 10');
   await sortBy(page, 'Oldest first');
@@ -72,9 +72,11 @@ test('empty CMS article lists remain empty, unsafe links and images do not execu
   await page.goto('/blog');
   await expect(page.locator('h1')).toHaveText('CMS insights');
   await expect(page.locator('.blog-card')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Known More' })).toBeDisabled();
+  // A featured story without a safe link, and a list with no linked articles, stay hidden.
+  await expect(page.locator('.blog-feature')).toHaveCount(0);
+  await expect(page.locator('#blog-latest')).toHaveCount(0);
   await expect(page.locator('.blog-hero image')).toHaveAttribute('href', fallback.hero.image);
-  await expect(page.locator('.blog-empty')).toBeVisible();
+  await expect(page.locator('#blog-newsletter')).toBeVisible();
 });
 
 test('subscription validates email, posts to CMS and only acknowledges accepted responses', async ({ page }) => {
@@ -143,5 +145,6 @@ test('pagination: numbered pages with gaps, previous/next, URL, back button and 
   await expect(page).toHaveURL(/\/blog\?category=Technology$/);
   await expect.poll(labels).toEqual(['1', '2', '3', '4', '5', '›']);
   expect(Object.fromEntries(requests.at(-1)!)).toEqual({ page: '1', pageSize: '3', sort: 'latest', category: 'Technology' });
-  expect(requests.every(params => params.get('pageSize') === '3')).toBe(true);
+  // Article pages use the CMS page size; one-item requests only count each category.
+  expect(requests.filter(params => params.get('pageSize') !== '1').every(params => params.get('pageSize') === '3')).toBe(true);
 });

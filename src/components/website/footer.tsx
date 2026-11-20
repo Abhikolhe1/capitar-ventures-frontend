@@ -82,7 +82,7 @@ function CopyContact({ label, value, href }: { label: string; value: string; hre
           mb: '6px',
         }}
       >
-        {label === 'Email' ? 'Mail ID:' : 'Phone number:'}
+        {label === 'Email' ? 'Email:' : 'Phone number:'}
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
         <Box

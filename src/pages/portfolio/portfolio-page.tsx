@@ -8,6 +8,7 @@ import { useSectionReveal } from 'src/hooks/use-section-reveal';
 
 import { MainLayout } from 'src/layouts/website/main-layout';
 
+import { PageMeta } from 'src/components/website/page-meta';
 import { SectionBadge } from 'src/components/website/section-badge';
 import { FilterSelect } from 'src/components/website/filter-select';
 import { ContentButton } from 'src/components/website/content-button';
@@ -60,6 +61,11 @@ export default function PortfolioPage() {
       contentVersion={JSON.stringify(data)}
       colorFlow={false}
     >
+      <PageMeta
+        title={data.title}
+        description="The founders and companies Capitar Ventures has backed with venture debt, by sector and stage."
+        path="/portfolio"
+      />
       {data.hero.enabled && (
         <section className="portfolio-hero" aria-labelledby="portfolio-heading">
           <div
@@ -99,7 +105,6 @@ export default function PortfolioPage() {
             </div>
             <div className="portfolio-filters">
               <div className="portfolio-results" role="status" aria-live="polite">
-                <span>{data.companiesSection.resultsLabel}</span>
                 <strong>
                   {companies.length}{' '}
                   {companies.length === 1

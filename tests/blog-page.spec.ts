@@ -66,7 +66,7 @@ test('categories, sorting and failed subscription stay honest and usable', async
   await page.getByRole('option', { name: 'Oldest first', exact: true }).click();
   await expect(page.locator('.blog-card')).toHaveCount(9);
   await expect(page.getByRole('button', { name: 'Next page' })).toBeDisabled();
-  await expect(page.getByRole('button', { name: 'Known More' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Know More' })).toBeDisabled();
   await page.getByRole('textbox', { name: 'Email address' }).fill('reader@example.com');
   await page.getByRole('button', { name: 'Subscribe', exact: true }).click();
   await expect(page.locator('.blog-subscribe__status')).toHaveText('We could not subscribe you right now. Please try again later.');

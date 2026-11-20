@@ -312,6 +312,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
                 '&.Mui-disabled': { bgcolor: '#11054A', color: 'rgba(255,255,255,.4)' },
+                '&.Mui-focusVisible': { outline: '2px solid #CC2334', outlineOffset: 3 },
               }}
             >
               <Arrow previous />
@@ -328,6 +329,7 @@ export function TestimonialsSection({ data }: { data?: TestimonialsContent }) {
                 color: 'white',
                 '&:hover': { bgcolor: '#242447' },
                 '&.Mui-disabled': { bgcolor: '#11054A', color: 'rgba(255,255,255,.4)' },
+                '&.Mui-focusVisible': { outline: '2px solid #CC2334', outlineOffset: 3 },
               }}
             >
               <Arrow />

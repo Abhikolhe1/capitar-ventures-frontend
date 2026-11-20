@@ -198,7 +198,9 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
   const [active, setActive] = useState<TabKey>('insights');
   const [position, setPosition] = useState({ previous: false, next: false });
   const track = useRef<HTMLUListElement>(null);
-  const content = data?.[active];
+  // Until News has its own articles it would only repeat Insights, so the toggle is hidden.
+  const newsRepeatsInsights = !!data && (!data.news.items.length || data.news.items.map(item => item.title).join('|') === data.insights.items.map(item => item.title).join('|'));
+  const content = data?.[newsRepeatsInsights ? 'insights' : active];
   const signature = JSON.stringify(content);
   const update = useCallback(() => {
     const element = track.current;
@@ -305,6 +307,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               {content.heading}
             </Typography>
           </Box>
+          {!newsRepeatsInsights && (
           <Tabs
             value={active}
             onChange={(_, value: TabKey) => setActive(value)}
@@ -353,14 +356,15 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               />
             ))}
           </Tabs>
+          )}
         </Box>
-        <Box hidden id={`editorial-panel-${active === 'insights' ? 'news' : 'insights'}`} role="tabpanel" aria-labelledby={`editorial-tab-${active === 'insights' ? 'news' : 'insights'}`} />
+        {!newsRepeatsInsights && <Box hidden id={`editorial-panel-${active === 'insights' ? 'news' : 'insights'}`} role="tabpanel" aria-labelledby={`editorial-tab-${active === 'insights' ? 'news' : 'insights'}`} />}
         <Box
           key={active}
           id={`editorial-panel-${active}`}
           data-scroll-reveal="editorial-panel"
-          role="tabpanel"
-          aria-labelledby={`editorial-tab-${active}`}
+          role={newsRepeatsInsights ? undefined : 'tabpanel'}
+          aria-labelledby={newsRepeatsInsights ? 'editorial-heading' : `editorial-tab-${active}`}
           sx={{
             '@keyframes editorial-reveal': { from: { opacity: 0 }, to: { opacity: 1 } },
             'html[data-motion="full"] &': {
@@ -426,7 +430,8 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
               minHeight: 48,
             }}
           >
-            {content.cta && (
+            {/* A button without a destination is hidden rather than shown disabled. */}
+            {content.cta?.enabled && content.cta.href && (
               <AuroraGlassButton data={content.cta} />
             )}
             <Box
@@ -450,6 +455,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
                   color: '#111129',
                   '&:hover': { bgcolor: '#E3E4E8' },
                   '&.Mui-disabled': { bgcolor: '#F9FAFB', color: '#91939A' },
+                  '&.Mui-focusVisible': { outline: '2px solid #CC2334', outlineOffset: 3 },
                 }}
               >
                 <Arrow previous />
@@ -466,6 +472,7 @@ export function InsightsNewsSection({ data }: { data?: InsightsNewsContent }) {
                   color: '#111129',
                   '&:hover': { bgcolor: '#E3E4E8' },
                   '&.Mui-disabled': { bgcolor: '#F9FAFB', color: '#91939A' },
+                  '&.Mui-focusVisible': { outline: '2px solid #CC2334', outlineOffset: 3 },
                 }}
               >
                 <Arrow />

@@ -31,7 +31,10 @@ test('desktop Insights uses Figma dimensions independently of screen height', as
   }
 });
 
-async function mockCms(page: import('@playwright/test').Page, insightsNews = fallback.insightsNews) {
+// News that merely repeats Insights hides the tab toggle, so the default mock gives News its own titles.
+const distinctNews = structuredClone(fallback.insightsNews);
+distinctNews.news.items = distinctNews.news.items.map((item: { title: string }) => ({ ...item, title: `News: ${item.title}` }));
+async function mockCms(page: import('@playwright/test').Page, insightsNews = distinctNews) {
   await page.route('**/api/global', route => route.fulfill({ json: { data: fallback.global } }));
   await page.route('**/api/homepage', route => {
     const content = structuredClone(insightsNews);
@@ -97,7 +100,7 @@ test('the section follows Team and fits desktop and mobile without changing the 
     expect(await section.evaluate(element => !!(document.querySelector('#team')!.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING))).toBeTruthy();
     await expect(section.getByRole('article')).toHaveCount(fallback.insightsNews.insights.items.length);
     await section.getByRole('tab', { name: 'News', exact: true }).click();
-    await expect(section.getByRole('heading', { level: 3 }).first()).toHaveText('What Is Venture Debt, Really?');
+    await expect(section.getByRole('heading', { level: 3 }).first()).toHaveText('News: What Is Venture Debt, Really?');
     await section.screenshot({ path: `test-results/editorial-${width}.png` });
   }
   expect(errors).toEqual([]);
@@ -116,10 +119,9 @@ test('empty tabs, invalid links and failed media remain usable; disabled content
   await expect(section.getByRole('link')).toHaveCount(0);
   await expect(section.locator('img[src*="unavailable-editorial"]')).toHaveCount(0);
   await expect(section.locator('img')).toHaveCount(content.insights.items.length - 1);
-  await section.getByRole('tab', { name: 'News', exact: true }).click();
-  await expect(section.getByText('No articles yet.')).toBeVisible();
-  await expect(section.getByRole('article')).toHaveCount(0);
-  await expect(section.getByRole('button', { name: 'Next News articles' })).toBeDisabled();
+  // An empty News list would only repeat Insights, so the tab toggle is hidden.
+  await expect(section.getByRole('tab')).toHaveCount(0);
+  await expect(section.getByRole('article')).toHaveCount(content.insights.items.length);
   content.enabled = false;
   await page.reload();
   await expect(page.locator('#main-content')).toHaveAttribute('aria-busy', 'false');

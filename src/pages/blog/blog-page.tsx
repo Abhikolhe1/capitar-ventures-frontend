@@ -15,9 +15,10 @@ import { useBlogArticles } from 'src/hooks/use-blog-articles';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
 import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
 
-import { subscribeToBlog } from 'src/services/blog.service';
 import { MainLayout } from 'src/layouts/website/main-layout';
+import { subscribeToBlog, fetchBlogArticles } from 'src/services/blog.service';
 
+import { PageMeta } from 'src/components/website/page-meta';
 import { SectionBadge } from 'src/components/website/section-badge';
 import { FilterSelect } from 'src/components/website/filter-select';
 import { ContentButton } from 'src/components/website/content-button';
@@ -112,7 +113,7 @@ function pageItems(count: number, current: number): (number | 'gap')[] {
 }
 
 export default function BlogPage() {
-  const { data: content, loaded } = useBlog();
+  const { data: content, loaded, fromCms } = useBlog();
   const { content: homepage } = useHomepage();
   const reducedMotion = useSiteReducedMotion();
   const main = useRef<HTMLElement>(null);
@@ -131,7 +132,31 @@ export default function BlogPage() {
     page, pageSize, sort, category: category === 'All Posts' ? '' : category,
   }, loaded);
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
-  const featuredVisible = category === 'All Posts' || category === content.featured.category;
+  // Placeholder articles have no destination. The grid and its filters appear once a
+  // published article links somewhere, and only categories that hold articles are offered.
+  const [catalogue, setCatalogue] = useState<{ live: boolean; counts: Record<string, number> } | null>(null);
+  const categoryKey = content.categories.join('|');
+  useEffect(() => {
+    if (!loaded) return undefined;
+    const controller = new AbortController();
+    Promise.all(content.categories.map(item => fetchBlogArticles(
+      { page: 1, pageSize: item === 'All Posts' ? pageSize : 1, sort: 'latest', category: item === 'All Posts' ? '' : item },
+      controller.signal
+    ).then(result => [item, result] as const)))
+      .then(results => setCatalogue({
+        live: results.some(([item, result]) => item === 'All Posts' && result.articles.some(article => article.href)),
+        counts: Object.fromEntries(results.map(([item, result]) => [item, result.total])),
+      }))
+      // CMS unreachable: keep the bundled sample layout, as before.
+      .catch(() => { if (!controller.signal.aborted) setCatalogue({ live: true, counts: {} }); });
+    return () => controller.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded, categoryKey, pageSize]);
+  const articlesLive = !!catalogue?.live;
+  const categories = content.categories.filter(item => item === 'All Posts' || (catalogue?.counts[item] ?? 1) > 0);
+  // A featured story without a link is hidden on the live CMS; during a CMS outage the
+  // complete bundled page is kept, as on the site's other pages.
+  const featuredVisible = (!!content.featured.href || (loaded && !fromCms)) && (category === 'All Posts' || category === content.featured.category);
   const signature = `${category}-${sort}-${page}-${visible.map(article => article.id).join()}-${JSON.stringify(content)}`;
   useSectionReveal(main, signature);
 
@@ -161,8 +186,7 @@ export default function BlogPage() {
 
   return (
     <MainLayout global={homepage.global} mainRef={main} mainClassName="blog-page" contentVersion={signature}>
-      <title>News &amp; Insights | Capitar Ventures</title>
-      <meta name="description" content={content.hero.description} />
+      <PageMeta setTitle title="News & Insights | Capitar Ventures" description={content.hero.description} path="/blog" />
       <section id="blog-hero" className="blog-hero" aria-labelledby="blog-title">
         <div className="blog-hero__art" data-entrance="background" aria-hidden="true">
           {/* Original Figma image-fill transform, read from its native SVG export. */}
@@ -174,11 +198,11 @@ export default function BlogPage() {
           <p data-entrance="content">{content.hero.description}</p>
         </div>
       </section>
-      <section id="blog-featured" className="blog-featured" aria-label="Browse insights">
+      {(articlesLive || featuredVisible) && <section id="blog-featured" className="blog-featured" aria-label="Browse insights">
         <div className="blog-container">
-          <div className="blog-toolbar">
+          {articlesLive && <div className="blog-toolbar">
             <div className="blog-categories" role="group" aria-label="Filter articles by category">
-              {content.categories.map(item => <button key={item} type="button" aria-pressed={category === item} onClick={() => selectCategory(item)}>{item}</button>)}
+              {categories.map(item => <button key={item} type="button" aria-pressed={category === item} onClick={() => selectCategory(item)}>{item}</button>)}
             </div>
             <FilterSelect
               id="blog-sort"
@@ -190,7 +214,7 @@ export default function BlogPage() {
               options={[{ value: 'latest', label: 'Latest first' }, { value: 'oldest', label: 'Oldest first' }, { value: 'title', label: 'Title A–Z' }]}
               onChange={selectSort}
             />
-          </div>
+          </div>}
           {featuredVisible && <article className="blog-feature" data-scroll-reveal="featured-article">
             <img className="blog-feature__image" src={content.featured.image} alt={content.featured.imageAlt} width="1241" height="440" />
             <div className="blog-feature__copy">
@@ -199,13 +223,13 @@ export default function BlogPage() {
               <p>{content.featured.description}</p>
               <div className="blog-feature__meta"><time dateTime={content.featured.date}>{content.featured.dateLabel}</time><span>{content.featured.readingTime}</span></div>
             </div>
-            <div className="blog-feature__cta" title={content.featured.href ? undefined : 'Article coming soon'}>
-              <ContentButton data={{ label: 'Known More', href: content.featured.href, enabled: !!content.featured.href }} arrow />
+            <div className="blog-feature__cta">
+              <ContentButton data={{ label: 'Know More', href: content.featured.href, enabled: !!content.featured.href }} arrow />
             </div>
           </article>}
         </div>
-      </section>
-      <section id="blog-latest" className="blog-latest" aria-labelledby="latest-title">
+      </section>}
+      {articlesLive && <section id="blog-latest" className="blog-latest" aria-labelledby="latest-title">
         <div className="blog-container">
           <div className="blog-latest__heading" data-scroll-reveal="latest-heading"><Badge text={content.latest.eyebrow} /><h2 id="latest-title">{content.latest.title}</h2></div>
           <div className="blog-sr-only" role="status">{ready ? `${total} articles${category !== 'All Posts' ? ` in ${category}` : ''}` : ''}</div>
@@ -228,7 +252,7 @@ export default function BlogPage() {
             <button type="button" aria-label="Next page" disabled={page >= pageCount} onClick={() => goToPage(page + 1)}>›</button>
           </nav>}
         </div>
-      </section>
+      </section>}
       {content.newsletter.enabled && <Newsletter content={content} />}
     </MainLayout>
   );

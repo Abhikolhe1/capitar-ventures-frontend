@@ -70,7 +70,7 @@
 .vd-hero h1 strong {
   font-weight: 600;
 }
-.vd-hero-copy > p {
+.vd-hero-copy-inner > p {
   font-size: 20px;
   line-height: 1.4;
   max-width: 556px;
@@ -767,7 +767,7 @@ html[data-motion='reduced'] .vd-signal-number > span {
     max-width: 420px;
     letter-spacing: -1px;
   }
-  .vd-hero-copy > p {
+  .vd-hero-copy-inner > p {
     font-size: 18px;
     max-width: 400px;
   }

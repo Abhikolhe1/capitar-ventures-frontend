@@ -6,6 +6,8 @@ export function useBlog() {
   const [data, setData] = useState(fallbackBlog);
   // True once the first CMS answer (or failure) is in, so article paging uses the real page size.
   const [loaded, setLoaded] = useState(false);
+  // True once content came from the CMS (false while showing the bundled fallback).
+  const [fromCms, setFromCms] = useState(false);
   useEffect(() => {
     const controller = new AbortController();
     let request = 0;
@@ -13,7 +15,7 @@ export function useBlog() {
       const current = ++request;
       try {
         const content = await fetchBlog(controller.signal);
-        if (!controller.signal.aborted && current === request) setData(content);
+        if (!controller.signal.aborted && current === request) { setData(content); setFromCms(true); }
       } catch { /* Keep the Figma content or last successful CMS response on failure. */ }
       finally { if (!controller.signal.aborted) setLoaded(true); }
     };
@@ -21,5 +23,5 @@ export function useBlog() {
     window.addEventListener('focus', refresh);
     return () => { controller.abort(); window.removeEventListener('focus', refresh); };
   }, []);
-  return { data, loaded };
+  return { data, loaded, fromCms };
 }

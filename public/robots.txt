@@ -1,0 +1,5 @@
+# Capitar Ventures website
+User-agent: *
+Allow: /
+
+Sitemap: http://72.61.232.63:3051/sitemap.xml

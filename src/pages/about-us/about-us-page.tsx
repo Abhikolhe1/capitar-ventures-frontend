@@ -9,6 +9,7 @@ import { useHomepage } from 'src/hooks/use-homepage';
 
 import { MainLayout } from 'src/layouts/website/main-layout';
 
+import { PageMeta } from 'src/components/website/page-meta';
 import { SectionBadge } from 'src/components/website/section-badge';
 import { ContentButton } from 'src/components/website/content-button';
 import { TeamPersonCard as TeamCard } from 'src/components/website/team-person-card';
@@ -56,6 +57,11 @@ export default function AboutUsPage() {
       mainRef={scope}
       mainClassName="about-page"
     >
+      <PageMeta
+        title={content.title}
+        description="Capitar Ventures is a SEBI-registered Category II AIF providing venture debt to early-stage startups in India. Meet the team and how we work."
+        path="/about-us"
+      />
       <section className="about-page about-hero" id="about-hero" aria-labelledby="about-title">
         <div className="about-hero-art" data-entrance="background" aria-hidden="true">
           <div className="about-hero-image">
