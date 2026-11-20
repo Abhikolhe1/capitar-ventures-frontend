@@ -13,11 +13,11 @@ const brightness = (color: string) => {
 };
 
 // Every visible section uses ONE canvas color, including during a handoff.
-export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: boolean, contentVersion?: string) {
+export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: boolean, contentVersion?: string, enabled = true) {
   const reducedMotion = useSiteReducedMotion();
   useLayoutEffect(() => {
     const root = scope.current;
-    if (!root || !homepage.sectionTransitions.enabled || reducedMotion) return undefined;
+    if (!root || !enabled || !homepage.sectionTransitions.enabled || reducedMotion) return undefined;
     const context = gsap.context(() => {
       const sections = Array.from(root.querySelectorAll<HTMLElement>('main > section, #site-footer'));
       const saved = sections.map(element => ({
@@ -211,5 +211,5 @@ export function usePageColorFlow(scope: RefObject<HTMLElement | null>, loading: 
       };
     }, scope);
     return () => context.revert();
-  }, [scope, loading, reducedMotion, contentVersion]);
+  }, [scope, loading, reducedMotion, contentVersion, enabled]);
 }

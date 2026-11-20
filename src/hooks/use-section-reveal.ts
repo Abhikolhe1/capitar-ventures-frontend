@@ -7,8 +7,14 @@ import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
 import { createDirectionalReveal } from 'src/hooks/reveal-from-above';
 
-export function useSectionReveal(scope: RefObject<HTMLElement | null>, signature: string) {
+// Optional timing: start (ScrollTrigger position) and minDuration (seconds) for earlier reveals.
+export function useSectionReveal(
+  scope: RefObject<HTMLElement | null>,
+  signature: string,
+  timing: { start?: string; minDuration?: number } = {}
+) {
   const reducedMotion = useSiteReducedMotion();
+  const { start, minDuration } = timing;
   useLayoutEffect(() => {
     if (!scope.current) return undefined;
     const disposers: (() => void)[] = [];
@@ -20,11 +26,13 @@ export function useSectionReveal(scope: RefObject<HTMLElement | null>, signature
           metrics ? element.querySelectorAll('[data-proof-value]') : element,
           element,
           { opacity: 0, y: metrics ? 24 : 20 },
-          { opacity: 1, y: 0, ...(metrics ? { stagger: 0.1 } : {}), duration: heading ? 0.85 : 0.7, ease: 'power2.out' }
+          { opacity: 1, y: 0, ...(metrics ? { stagger: 0.1 } : {}), duration: heading ? 0.85 : 0.7, ease: 'power2.out' },
+          start,
+          minDuration
         ));
       });
     }, scope);
     const cancel = scheduleScrollRefresh();
     return () => { cancel(); disposers.forEach(dispose => dispose()); context.revert(); };
-  }, [scope, signature, reducedMotion]);
+  }, [scope, signature, reducedMotion, start, minDuration]);
 }

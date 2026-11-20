@@ -308,9 +308,34 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
   return { global, hero, portfolioProofPoints, capitalEfficiency, capitarDifference, caseStudy, team, insightsNews, testimonials };
 }
 export async function fetchHomepage(signal?: AbortSignal) {
-  const [global, homepage] = await Promise.all([
+  const [global, homepage, about] = await Promise.all([
     client.get('/global', { signal }),
     client.get('/homepage', { signal }),
+    client.get('/about-us', { signal }).catch(() => undefined),
   ]);
-  return normalizeContent(global.data, homepage.data);
+  const content = normalizeContent(global.data, homepage.data);
+  // About Us is the shared editorial source for the team lineup and portraits.
+  if (content.team && about) {
+    try {
+      const people = record(record(about.data).data).people;
+      const members = record(people).team;
+      if (Array.isArray(members)) {
+        content.team.members = members.flatMap(value => {
+          if (!value || typeof value !== 'object' || Array.isArray(value)) return [];
+          const member = record(value), name = string(member.name)?.trim(), role = string(member.role)?.trim();
+          if (!name || !role) return [];
+          return [{ name, role, description: string(member.biography), portrait: media(member.image), linkedinUrl: safeLinkedinUrl(member.linkedinUrl) }];
+        });
+      }
+    } catch { /* Keep homepage members when shared team content is unavailable. */ }
+  }
+  return content;
+}
+
+export function safeLinkedinUrl(value: unknown): string | undefined {
+  try {
+    const url = new URL(typeof value === 'string' ? value : '');
+    if (url.protocol === 'https:' && (url.hostname === 'linkedin.com' || url.hostname.endsWith('.linkedin.com'))) return url.href;
+  } catch { /* An empty profile remains non-interactive. */ }
+  return undefined;
 }

@@ -55,9 +55,12 @@ function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () 
     </Button>
   );
 }
-export function Header({ data }: { data: GlobalContent }) {
+export function Header({ data, colorFlow = true }: { data: GlobalContent; colorFlow?: boolean }) {
   const reducedMotion = useSiteReducedMotion();
   const [open, setOpen] = useState(false);
+  // Growth Equity is hidden from the header for now, including the older CMS
+  // "Our Offerings" entry that expands into it.
+  const navigation = data.navigation.filter(item => item.label.trim().toLowerCase() !== 'growth equity');
   const [hidden, setHidden] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const footerLogo = data.footer?.brandLogo || fallback.global.footer.brandLogo;
@@ -77,7 +80,7 @@ export function Header({ data }: { data: GlobalContent }) {
       const settings = fallback.sectionTransitions;
       // The hero's surface lightens before its layout box leaves the viewport.
       // Switch logo, navigation and CTA together before that pale phase begins.
-      const whiteHeaderBoundary = hero?.id === 'about-hero' ? 68 : settings.enabled && !reducedMotion
+      const whiteHeaderBoundary = !colorFlow ? 68 : hero?.id === 'about-hero' ? 68 : settings.enabled && !reducedMotion
         ? window.innerHeight * (settings.startViewport - (settings.startViewport - settings.endViewport) * 0.15)
         : 0;
       setPastHero(!hero?.querySelector('[data-entrance="background"]') || heroBottom !== undefined && heroBottom <= whiteHeaderBoundary);
@@ -109,7 +112,7 @@ export function Header({ data }: { data: GlobalContent }) {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
-  }, [open, reducedMotion]);
+  }, [open, reducedMotion, colorFlow]);
   return (
     <>
       <Box
@@ -168,7 +171,7 @@ export function Header({ data }: { data: GlobalContent }) {
             spacing={{ md: 2.5, lg: 4 }}
             sx={{ display: { xs: 'none', md: 'flex' } }}
           >
-            {data.navigation.map((item, index) => (
+            {navigation.map((item, index) => (
               <NavItem key={`${item.label}-${index}`} item={item} dark={pastHero} />
             ))}
           </Stack>
@@ -214,7 +217,7 @@ export function Header({ data }: { data: GlobalContent }) {
           spacing={2}
           sx={{ pt: 4 }}
         >
-          {data.navigation.map((item, index) => (
+          {navigation.map((item, index) => (
             <NavItem key={`${item.label}-${index}`} item={item} close={() => setOpen(false)} />
           ))}
           {data.headerCta && <NavItem item={data.headerCta} close={() => setOpen(false)} />}

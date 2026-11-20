@@ -14,6 +14,7 @@ type Company = {
   stage: string;
   status: string;
   caseStudyUrl?: string;
+  websiteUrl?: string;
   logo?: Media;
   founder: { name: string; role: string };
 };
@@ -60,6 +61,14 @@ const media = (value: unknown): Media | undefined => {
     return undefined;
   }
 };
+// Replace the original seeded banner with the revised Figma artwork. Newly
+// selected CMS media still takes precedence over the bundled default.
+const heroMedia = (value: unknown): Media => {
+  const image = media(value);
+  return !image || /\/(?:portfolio_)?hero[_-]background(?:_[a-f0-9]+)?\.webp(?:\?.*)?$/.test(image.url)
+    ? fallback.hero.backgroundImage
+    : image;
+};
 const link = (value: unknown, defaultValue: ContentLink): ContentLink => {
   if (!value || typeof value !== 'object') return defaultValue;
   const item = object(value);
@@ -95,6 +104,9 @@ export function normalizePortfolio(payload: unknown): PortfolioContent {
             status: text(company.status),
             // The case study button appears only for companies with a safe link.
             caseStudyUrl: safeHref(company.caseStudyUrl),
+            websiteUrl: /^https?:\/\//i.test(text(company.websiteUrl).trim())
+              ? safeHref(text(company.websiteUrl).trim())
+              : undefined,
             logo: media(company.logo),
             founder: { name: text(founder.name), role: text(founder.role) },
           },
@@ -108,7 +120,7 @@ export function normalizePortfolio(payload: unknown): PortfolioContent {
       heading: text(hero.heading, fallback.hero.heading),
       emphasis: text(hero.emphasis, fallback.hero.emphasis),
       description: text(hero.description, fallback.hero.description),
-      backgroundImage: media(hero.backgroundImage) ?? fallback.hero.backgroundImage,
+      backgroundImage: heroMedia(hero.backgroundImage),
       cta: link(hero.cta, fallback.hero.cta),
     },
     featuredStories: {

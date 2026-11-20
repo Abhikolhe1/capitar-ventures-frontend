@@ -24,16 +24,25 @@ for (const width of [1440, 390]) {
       await expect(page.getByText('CMS member 1', { exact: true })).toBeVisible();
       const images = page.locator('.about-team-crop img[data-cms-portrait]');
       await expect(images).toHaveCount(9);
+      await expect(page.locator('.about-team-card').first()).toHaveCSS('background-color', 'rgb(237, 244, 249)');
+      await expect(page.locator('.about-team-light')).toHaveCount(0);
       for (const image of await images.all()) {
         await image.locator('..').locator('..').scrollIntoViewIfNeeded();
         await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
         await expect(image).toHaveCSS('object-fit', 'cover');
         const sizes = await image.evaluate(element => {
           const picture = element.getBoundingClientRect(), frame = element.parentElement!.getBoundingClientRect();
-          return { width: Math.abs(picture.width - frame.width), height: Math.abs(picture.height - frame.height) };
+          return {
+            width: picture.width / frame.width,
+            height: picture.height / frame.height,
+            left: (picture.left - frame.left) / frame.width,
+            bottom: Math.abs(picture.bottom - frame.bottom),
+          };
         });
-        expect(sizes.width).toBeLessThan(1);
-        expect(sizes.height).toBeLessThan(1);
+        expect(sizes.width).toBeCloseTo(0.87, 2);
+        expect(sizes.height).toBeCloseTo(0.87, 2);
+        expect(sizes.left).toBeCloseTo(0.065, 2);
+        expect(sizes.bottom).toBeLessThan(1);
       }
       await expect(images.first()).toHaveAttribute('alt', /CMS member 1, .*Capitar Ventures/);
       await expect(page.locator('html')).toHaveAttribute('data-motion', 'full');

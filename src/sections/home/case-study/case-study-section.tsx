@@ -13,7 +13,7 @@ export function CaseStudySection({ data, variant }: { data?: CaseStudyContent; v
   const mobile = useMediaQuery('(max-width:599px)');
   const scope = useRef<HTMLElement>(null);
   const [selected, setSelected] = useState(0);
-  useCaseStudyAnimation(scope, JSON.stringify(data));
+  useCaseStudyAnimation(scope, JSON.stringify(data), mobile);
   if (!data?.enabled) return null;
   // Older CMS content only populated Qubehealth; mirror its sample detail fields
   // for the other original cards until their individual content is provided.

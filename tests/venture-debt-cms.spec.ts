@@ -30,7 +30,6 @@ test('published CMS content drives all venture debt sections and safe links', as
   content.practice.image.url = '/assets/venture-debt/34b05.png';
   content.faq.items = [{ question: 'CMS question?', answer: 'CMS answer.' }];
   content.timeline[3].label = 'CMS FAQ';
-  content.hero.secondaryCta.href = 'javascript:alert(1)';
   await page.route('**/api/venture-debt', route => route.fulfill({ json: { data: content } }));
   await page.goto('/venture-debt');
   await expect(page).toHaveTitle('CMS venture debt');

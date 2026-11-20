@@ -2,12 +2,12 @@ import axios from 'axios';
 
 import fallback from 'src/content/about-us.json';
 
-import { safeHref } from './homepage.service';
+import { safeHref, safeLinkedinUrl } from './homepage.service';
 
 export type AboutUsContent = Omit<typeof fallback, 'people'> & {
   artworks?: Record<string, string>;
   people: Omit<typeof fallback.people, 'team'> & {
-    team: ((typeof fallback.people.team)[number] & { image?: string; biography?: string })[];
+    team: ((typeof fallback.people.team)[number] & { image?: string; biography?: string; linkedinUrl?: string })[];
   };
 };
 const origin = (import.meta.env.VITE_CMS_URL || 'http://localhost:3035').replace(/\/$/, '');
@@ -58,6 +58,7 @@ export function normalizeAboutUs(payload: unknown): AboutUsContent {
         ? member.portrait
         : 'rahul',
       image: imageURL(object(members[index]).image),
+      linkedinUrl: safeLinkedinUrl(object(members[index]).linkedinUrl),
       biography:
         typeof object(members[index]).biography === 'string'
           ? (object(members[index]).biography as string)

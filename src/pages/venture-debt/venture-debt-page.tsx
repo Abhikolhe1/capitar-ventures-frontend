@@ -12,7 +12,6 @@ import { MainLayout } from 'src/layouts/website/main-layout';
 
 import { SectionBadge } from 'src/components/website/section-badge';
 import { ContentButton } from 'src/components/website/content-button';
-import { LiquidGlassButton } from 'src/components/website/liquid-glass-button';
 
 import { PixelReveal } from './pixel-reveal';
 import { usePinnedSteps } from './use-pinned-steps';
@@ -52,10 +51,15 @@ export default function VentureDebtPage() {
   const signals = before.items;
   const steps = process.items;
   const outcomes = practice.items;
+  // Older CMS content links to home-page case studies; this button now opens the portfolio.
+  const practiceCta = practice.cta.href?.replace(/^\//, '') === '#case-study'
+    ? { ...practice.cta, label: 'View portfolio', href: '/portfolio' }
+    : practice.cta;
   const questions = faqContent.items;
   const practiceSection = useRef<HTMLElement>(null);
   const chapterTimeline = useRef<HTMLElement>(null);
-  useSectionReveal(practiceSection, JSON.stringify(practice));
+  // Begin as each part enters the screen, so the section is filled before it is read.
+  useSectionReveal(practiceSection, JSON.stringify(practice), { start: 'top bottom', minDuration: 0.6 });
   const {
     trackRef: signalsTrack,
     active: signalIndex,
@@ -142,7 +146,6 @@ export default function VentureDebtPage() {
             <p data-entrance="content">{hero.description}</p>
             <div className="vd-actions" data-entrance="content">
               <ContentButton data={hero.primaryCta} arrow />
-              {hero.secondaryCta.enabled && <LiquidGlassButton data={hero.secondaryCta} />}
             </div>
           </div>
         </Box>
@@ -277,8 +280,7 @@ export default function VentureDebtPage() {
                   </div>
                 ))}
               </div>
-              <div className="vd-process-curves" aria-hidden="true">
-                <img src={process.decoration.url} alt="" />
+              <div className="vd-process-waves" aria-hidden="true">
                 <img src={process.decoration.url} alt="" />
               </div>
             </div>
@@ -309,7 +311,7 @@ export default function VentureDebtPage() {
                   <cite>{practice.attribution}</cite>
                 </blockquote>
                 <div data-scroll-reveal="practice-cta">
-                  <ContentButton data={practice.cta} arrow appearance="difference" />
+                  <ContentButton data={practiceCta} arrow appearance="difference" />
                 </div>
               </div>
               <img

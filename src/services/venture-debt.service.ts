@@ -42,6 +42,20 @@ function merge(template: unknown, value: unknown, key = ''): unknown {
           /\/(?:venture_debt_)?ab23b(?:_[^/]*)?\.png(?:\?.*)?$/.test(incoming.url)
         )
           return template;
+        // Older CMS seeds contain the outlined With Capitar curves. Keep the wave
+        // artwork shared with About Us unless a different image is uploaded.
+        if (
+          String(shape.url).includes('process-waves.png') &&
+          /\/(?:venture_debt_)?525f7(?:_[^/]*)?\.svg(?:\?.*)?$/.test(incoming.url)
+        )
+          return template;
+        // Older CMS seeds contain the blue ribbon hero. Keep the glass-disc artwork
+        // from the current design unless a different image is uploaded.
+        if (
+          String(shape.url).includes('hero-discs.png') &&
+          /\/(?:venture_debt_)?4d0a9(?:_[^/]*)?\.png(?:\?.*)?$/.test(incoming.url)
+        )
+          return template;
         const url = new URL(incoming.url, origin);
         if (!['https:', 'http:'].includes(url.protocol)) return template;
         return {

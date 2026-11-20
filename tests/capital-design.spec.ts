@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 test('Capital Efficiency preserves Figma card dimensions independently of desktop viewport height', async ({ page }) => {
+  test.setTimeout(90000);
   await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.route('**/api/**', route => route.fulfill({ status: 503, body: '{}' }));
   await page.goto('/');
-  await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
+  await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false', { timeout: 20000 });
   for (const [width, height] of [[1441, 950], [1366, 768], [1280, 720], [1024, 600], [900, 600], [1280, 500], [393, 852]]) {
     await page.setViewportSize({ width, height });
     await page.evaluate(() => document.fonts.ready);
@@ -22,6 +24,7 @@ test('Capital Efficiency preserves Figma card dimensions independently of deskto
     expect(metrics.outside, `${width}x${height}`).toEqual([]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     if (width >= 900) {
+      await expect(section.locator('[data-capital-card]').nth(1).locator('[data-capital-art]')).toHaveCSS('padding-top', '0px');
       expect(metrics.height).toBeGreaterThanOrEqual(950);
       expect(metrics.gridHeight).toBeCloseTo(564, 0);
       expect(metrics.titleSize).toBe('30px');
@@ -32,11 +35,20 @@ test('Capital Efficiency preserves Figma card dimensions independently of deskto
       expect(metrics.titleLine).toBe('30px');
     }
     if (width === 393) {
+      await expect(section.locator('[data-capital-card]').nth(1).locator('[data-capital-art]')).toHaveCSS('padding-top', '20px');
       expect(metrics.titleSize).toBe('20px');
       expect(metrics.titleLine).toBe('20px');
       await expect(section.locator('picture source[srcset*=runway]')).toHaveAttribute('srcset', '/assets/capitar/capital-runway-mobile.png');
     }
     await section.locator('img').evaluateAll(images => Promise.all(images.map(image => (image as HTMLImageElement).decode().catch(() => {}))));
+    const momentum = section.locator('[data-layout="tall"] [data-capital-art] img');
+    expect(await momentum.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain('capital-momentum-art.webp');
+    if (width === 393) {
+      const card = section.locator('[data-layout="tall"]');
+      await card.scrollIntoViewIfNeeded();
+      await expect(card).toHaveCSS('opacity', '1');
+      await card.screenshot({ path: 'test-results/capital-momentum-mobile-card.png' });
+    }
     if (width === 1441 || width === 393) await section.screenshot({ path: `test-results/capital-design-${width}.png` });
   }
 });

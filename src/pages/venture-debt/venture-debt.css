@@ -10,7 +10,8 @@
   height: 738px;
   position: relative;
   overflow: hidden;
-  background: #111129;
+  /* Matches the glass-disc artwork's own navy, so its edges never show. */
+  background: #000829;
   color: #fff;
   display: flex;
   align-items: center;
@@ -30,16 +31,22 @@
   top: -19.79%;
   left: 0;
 }
+/* The disc artwork covers the base layer, so only the discs need to be shown. */
+.vd-banner-base {
+  visibility: hidden;
+}
+/* Figma: the disc chain rises to the right, its large clear disc beside the copy. */
 .vd-banner-glass {
-  width: 118.12%;
-  height: 100%;
-  left: 0.02%;
-  top: 0;
+  width: 124.8%;
+  height: auto;
+  left: 8%;
+  top: -11.1%;
+  mix-blend-mode: lighten;
 }
 .vd-hero-shade {
   position: absolute;
   inset: 0;
-  background: rgba(11, 15, 45, 0.5);
+  background: linear-gradient(90deg, rgba(0, 8, 41, 0.85) 0%, rgba(0, 8, 41, 0.45) 38%, rgba(0, 8, 41, 0) 60%);
 }
 .vd-hero-glow {
   width: 1952px;
@@ -527,21 +534,38 @@ html[data-motion='reduced'] .vd-signal-number > span {
     margin-inline: auto;
   }
 }
-.vd-process-curves {
+/* Same wave artwork and treatment as About Us > The Belief. */
+.vd-process-waves {
   position: absolute;
-  left: -230px;
-  bottom: -190px;
+  left: calc(50% - 50vw);
+  bottom: -80px;
+  width: 67.384vw;
+  z-index: 0;
   pointer-events: none;
+  mix-blend-mode: lighten;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 120px, #000 calc(100% - 120px), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 120px, #000 calc(100% - 120px), transparent);
 }
-.vd-process-curves img {
+.vd-process-waves img {
   display: block;
-  width: 460px;
-  transform: rotate(-25deg);
+  width: 100%;
+  height: auto;
 }
-.vd-process-curves img + img {
-  position: absolute;
-  left: 48px;
-  top: 45px;
+.vd-process-grid > :not(.vd-process-waves) {
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 1440px) {
+  .vd-process-waves {
+    width: 971px;
+    left: calc(50% - 720px);
+  }
+}
+@media (max-width: 899px) {
+  .vd-process-waves {
+    width: 1000px;
+    left: calc(50% - 50vw - 300px);
+  }
 }
 .vd-practice {
   padding: 63px 0 62px;
@@ -731,6 +755,8 @@ html[data-motion='reduced'] .vd-signal-number > span {
   .vd-hero {
     height: auto;
     min-height: 740px;
+    /* Figma mobile: copy near the top, leaving the lower hero for the discs. */
+    align-items: flex-start;
   }
   .vd-hero-copy {
     padding-top: 110px;
@@ -745,16 +771,19 @@ html[data-motion='reduced'] .vd-signal-number > span {
     font-size: 18px;
     max-width: 400px;
   }
-  .vd-banner-base,
+  /* Figma mobile: plain navy behind the copy, the bright discs below it. */
   .vd-banner-glass {
-    object-fit: cover;
-    object-position: 60%;
-    width: 100%;
-    height: 100%;
-    top: 0;
+    width: 166%;
+    left: -54%;
+    top: auto;
+    bottom: -5%;
   }
   .vd-hero-shade {
-    background: rgba(11, 15, 45, 0.65);
+    background: linear-gradient(180deg, rgba(0, 8, 41, 0.92) 0%, rgba(0, 8, 41, 0.6) 55%, rgba(0, 8, 41, 0) 68%);
+  }
+  /* The desktop glow would cover the whole compact hero and hide the discs. */
+  .vd-hero-glow {
+    display: none;
   }
   .vd-chapters {
     overflow-x: auto;
@@ -830,9 +859,6 @@ html[data-motion='reduced'] .vd-signal-number > span {
   .vd-step p {
     margin: 0 0 28px 75px;
     font-size: 15px;
-  }
-  .vd-process-curves {
-    opacity: 0.3;
   }
   .vd-practice blockquote {
     margin: 28px 0;
@@ -1226,10 +1252,6 @@ html[data-motion='reduced'] .vd-step-detail {
     opacity: 0;
     visibility: hidden;
     transform: none;
-  }
-  .vd-process-track[data-mobile-pinned='true'] .vd-process-curves {
-    position: absolute;
-    pointer-events: none;
   }
 }
 @media (max-width: 700px) and (min-height: 600px) {

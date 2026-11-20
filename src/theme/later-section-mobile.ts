@@ -12,16 +12,8 @@ export const teamMobileStyles = {
     '& .team-heading-row h2 + p': { fontSize: 14, lineHeight: '20px' },
     '& [aria-label="Team carousel controls"]': { display: 'none' },
     '& ul': { '--team-card-width': 'calc(100vw - 40px)', pl: '20px', pr: '20px', pb: 0, gap: '12px', scrollPaddingInlineStart: '20px' },
-    '& article': { height: 450, aspectRatio: 'auto', borderRadius: '12px', '--team-shade-dim': 1, '--team-detail-gap': '12px' },
-    '&& article .team-shade, && article:hover .team-shade, && article:focus-within .team-shade': { height: '50%', backdropFilter: 'blur(16px)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 35%)' },
-    '& article .team-card-content': { transform: 'none' },
-    '& article:focus-within .team-card-content': { transform: 'none' },
-    '& article:focus-within .team-bio': { mt: '12px' },
-    '& article h3': { fontFamily: '"LT Superior", sans-serif', fontWeight: 500 },
-    '& article .team-bio': { gridTemplateRows: '1fr', opacity: 1, visibility: 'visible', mt: '12px' },
-    '& article .team-bio p': { fontSize: 12, lineHeight: '18px' },
-    '& article h3 + p': { fontSize: 12, lineHeight: '18px', mt: '4px' },
-    '& [data-team-linkedin]': { display: 'none' },
+    '& article': { aspectRatio: '400 / 478.07764' },
+    '& [data-team-linkedin]': { display: 'grid' },
   },
 };
 

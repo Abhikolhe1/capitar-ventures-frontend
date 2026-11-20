@@ -7,17 +7,21 @@ import { useSiteReducedMotion } from 'src/hooks/use-site-motion';
 import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
 import { createDirectionalReveal } from 'src/hooks/reveal-from-above';
 
-export function useCaseStudyAnimation(scope: RefObject<HTMLElement | null>, signature: string) {
+export function useCaseStudyAnimation(scope: RefObject<HTMLElement | null>, signature: string, mobile = false) {
   const reducedMotion = useSiteReducedMotion();
   useLayoutEffect(() => {
     if (!scope.current) return undefined;
     const disposers: (() => void)[] = [];
     const context = gsap.context(() => {
       scope.current?.querySelectorAll<HTMLElement>('[data-case-header], [data-case-deck], [data-case-thumbnails]').forEach(element => {
-        disposers.push(createDirectionalReveal(element, element, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.85, ease: 'power2.out' }));
+        // Phones: begin as soon as each part enters the screen and fade only, so content
+        // is already filled by the time it is read and never slides against the scroll.
+        disposers.push(mobile
+          ? createDirectionalReveal(element, element, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, ease: 'power1.out' }, 'top bottom', 0.5)
+          : createDirectionalReveal(element, element, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.85, ease: 'power2.out' }));
       });
     }, scope);
     const cancel = scheduleScrollRefresh();
     return () => { cancel(); disposers.forEach(dispose => dispose()); context.revert(); };
-  }, [scope, signature, reducedMotion]);
+  }, [scope, signature, reducedMotion, mobile]);
 }

@@ -20,7 +20,8 @@ test('header displays separate offering labels after CMS content loads', async (
   await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
   const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true });
   await expect(navigation.getByText('Venture Debt', { exact: true })).toBeVisible();
-  await expect(navigation.getByText('Growth Equity', { exact: true })).toBeVisible();
+  // Growth Equity is hidden from the header for now.
+  await expect(navigation.getByText('Growth Equity', { exact: true })).toHaveCount(0);
   await expect(navigation.getByText('Our Offerings', { exact: true })).toHaveCount(0);
 });
 

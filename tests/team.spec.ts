@@ -1,130 +1,57 @@
 import fs from 'node:fs';
 import { test, expect } from '@playwright/test';
-
-const fallback = JSON.parse(fs.readFileSync(new URL('../src/content/homepage.json', import.meta.url), 'utf8'));
-
-const previewTeam = { ...fallback.team, members: fallback.team.members.map((member: { portrait: { url: string } }) => ({ ...member, portrait: { ...member.portrait, url: new URL(member.portrait.url, 'http://127.0.0.1:3039').href } })) };
-
-async function mockCms(page: import('@playwright/test').Page, team = previewTeam) {
-  await page.route('**/api/global', route => route.fulfill({ json: { data: fallback.global } }));
-  await page.route('**/api/homepage', route => route.fulfill({ json: { data: { ...fallback, team } } }));
+const home = JSON.parse(fs.readFileSync(new URL('../src/content/homepage.json', import.meta.url), 'utf8'));
+const about = JSON.parse(fs.readFileSync(new URL('../src/content/about-us.json', import.meta.url), 'utf8'));
+async function mock(page: import('@playwright/test').Page) {
+  const members = about.people.team.map((m: object, i: number) => ({ ...m, name: 'Shared member ' + (i + 1), role: 'Partner', biography: 'Shared biography from the CMS.', image: { url: new URL('/assets/about/bikramjit-source.png', page.url() === 'about:blank' ? 'http://127.0.0.1:3040' : page.url()).href }, linkedinUrl: i === 1 ? 'https://linkedin.com.evil.example/profile' : 'https://www.linkedin.com/in/member-' + i + '/' }));
+  await page.route('**/api/global', r => r.fulfill({ json: { data: home.global } }));
+  await page.route('**/api/homepage', r => r.fulfill({ json: { data: home } }));
+  await page.route('**/api/about-us', r => r.fulfill({ json: { data: { ...about, people: { ...about.people, team: members } } } }));
 }
-
-test('team matches the supplied content, scrolls, and fits desktop and mobile', async ({ page }) => {
-  test.setTimeout(60000);
-  await mockCms(page);
+for (const width of [1440, 390]) {
+ test('shared cards and LinkedIn work on home and About Us at ' + width, async ({ page }) => {
+  await page.setViewportSize({ width, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  const errors: string[] = [];
-  page.on('pageerror', error => errors.push(error.message));
-  for (const width of [1440, 1024, 768, 390, 375]) {
-    await page.setViewportSize({ width, height: 900 });
-    await page.goto('/', { waitUntil: 'domcontentloaded' });
-    const section = page.locator('#team');
-    await section.scrollIntoViewIfNeeded();
-    await expect(section.getByRole('heading', { level: 2 })).toHaveText('The people behind every growth decision');
-    await expect(section.getByRole('article')).toHaveCount(4);
-    const difference = page.locator('#capitar-difference');
-    await expect(difference.locator('article')).toHaveCount(4);
-    expect(await difference.evaluate(element => !!(element.compareDocumentPosition(document.querySelector('#team')!) & Node.DOCUMENT_POSITION_FOLLOWING))).toBeTruthy();
-    if (width >= 1024) {
-      const card = section.getByRole('article').first();
-      const bounds = (await card.boundingBox())!;
-      expect(bounds.width).toBeCloseTo(398.03, 1);
-      expect(bounds.height).toBeCloseTo(447.79, 1);
-      await expect(card).toHaveCSS('border-radius', '8.65px');
-    }
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
-    const track = section.getByRole('list', { name: 'Capitar team members' });
-    if (width < 600) {
-      await expect(section.getByRole('button', { name: 'Next team members', includeHidden: true })).toBeHidden();
-      await track.evaluate(element => element.scrollBy({ left: element.clientWidth, behavior: 'instant' }));
-      await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeGreaterThan(50);
-      await track.evaluate(element => element.scrollTo({ left: 0, behavior: 'instant' }));
-    } else {
-      await expect(section.getByRole('button', { name: 'Previous team members' })).toBeDisabled();
-      await section.getByRole('button', { name: 'Next team members' }).click();
-      await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeGreaterThan(50);
-      await expect(section.getByRole('button', { name: 'Previous team members' })).toBeEnabled();
-      await section.getByRole('button', { name: 'Previous team members' }).click();
-    }
-    await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeLessThan(3);
-    await expect(section.getByRole('link')).toHaveCount(0);
-    await expect(section.getByRole('img')).toHaveCount(4);
-    await expect(section.getByRole('img').first()).toHaveCSS('object-position', '50% 32%');
-    await expect.poll(() => section.getByRole('img').first().evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBeTruthy();
-    await section.screenshot({ path: `test-results/team-${width}.png` });
+  await mock(page);
+  for (const path of ['/', '/about-us']) {
+   await page.goto(path); await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
+   const cards = page.locator('main .about-team-card');
+   await expect(cards).toHaveCount(9);
+   const card = cards.first(); await card.scrollIntoViewIfNeeded(); await page.mouse.move(0, 0);
+   await expect(card).toHaveCSS('background-color', 'rgb(237, 244, 249)');
+   await expect(card).toHaveCSS('border-radius', '21.093px');
+   const profile = card.getByRole('link', { name: 'Shared member 1 on LinkedIn' });
+   await expect(profile).toBeVisible();
+   await expect(profile).toHaveAttribute('href', 'https://www.linkedin.com/in/member-0/');
+   await expect(profile).toHaveAttribute('target', '_blank');
+   await expect(cards.nth(1).getByRole('link')).toHaveCount(0);
+   await expect(cards.nth(1).locator('[data-team-linkedin]')).toHaveCount(1);
+   const popupPromise = page.waitForEvent('popup');
+   await page.context().route('https://www.linkedin.com/in/member-0/', r => r.fulfill({ body: 'LinkedIn profile destination' }));
+   await profile.click(); const popup = await popupPromise; await popup.waitForLoadState();
+   expect(popup.url()).toBe('https://www.linkedin.com/in/member-0/'); await popup.close();
+   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+   if (path === '/') {
+    const track = page.getByRole('list', { name: 'Capitar team members' });
+    if (width > 600) await page.getByRole('button', { name: 'Next team members' }).click();
+    else await track.evaluate(e => e.scrollBy({ left: 350, behavior: 'instant' }));
+    await expect.poll(() => track.evaluate(e => e.scrollLeft)).toBeGreaterThan(50);
+   }
   }
-  expect(errors).toEqual([]);
+ });
+}
+test('shared card biography responds to hover and mobile tap', async ({ page }) => {
+ await mock(page); await page.goto('/'); await expect(page.getByText('Shared member 1', { exact: true })).toBeVisible();
+ const card = page.locator('#team .about-team-card').first(); await card.scrollIntoViewIfNeeded();
+ await page.mouse.move(0,0); await expect(card.locator('.about-team-bio')).toBeHidden();
+ await card.hover(); await expect(card.locator('.about-team-bio')).toBeVisible();
+ await page.mouse.move(0,0); await expect(card.locator('.about-team-bio')).toBeHidden();
+ await card.getByRole('button').click(); await expect(card.getByRole('button')).toHaveAttribute('aria-expanded','true');
 });
-
-test('team respects CMS content, safe LinkedIn profiles, and unavailable portraits', async ({ page }) => {
-  await mockCms(page, { ...fallback.team, heading: 'Meet the team', members: [
-    { name: 'CMS Member', role: 'Partner', portrait: { url: '/missing-team-photo.png' }, linkedinUrl: 'https://www.linkedin.com/in/example/' },
-    { name: 'Second Member', role: 'Principal', linkedinUrl: 'https://linkedin.com.evil.example/profile' },
-  ] });
-  await page.route('**/missing-team-photo.png', route => route.abort());
-  await page.goto('/');
-  const section = page.locator('#team');
-  await section.scrollIntoViewIfNeeded();
-  await expect(section.getByRole('heading', { level: 2 })).toHaveText('Meet the team');
-  await expect(section.getByRole('article').first()).toHaveAttribute('aria-label', 'CMS Member, Partner');
-  await expect(section.getByRole('link', { name: 'CMS Member on LinkedIn' })).toHaveAttribute('href', 'https://www.linkedin.com/in/example/');
-  await expect(section.getByRole('link')).toHaveCount(1);
-  await expect(section.getByRole('img')).toHaveCount(0);
-});
-
-test('disabled or empty CMS team is hidden, but an older API still gets preview content', async ({ page }) => {
-  await mockCms(page, { ...fallback.team, enabled: false });
-  await page.goto('/');
-  await expect(page.locator('#main-content')).toHaveAttribute('aria-busy', 'false');
-  await expect(page.locator('#team')).toHaveCount(0);
-  await page.unroute('**/api/homepage');
-  await page.route('**/api/homepage', route => route.fulfill({ json: { data: { hero: fallback.hero } } }));
-  await page.reload();
-  await expect(page.locator('#team')).toHaveCount(1);
-  await page.unroute('**/api/homepage');
-  await page.route('**/api/homepage', route => route.fulfill({ json: { data: { hero: fallback.hero, team: { ...fallback.team, members: [] } } } }));
-  await page.reload();
-  await expect(page.locator('#main-content')).toHaveAttribute('aria-busy', 'false');
-  await expect(page.locator('#team')).toHaveCount(0);
-});
-
-test('hovering the portrait or lower overlay reveals details without changing the portrait', async ({ page }) => {
-  await mockCms(page, { ...fallback.team, members: [{ name: 'Preview Member', role: 'Partner', description: fallback.team.description, portrait: { url: 'http://127.0.0.1:3039/assets/images/4b4a17e26c457d60888c06b071f1bec93ba71ba1.jpg' } }] });
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.goto('/');
-  const section = page.locator('#team');
-  await section.scrollIntoViewIfNeeded();
-  await expect(section.locator('[data-scroll-reveal="team-track"]')).toHaveCSS('opacity', '1');
-  await expect(section.locator('[data-scroll-reveal="team-track"]')).toHaveCSS('transform', 'none');
-  await expect(section.locator('li').first()).toHaveCSS('opacity', '1');
-  const photo = section.locator('.team-portrait');
-  const card = section.getByRole('article');
-  const name = card.getByRole('heading');
-  const nameOffset = async () => (await name.boundingBox())!.y - (await card.boundingBox())!.y;
-  const initialY = await nameOffset();
-  const originalPortrait = await photo.getAttribute('src');
-  const originalCrop = await photo.evaluate(element => getComputedStyle(element).objectPosition);
-  const initialShadeHeight = (await card.locator('.team-shade').boundingBox())!.height;
-  await expect(card.locator('.team-bio')).toBeHidden();
-  await card.screenshot({ path: 'test-results/team-card-rest.png' });
-  await photo.hover({ position: { x: 40, y: 40 } });
-  await expect(photo).toHaveCSS('transform', 'none');
-  await expect(card.locator('.team-bio')).toBeVisible();
-  await page.mouse.move(0, 0);
-  await expect(card.locator('.team-bio')).toBeHidden();
-  await card.locator('.team-card-content').hover();
-  await expect(card.locator('.team-bio')).toBeVisible();
-  await expect.poll(async () => initialY - await nameOffset()).toBeGreaterThan(40);
-  await expect.poll(async () => (await card.locator('.team-shade').boundingBox())!.height - initialShadeHeight).toBeGreaterThan(60);
-  await expect(photo).toHaveAttribute('src', originalPortrait!);
-  await expect(photo).toHaveCSS('object-position', originalCrop);
-  await expect(photo).toHaveCSS('transform', 'none');
-  await card.screenshot({ path: 'test-results/team-card-hover.png' });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(photo).toHaveCSS('transform', 'none');
-  await expect(card.locator('.team-card-content')).toHaveCSS('transition-duration', '0s');
-  await page.mouse.move(0, 0);
-  await card.focus();
-  await expect(card.locator('.team-bio')).toBeVisible();
+test('homepage remains usable when shared team endpoint is unavailable', async ({ page }) => {
+ await page.route('**/api/about-us', r => r.fulfill({ status: 503, body: '{}' }));
+ await page.route('**/api/global', r => r.fulfill({ json: { data: home.global } }));
+ await page.route('**/api/homepage', r => r.fulfill({ json: { data: home } }));
+ await page.goto('/'); await expect(page.locator('main')).toHaveAttribute('aria-busy','false');
+ await expect(page.locator('#team .about-team-card')).toHaveCount(home.team.members.length);
 });

@@ -11,14 +11,15 @@ export function createDirectionalReveal(
   trigger: Element,
   from: gsap.TweenVars,
   to: gsap.TweenVars,
-  start = 'top 70%'
+  start = 'top 70%',
+  minDuration = 1.1
 ) {
   if (isSiteMotionReduced()) {
     gsap.set(targets, { ...to, duration: 0, stagger: 0 });
     return () => {};
   }
   let active: gsap.core.Tween | undefined;
-  const duration = Math.max(1.1, Number(to.duration || 1.1));
+  const duration = Math.max(minDuration, Number(to.duration || minDuration));
   const hide = (upward: boolean) => {
     active?.kill();
     active = gsap.to(targets, {

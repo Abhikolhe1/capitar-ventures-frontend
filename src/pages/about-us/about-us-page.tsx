@@ -1,7 +1,6 @@
 import './about-us.css';
 
 import type { CSSProperties } from 'react';
-import type { AboutUsContent } from 'src/services/about-us.service';
 
 import { useRef, useState, useEffect } from 'react';
 
@@ -12,6 +11,7 @@ import { MainLayout } from 'src/layouts/website/main-layout';
 
 import { SectionBadge } from 'src/components/website/section-badge';
 import { ContentButton } from 'src/components/website/content-button';
+import { TeamPersonCard as TeamCard } from 'src/components/website/team-person-card';
 
 import { QuoteArtwork } from './quote-artwork';
 import { useBeliefSticky } from './use-belief-sticky';
@@ -27,98 +27,6 @@ function Badge({ children, light = false }: { children: string; light?: boolean 
       borderColor={light ? '#FFFFFF66' : '#CC233466'}
       lineHeight={1}
     />
-  );
-}
-// Original Figma image-fill crops. The downloaded source images remain unmodified.
-const portraits: Record<string, { image: string; crop: number[] }> = {
-  rahul: {
-    image: 'team-source.png',
-    crop: [0.2585533857, 0.9314848185, 0.3577046394, 0.0685151741],
-  },
-  partner: { image: 'team-source.png', crop: [0.2775712311, 1, 0.6674522161, 0.0630528629] },
-  bikramjit: {
-    image: 'bikramjit-source.png',
-    crop: [1.0559339523, 1.0694063902, -0.0279669687, -0.0694063976],
-  },
-};
-function TeamCard({
-  member,
-  index,
-  biography,
-  artwork,
-}: {
-  member: AboutUsContent['people']['team'][number];
-  biography: string;
-  artwork: (name: string) => string;
-  index: number;
-}) {
-  const [expanded, setExpanded] = useState(false);
-  const {
-    image,
-    crop: [sx, sy, x, y],
-  } = portraits[member.portrait] || portraits.rahul;
-  const crop: CSSProperties = {
-    width: `${100 / sx}%`,
-    height: `${100 / sy}%`,
-    left: `${(-100 * x) / sx}%`,
-    top: `${(-100 * y) / sy}%`,
-  };
-  return (
-    <article
-      className={`about-team-card${member.dark ? ' about-team-card--dark' : ''}`}
-      data-open={expanded}
-      data-scroll-reveal="team-card"
-    >
-      <img className="about-team-light" src={artwork('team-red-light.png')} alt="" loading="lazy" />
-      <img
-        className="about-team-highlight"
-        src={artwork('team-white-highlight.png')}
-        alt=""
-        loading="lazy"
-      />
-      <div className="about-team-crop">
-        <img
-          src={member.image || artwork(image)}
-          data-cms-portrait={member.image ? '' : undefined}
-          style={member.image ? undefined : crop}
-          alt={`${member.name}, ${member.role}, Capitar Ventures`}
-          loading="lazy"
-        />
-      </div>
-      <img
-        className="about-team-shadow"
-        src={artwork(member.dark ? 'team-navy-shadow.png' : 'team-shadow.png')}
-        alt=""
-        loading="lazy"
-      />
-      {!member.dark && (
-        <img
-          className="about-team-shadow about-team-shadow--hover"
-          src={artwork('team-navy-shadow.png')}
-          alt=""
-          loading="lazy"
-        />
-      )}
-      <div className="about-team-caption">
-        <button
-          type="button"
-          className="about-team-toggle"
-          aria-label={`About ${member.name}, ${member.role}`}
-          aria-expanded={expanded}
-          aria-controls={`about-bio-${index}`}
-          onClick={() => setExpanded(!expanded)}
-        >
-          <span>
-            <span className="about-team-name">{member.name}</span>
-            <span className="about-team-role">{member.role}</span>
-          </span>
-          <img src={artwork('linkedin.png')} width={18} height={18} alt="" />
-        </button>
-        <div className="about-team-bio" id={`about-bio-${index}`}>
-          <p>{member.biography || biography}</p>
-        </div>
-      </div>
-    </article>
   );
 }
 export default function AboutUsPage() {
@@ -171,6 +79,7 @@ export default function AboutUsPage() {
         </div>
       </section>
       <>
+        {/* "Our Mission" section hidden for now.
         <section className="about-mission" id="mission" aria-labelledby="mission-title">
           <div
             className="about-section-art about-section-art--light"
@@ -198,6 +107,7 @@ export default function AboutUsPage() {
             <p data-scroll-reveal="mission-description">{content.mission.description}</p>
           </div>
         </section>
+        */}
         <section className="about-journey" id="journey" aria-labelledby="journey-title">
           <div className="about-section-art" data-flow-artwork aria-hidden="true">
             <div className="about-journey-art" aria-hidden="true">

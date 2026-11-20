@@ -36,6 +36,7 @@ function BenefitImage({ media, mobileMedia, icon = false }: { media?: Media; mob
 export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
   const wide = data.layout === 'wide';
   const tall = data.layout === 'tall';
+  const protectCapTable = data.title.trim().toLowerCase() === 'protect your cap table';
   return (
     <Box
       component="article"
@@ -65,8 +66,12 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
           '& [data-capital-copy]': { order: 2, p: '0 16px 16px', mt: 0, width: '100%' },
           '& h3': { fontSize: 20, lineHeight: 1, mb: '8px' },
           '& p': { fontSize: 14, lineHeight: 1.4, mr: 0, maxWidth: '100%', whiteSpace: 'normal' },
-          '& [data-capital-art]': { order: 1, position: 'relative', top: 'auto', bottom: 'auto', right: 'auto', width: '100%', maxWidth: 'none', mt: 0, transform: 'none' },
+          '& [data-capital-art]': { order: 1, position: 'relative', top: 'auto', bottom: 'auto', right: 'auto', width: '100%', maxWidth: 'none', mt: 0, pt: protectCapTable ? '20px' : 0, transform: 'none' },
           '& [data-capital-art] img': { width: '100%', height: 'auto', maxHeight: 'none', objectFit: 'contain' },
+          ...(tall ? {
+            '& [data-capital-art]': { order: 1, position: 'relative', top: 'auto', right: 'auto', width: '100%', maxWidth: 'none', p: '20px 16px 0' },
+            '& [data-capital-art] img': { width: 'auto', maxWidth: '100%', height: 'auto', maxHeight: 260, mx: 'auto', objectFit: 'contain' },
+          } : {}),
         },
       }}
     >
@@ -155,9 +160,6 @@ export function CapitalBenefitCard({ data }: { data: CapitalBenefitContent }) {
             media={data.artwork}
             mobileMedia={data.mobileArtwork || (wide ? {
               url: '/assets/capitar/capital-runway-mobile.png', width: 1059, height: 798,
-              alternativeText: data.artwork.alternativeText,
-            } : tall ? {
-              url: '/assets/capitar/capital-momentum-mobile.png', width: 1059, height: 540,
               alternativeText: data.artwork.alternativeText,
             } : undefined)}
           />

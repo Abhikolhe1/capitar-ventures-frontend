@@ -42,7 +42,7 @@ export const homepageViewportStyles = {
       '& > div': { width: '100%', flexShrink: 0 },
       '& h2': { fontSize: 'clamp(28px,5.25svh,42px)' },
       '& .team-heading-row > div:last-child': { mt: 'clamp(12px,2svh,22px)', mb: 'clamp(16px,3svh,40px)' },
-      '& ul': { '--team-card-width': 'min(398.03px,calc((100svh - 230px) * 398.03 / 447.79))' },
+      '& ul': { '--team-card-width': 'min(400px,calc((100svh - 230px) * 400 / 478.07764))' },
     },
     '& > #insights-news': {
       height: 'auto', minHeight: 834, boxSizing: 'border-box', pt: '70.13px', pb: '45.44px',

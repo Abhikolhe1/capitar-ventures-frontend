@@ -24,6 +24,7 @@ export function MainLayout({
   children,
   mainRef,
   mainClassName,
+  colorFlow = true,
 }: {
   global: GlobalContent;
   loading?: boolean;
@@ -31,11 +32,12 @@ export function MainLayout({
   children: ReactNode;
   mainRef?: Ref<HTMLElement>;
   mainClassName?: string;
+  colorFlow?: boolean;
 }) {
   const scope = useRef<HTMLDivElement>(null);
   useSmoothScroll();
   useHeroAnimation(scope, true);
-  usePageColorFlow(scope, loading, contentVersion);
+  usePageColorFlow(scope, loading, contentVersion, colorFlow);
   return (
     <ThemeProvider theme={websiteTheme}>
       <CssBaseline />
@@ -86,7 +88,7 @@ export function MainLayout({
         >
           Skip to content
         </Box>
-        <Header data={global} />
+        <Header data={global} colorFlow={colorFlow} />
         <Box
           component="main"
           ref={mainRef}

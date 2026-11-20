@@ -58,6 +58,7 @@ export default function PortfolioPage() {
       global={content.global}
       loading={loading || portfolioLoading}
       contentVersion={JSON.stringify(data)}
+      colorFlow={false}
     >
       {data.hero.enabled && (
         <section className="portfolio-hero" aria-labelledby="portfolio-heading">
@@ -143,12 +144,28 @@ export default function PortfolioPage() {
               {companies.map((company) => (
                 <li key={company.key} data-scroll-reveal="card">
                   <article className="portfolio-card" data-selected={selected === company.key}>
-                    <button
-                      className="portfolio-card__toggle"
-                      aria-label={`${company.name}: highlight card`}
-                      aria-pressed={selected === company.key}
-                      onClick={() => setSelected(selected === company.key ? null : company.key)}
-                    />
+                    {company.websiteUrl ? (
+                      <a
+                        className="portfolio-card__toggle"
+                        href={company.websiteUrl}
+                        aria-label={`Visit ${company.name} website`}
+                      >
+                        <span className="portfolio-card__arrow" aria-hidden="true">
+                          <img src="/assets/portfolio/card-arrow.svg" alt="" />
+                        </span>
+                      </a>
+                    ) : (
+                      <button
+                        className="portfolio-card__toggle"
+                        aria-label={`${company.name}: highlight card`}
+                        aria-pressed={selected === company.key}
+                        onClick={() => setSelected(selected === company.key ? null : company.key)}
+                      >
+                        <span className="portfolio-card__arrow" aria-hidden="true">
+                          <img src="/assets/portfolio/card-arrow.svg" alt="" />
+                        </span>
+                      </button>
+                    )}
                     <div className="portfolio-card__top">
                       {company.logo && (
                         <img

@@ -11,17 +11,12 @@
       "href": "mailto:account@capitar.com",
       "enabled": true
     },
-    "secondaryCta": {
-      "label": "Explore how it works",
-      "href": "#before",
-      "enabled": true
-    },
     "backgroundImage": {
       "url": "/assets/venture-debt/ce421.png",
       "alternativeText": ""
     },
     "glassImage": {
-      "url": "/assets/venture-debt/4d0a9.png",
+      "url": "/assets/venture-debt/hero-discs.png",
       "alternativeText": ""
     },
     "glowImage": {
@@ -105,7 +100,7 @@
     "heading": "What happens,\nwhen we talk?",
     "description": "A process designed to give you a clear answer quickly. We don't string founders along.",
     "decoration": {
-      "url": "/assets/venture-debt/525f7.svg",
+      "url": "/assets/venture-debt/process-waves.png",
       "alternativeText": ""
     },
     "items": [
@@ -138,9 +133,9 @@
     "quote": "“Founder quote goes here. What the experience meant for the business and the journey.”",
     "attribution": "FOUNDER, COMPANY NAME",
     "cta": {
-      "label": "View Case Study",
+      "label": "View portfolio",
       "enabled": true,
-      "href": "/#case-study"
+      "href": "/portfolio"
     },
     "image": {
       "url": "/assets/venture-debt/34b05.png",
