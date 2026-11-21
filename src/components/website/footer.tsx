@@ -356,13 +356,12 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
   const src = data.backgroundVideo?.url || fallback.hero.backgroundVideo.url;
   const logo = data.brandLogo?.url || fallback.global.footer.brandLogo.url || brandLogo?.url;
   const logoMonochrome = data.brandLogo ? data.logoMonochrome : fallback.global.footer.logoMonochrome;
-  const navigation = data.navigation.map((item) =>
+  // The blog is not live yet, so Insights / News links are hidden for now.
+  const navigation = data.navigation.filter((item) => !/news|insights/i.test(item.label)).map((item) =>
     item.label.trim().toLowerCase() === 'portfolio'
       ? { ...item, href: '/portfolio', enabled: true }
       : item.label.trim().toLowerCase() === 'about us'
       ? { ...item, href: '/about-us', enabled: true }
-        : item.label.trim().toLowerCase() === 'insights'
-        ? { ...item, href: '/blog', enabled: true }
       : item
   );
   const socialLinks = data.socialLinks.filter((item) => item.label.trim().toLowerCase() !== 'facebook');
@@ -631,7 +630,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               aria-label="Legal links"
               sx={{ display: 'flex', flexWrap: 'wrap', columnGap: '32px', rowGap: 1 }}
             >
-              {data.legalLinks.map((item, index) => (
+              {/* Privacy and Disclaimer are hidden for now; remove this filter to show them again. */}
+              {data.legalLinks.filter((item) => !/privacy|disclaimer/i.test(item.label)).map((item, index) => (
                 <Box key={`${index}-${item.label}`} component="span" data-legal-label={item.label.trim().toLowerCase()}><FooterLink item={item} underline /></Box>
               ))}
             </Box>

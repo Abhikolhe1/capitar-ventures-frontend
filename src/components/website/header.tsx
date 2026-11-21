@@ -19,7 +19,9 @@ function NavItem({ item, close, dark = false }: { item: ContentLink; close?: () 
   if (item.label === 'Venture Debt') item = { ...item, enabled: true, href: '/venture-debt' };
   if (item.label === 'Portfolio') item = { ...item, enabled: true, href: '/portfolio' };
   if (item.label === 'About Us') item = { ...item, enabled: true, href: '/about-us' };
-  if (item.label === 'News & Insights') item = { ...item, enabled: true, href: '/blog' };
+  // The blog is not live yet, so News & Insights is hidden. To show it again, replace this line with:
+  // if (item.label === 'News & Insights') item = { ...item, enabled: true, href: '/blog' };
+  if (/news|insights/i.test(item.label)) return null;
   const internal = item.enabled && item.href?.startsWith('/') && !item.href.startsWith('//');
   const preload = item.href === '/venture-debt' ? preloadVentureDebtPage : undefined;
   return (
