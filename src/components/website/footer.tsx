@@ -630,8 +630,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               aria-label="Legal links"
               sx={{ display: 'flex', flexWrap: 'wrap', columnGap: '32px', rowGap: 1 }}
             >
-              {/* Privacy and Disclaimer are hidden for now; remove this filter to show them again. */}
-              {data.legalLinks.filter((item) => !/privacy|disclaimer/i.test(item.label)).map((item, index) => (
+              {/* Privacy, Disclaimer and Imprint are hidden for now; remove this filter to show them again. */}
+              {data.legalLinks.filter((item) => !/privacy|disclaimer|imprint/i.test(item.label)).map((item, index) => (
                 <Box key={`${index}-${item.label}`} component="span" data-legal-label={item.label.trim().toLowerCase()}><FooterLink item={item} underline /></Box>
               ))}
             </Box>
