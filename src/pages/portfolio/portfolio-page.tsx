@@ -2,9 +2,12 @@ import './portfolio.css';
 
 import { useRef, useState, useEffect } from 'react';
 
+import Pagination from '@mui/material/Pagination';
+
 import { useHomepage } from 'src/hooks/use-homepage';
 import { usePortfolio } from 'src/hooks/use-portfolio';
 import { useSectionReveal } from 'src/hooks/use-section-reveal';
+import { usePortfolioCompanies } from 'src/hooks/use-portfolio-companies';
 
 import { MainLayout } from 'src/layouts/website/main-layout';
 
@@ -13,8 +16,11 @@ import { SectionBadge } from 'src/components/website/section-badge';
 import { FilterSelect } from 'src/components/website/filter-select';
 import { ContentButton } from 'src/components/website/content-button';
 
+import { ClampText } from './clamp-text';
 
 // import { CaseStudySection } from 'src/sections/home/case-study/case-study-section';
+
+const PAGE_SIZE = 9;
 
 export default function PortfolioPage() {
   const { content, loading } = useHomepage();
@@ -22,7 +28,16 @@ export default function PortfolioPage() {
   const scope = useRef<HTMLElement>(null);
   const [sector, setSector] = useState('');
   const [stage, setStage] = useState('');
+  const [page, setPage] = useState(1);
   const [selected, setSelected] = useState<string | null>(null);
+  const {
+    companies,
+    total,
+    sectors,
+    stages,
+    loading: companiesLoading,
+  } = usePortfolioCompanies({ limit: PAGE_SIZE, skip: (page - 1) * PAGE_SIZE, sector, stage });
+  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
   useEffect(() => {
     const previousTitle = document.title;
     document.title = data.title;
@@ -33,25 +48,40 @@ export default function PortfolioPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  // Drop filters that no longer exist after a CMS edit.
   useEffect(() => {
-    setSector((current) =>
-      data.companies.some((company) => company.sector === current) ? current : ''
-    );
-    setStage((current) =>
-      data.companies.some((company) => company.stage === current) ? current : ''
-    );
-    setSelected((current) =>
-      data.companies.some((company) => company.key === current) ? current : null
-    );
-  }, [data.companies]);
-  const companies = data.companies.filter(
-    (company) => (!sector || company.sector === sector) && (!stage || company.stage === stage)
-  );
-  useSectionReveal(scope, `${sector}:${stage}:${JSON.stringify(data)}`);
+    setSector((current) => (sectors.includes(current) ? current : ''));
+  }, [sectors]);
+  useEffect(() => {
+    setStage((current) => (stages.includes(current) ? current : ''));
+  }, [stages]);
+  useEffect(() => {
+    setSelected((current) => (companies.some((company) => company.key === current) ? current : null));
+  }, [companies]);
+  // Companies removed in the CMS can leave the visitor past the last page.
+  useEffect(() => {
+    if (!companiesLoading && page > pageCount) setPage(pageCount);
+  }, [companiesLoading, page, pageCount]);
+  useSectionReveal(scope, `${sector}:${stage}:${page}:${JSON.stringify(data)}:${JSON.stringify(companies)}`);
   const reset = () => {
     setSector('');
     setStage('');
+    setPage(1);
     setSelected(null);
+  };
+  const changePage = (next: number) => {
+    if (next === page) return;
+    setPage(next);
+    setSelected(null);
+    // Bring the section back into view so the new page is read from the start
+    // (the controls sit under the grid). Leaves ~96px above the section content
+    // for the fixed site header, accounting for the section's own top padding.
+    const section = scope.current;
+    const top = section?.getBoundingClientRect().top;
+    if (section && top !== undefined && top < 0) {
+      const padding = parseFloat(getComputedStyle(section).paddingTop) || 0;
+      window.scrollTo({ top: window.scrollY + top - Math.max(0, 96 - padding) });
+    }
   };
   // const stories = data.featuredStories;
   return (
@@ -106,8 +136,8 @@ export default function PortfolioPage() {
             <div className="portfolio-filters">
               <div className="portfolio-results" role="status" aria-live="polite">
                 <strong>
-                  {companies.length}{' '}
-                  {companies.length === 1
+                  {total}{' '}
+                  {total === 1
                     ? data.companiesSection.companyLabel
                     : data.companiesSection.companiesLabel}
                 </strong>
@@ -119,12 +149,11 @@ export default function PortfolioPage() {
                 value={sector}
                 options={[
                   { value: '', label: data.companiesSection.allSectorsLabel },
-                  ...Array.from(new Set(data.companies.map((company) => company.sector))).map(
-                    (item) => ({ value: item, label: item })
-                  ),
+                  ...sectors.map((item) => ({ value: item, label: item })),
                 ]}
                 onChange={(value) => {
                   setSector(value);
+                  setPage(1);
                   setSelected(null);
                 }}
               />
@@ -135,17 +164,21 @@ export default function PortfolioPage() {
                 value={stage}
                 options={[
                   { value: '', label: data.companiesSection.allStagesLabel },
-                  ...Array.from(new Set(data.companies.map((company) => company.stage))).map(
-                    (item) => ({ value: item, label: item })
-                  ),
+                  ...stages.map((item) => ({ value: item, label: item })),
                 ]}
                 onChange={(value) => {
                   setStage(value);
+                  setPage(1);
                   setSelected(null);
                 }}
               />
             </div>
-            <ul className="portfolio-grid" aria-label="Portfolio companies">
+            <ul
+              className="portfolio-grid"
+              aria-label="Portfolio companies"
+              aria-busy={companiesLoading}
+              data-loading={companiesLoading}
+            >
               {companies.map((company) => (
                 <li key={company.key} data-scroll-reveal="card">
                   <article className="portfolio-card" data-selected={selected === company.key}>
@@ -196,36 +229,55 @@ export default function PortfolioPage() {
                       )}
                     </div>
                     <div className="portfolio-card__copy">
-                      <h3>{company.name}</h3>
-                      <p>{company.description}</p>
+                      <ClampText as="h3" text={company.name} lines={2} />
+                      <ClampText text={company.description} lines={3} />
                     </div>
                     <div className="portfolio-card__bottom">
                       {company.founder.name && (
                         <div className="portfolio-card__founders">
                           <h4>{data.companiesSection.foundersLabel}</h4>
-                          <p>{company.founder.name}</p>
+                          <ClampText text={company.founder.name} lines={2} />
                         </div>
                       )}
-                      <div className="portfolio-card__meta">
-                        {company.sector && (
-                          <div>
-                            <h4>{data.companiesSection.cardTagsLabel}</h4>
-                            <span className="portfolio-tag">{company.sector}</span>
+                      {(company.sector || company.stage) && (
+                        <div className="portfolio-card__meta">
+                          {/* One heading for both tags, e.g. "Sectors & Stage at Investment". */}
+                          <h4>
+                            {[
+                              company.sector && data.companiesSection.cardTagsLabel,
+                              company.stage && data.companiesSection.cardStageLabel,
+                            ]
+                              .filter(Boolean)
+                              .join(' & ')}
+                          </h4>
+                          <div className="portfolio-card__tags">
+                            {company.sector && (
+                              <span className="portfolio-tag">{company.sector}</span>
+                            )}
+                            {company.stage && (
+                              <span className="portfolio-tag">{company.stage}</span>
+                            )}
                           </div>
-                        )}
-                        {company.stage && (
-                          <div>
-                            <h4>{data.companiesSection.cardStageLabel}</h4>
-                            <span className="portfolio-tag">{company.stage}</span>
-                          </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </article>
                 </li>
               ))}
             </ul>
-            {!companies.length && (
+            {pageCount > 1 && (
+              <nav className="portfolio-pagination" aria-label="Portfolio companies pages">
+                <Pagination
+                  count={pageCount}
+                  page={Math.min(page, pageCount)}
+                  onChange={(_, next) => changePage(next)}
+                  shape="rounded"
+                  siblingCount={1}
+                  boundaryCount={1}
+                />
+              </nav>
+            )}
+            {!companies.length && !companiesLoading && (
               <div className="portfolio-empty">
                 <h3>{data.companiesSection.emptyHeading}</h3>
                 <button className="portfolio-reset" onClick={reset}>

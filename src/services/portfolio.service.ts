@@ -6,7 +6,7 @@ import fallback from 'src/content/portfolio.json';
 
 import { safeHref } from './homepage.service';
 
-type Company = {
+export type Company = {
   key: string;
   name: string;
   description: string;
@@ -80,6 +80,32 @@ const link = (value: unknown, defaultValue: ContentLink): ContentLink => {
   };
 };
 
+// `offset` keeps keys unique across pages (index is the position in the full list).
+const normalizeCompanies = (list: unknown[], offset = 0): Company[] =>
+  list.flatMap((value, position) => {
+    const company = object(value),
+      founder = object(company.founder),
+      index = offset + position;
+    if (!text(company.name).trim()) return [];
+    return [
+      {
+        key: `${text(company.key, String(company.id ?? index))}-${index}`,
+        name: text(company.name),
+        description: text(company.description),
+        sector: text(company.sector),
+        stage: text(company.stage),
+        status: text(company.status),
+        // The case study button appears only for companies with a safe link.
+        caseStudyUrl: safeHref(company.caseStudyUrl),
+        websiteUrl: /^https?:\/\//i.test(text(company.websiteUrl).trim())
+          ? safeHref(text(company.websiteUrl).trim())
+          : undefined,
+        logo: media(company.logo),
+        founder: { name: text(founder.name), role: text(founder.role) },
+      },
+    ];
+  });
+
 export function normalizePortfolio(payload: unknown): PortfolioContent {
   const raw = object(payload).data;
   if (!raw || typeof raw !== 'object' || Array.isArray(raw))
@@ -89,29 +115,10 @@ export function normalizePortfolio(payload: unknown): PortfolioContent {
     conversation = object(page.conversation);
   const settings = object(page.companiesSection),
     featured = object(page.featuredStories);
+  // The CMS now serves companies page by page (fetchPortfolioCompanies); the
+  // bundled list remains the offline fallback.
   const companies: Company[] = Array.isArray(page.companies)
-    ? page.companies.flatMap((value, index) => {
-        const company = object(value),
-          founder = object(company.founder);
-        if (!text(company.name).trim()) return [];
-        return [
-          {
-            key: `${text(company.key, String(company.id ?? index))}-${index}`,
-            name: text(company.name),
-            description: text(company.description),
-            sector: text(company.sector),
-            stage: text(company.stage),
-            status: text(company.status),
-            // The case study button appears only for companies with a safe link.
-            caseStudyUrl: safeHref(company.caseStudyUrl),
-            websiteUrl: /^https?:\/\//i.test(text(company.websiteUrl).trim())
-              ? safeHref(text(company.websiteUrl).trim())
-              : undefined,
-            logo: media(company.logo),
-            founder: { name: text(founder.name), role: text(founder.role) },
-          },
-        ];
-      })
+    ? normalizeCompanies(page.companies)
     : fallback.companies;
   return {
     title: text(page.title, fallback.title),
@@ -169,4 +176,56 @@ export function normalizePortfolio(payload: unknown): PortfolioContent {
 export async function fetchPortfolio(signal?: AbortSignal): Promise<PortfolioContent> {
   const response = await axios.get(`${origin}/api/portfolio`, { signal, timeout: 5000 });
   return normalizePortfolio(response.data);
+}
+
+export type CompanyQuery = { limit: number; skip: number; sector?: string; stage?: string };
+export type CompanyPage = {
+  companies: Company[];
+  total: number;
+  sectors: string[];
+  stages: string[];
+};
+
+const strings = (value: unknown) =>
+  Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string' && !!item) : [];
+
+export function normalizeCompanyPage(payload: unknown, skip = 0): CompanyPage {
+  const body = object(payload);
+  if (!Array.isArray(body.data)) throw new Error('Portfolio companies are unavailable');
+  const meta = object(body.meta);
+  const total = Number(object(meta.pagination).total);
+  const companies = normalizeCompanies(body.data, skip);
+  return {
+    companies,
+    total: Number.isFinite(total) && total >= 0 ? total : skip + companies.length,
+    sectors: strings(meta.sectors),
+    stages: strings(meta.stages),
+  };
+}
+
+// Server-side pagination: GET /api/portfolio/companies?limit=&skip=&sector=&stage=
+export async function fetchPortfolioCompanies(
+  { limit, skip, sector, stage }: CompanyQuery,
+  signal?: AbortSignal
+): Promise<CompanyPage> {
+  const response = await axios.get(`${origin}/api/portfolio/companies`, {
+    signal,
+    timeout: 5000,
+    params: { limit, skip, ...(sector ? { sector } : {}), ...(stage ? { stage } : {}) },
+  });
+  return normalizeCompanyPage(response.data, skip);
+}
+
+// Same contract as the endpoint, run on a local list (used when the CMS is unreachable).
+export function paginateCompanies(list: Company[], { limit, skip, sector, stage }: CompanyQuery): CompanyPage {
+  const matches = list.filter(
+    (company) => (!sector || company.sector === sector) && (!stage || company.stage === stage)
+  );
+  const unique = (values: string[]) => Array.from(new Set(values.filter(Boolean)));
+  return {
+    companies: matches.slice(skip, skip + limit),
+    total: matches.length,
+    sectors: unique(list.map((company) => company.sector)),
+    stages: unique(list.map((company) => company.stage)),
+  };
 }

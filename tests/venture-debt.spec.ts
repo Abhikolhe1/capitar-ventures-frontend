@@ -20,6 +20,7 @@ test('chapter timeline follows every section forward, backward and through the f
 test('timeline scrolls away as the last section starts and returns on reverse scroll', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/venture-debt');
+  await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
   const timeline = page.locator('.vd-chapters');
   const lastTop = await page.locator('#before-you-decide').evaluate(node => window.scrollY + node.getBoundingClientRect().top);
   const height = await timeline.evaluate(node => (node as HTMLElement).offsetHeight);

@@ -123,6 +123,8 @@
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Every row as tall as the tallest card; line clamps keep that height bounded. */
+  grid-auto-rows: 1fr;
   gap: 24px;
   list-style: none;
   margin: 0;
@@ -137,6 +139,8 @@
   border: 1px solid #00000005;
   border-radius: 16px;
   min-height: 452px;
+  height: 100%;
+  box-sizing: border-box;
   background: #f8f9fb;
   color: #121212;
   padding: 26px;
@@ -306,11 +310,45 @@
   margin-top: 14px;
   background: #8080804d;
 }
+/* Sector and stage share one heading and one row of tags. */
 .portfolio-card__meta {
+  padding-right: 54px;
+}
+.portfolio-card__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px 20px;
-  padding-right: 54px;
+  gap: 10px;
+}
+/* Long text stops after a fixed number of lines (set inline) with an ellipsis,
+   so cards stay the same height; the full text is in a tooltip. */
+.clamp-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+/* Clipped text sits above the card-wide link so hover and focus reach the tooltip. */
+.clamp-text[data-clipped] {
+  position: relative;
+  z-index: 3;
+  cursor: pointer;
+}
+.clamp-text[data-clipped]:focus-visible {
+  outline: 2px solid #cc2334;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.clamp-text-tooltip.MuiTooltip-tooltip {
+  max-width: 320px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #0b0f2d;
+  color: #fff;
+  font: 400 13px/1.45 'LT Superior', sans-serif;
+  box-shadow: 0 6px 18px #0b0f2d33;
+}
+.clamp-text-tooltip__arrow.MuiTooltip-arrow {
+  color: #0b0f2d;
 }
 .portfolio-tag {
   display: inline-block;
@@ -321,6 +359,37 @@
   border-radius: 30px;
   line-height: 1.2;
   font-size: 16px;
+}
+.portfolio-grid[data-loading='true'] {
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.portfolio-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+.portfolio-pagination .MuiPaginationItem-root {
+  min-width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid #00000014;
+  font: inherit;
+  font-size: 16px;
+  color: #121212;
+}
+.portfolio-pagination .MuiPaginationItem-ellipsis {
+  border: 0;
+}
+.portfolio-pagination .MuiPaginationItem-root.Mui-selected,
+.portfolio-pagination .MuiPaginationItem-root.Mui-selected:hover {
+  background: #11054a;
+  border-color: #11054a;
+  color: #fff;
+}
+.portfolio-pagination .MuiPaginationItem-root:focus-visible {
+  outline: 2px solid #cc2334;
+  outline-offset: 2px;
 }
 .portfolio-empty {
   padding: 50px 20px;
@@ -383,17 +452,11 @@
   .portfolio-card h3 {
     font-size: 28px;
   }
-  .portfolio-card__meta {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-  .portfolio-card__meta > div {
-    min-width: 0;
+  .portfolio-card__tags {
+    gap: 8px;
   }
   .portfolio-card__meta h4 {
-    font-size: 14px;
-    min-height: 2.6em;
+    font-size: 15px;
   }
   .portfolio-card__meta .portfolio-tag {
     max-width: 100%;
@@ -509,6 +572,15 @@
   .portfolio-grid {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+  .portfolio-pagination {
+    margin-top: 32px;
+  }
+  .portfolio-pagination .MuiPaginationItem-root {
+    min-width: 36px;
+    height: 36px;
+    margin: 0 2px;
+    font-size: 14px;
   }
   .portfolio-card {
     min-height: 410px;
