@@ -54,6 +54,7 @@
     ]
   },
   "belief": {
+    "enabled": true,
     "label": "The Belief",
     "heading": "How we think \nabout Capitar",
     "description": "A good doctor will refer you to another specialist if that is genuinely better for you. We hold ourselves to the same standard. If debt is not the right answer for your business, we will say so, even when it costs us the deal.",

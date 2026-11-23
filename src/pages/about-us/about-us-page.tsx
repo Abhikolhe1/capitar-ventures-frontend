@@ -159,53 +159,65 @@ export default function AboutUsPage() {
             </ol>
           </div>
         </section>
-        <section
-          className="about-belief"
-          id="belief"
-          aria-labelledby="belief-title"
-          style={{ '--belief-scroll': `${content.belief.items.length * 75}vh` } as CSSProperties}
-        >
-          <div className="about-belief-stage">
-            <div className="about-section-art" data-flow-artwork aria-hidden="true">
-              <img
-                className="about-belief-waves"
-                src={artwork('belief-waves.png')}
-                alt=""
-                loading="lazy"
-              />
-            </div>
-            <div className="about-belief-inner">
-              <div className="about-belief-copy" data-scroll-reveal="belief-heading">
-                <Badge light>{content.belief.label}</Badge>
-                <h2 id="belief-title">{content.belief.heading}</h2>
-                <p>{content.belief.description}</p>
+        {/* CMS: About Us > Belief > enabled hides this whole section. */}
+        {content.belief.enabled && (
+          <section
+            className="about-belief"
+            id="belief"
+            aria-labelledby="belief-title"
+            style={{ '--belief-scroll': `${content.belief.items.length * 75}vh` } as CSSProperties}
+          >
+            <div className="about-belief-stage">
+              <div className="about-section-art" data-flow-artwork aria-hidden="true">
+                <img
+                  className="about-belief-waves"
+                  src={artwork('belief-waves.png')}
+                  alt=""
+                  loading="lazy"
+                />
               </div>
-              <div className="about-principles" data-scroll-reveal="belief-principles">
-                {content.belief.items.map((item, index) => (
-                  <div className="about-principle" data-active={active === index} key={item.number}>
-                    <button
-                      type="button"
-                      aria-expanded={active === index}
-                      aria-controls={`about-principle-${index}`}
-                      onClick={() => selectBelief(index)}
+              <div className="about-belief-inner">
+                <div className="about-belief-copy" data-scroll-reveal="belief-heading">
+                  <Badge light>{content.belief.label}</Badge>
+                  <h2 id="belief-title">{content.belief.heading}</h2>
+                  <p>{content.belief.description}</p>
+                </div>
+                <div className="about-principles" data-scroll-reveal="belief-principles">
+                  {content.belief.items.map((item, index) => (
+                    <div
+                      className="about-principle"
+                      data-active={active === index}
+                      key={item.number}
                     >
-                      <span className="about-principle-number">{item.number}</span>
-                      <span className="about-principle-copy">
-                        <span className="about-principle-title">{item.title}</span>
-                        {item.description && (
-                          <span className="about-principle-detail" id={`about-principle-${index}`}>
-                            <span className="about-principle-description">{item.description}</span>
-                          </span>
-                        )}
-                      </span>
-                    </button>
-                    {!item.description && <span id={`about-principle-${index}`} />}
-                  </div>
-                ))}
+                      <button
+                        type="button"
+                        aria-expanded={active === index}
+                        aria-controls={`about-principle-${index}`}
+                        onClick={() => selectBelief(index)}
+                      >
+                        <span className="about-principle-number">{item.number}</span>
+                        <span className="about-principle-copy">
+                          <span className="about-principle-title">{item.title}</span>
+                          {item.description && (
+                            <span
+                              className="about-principle-detail"
+                              id={`about-principle-${index}`}
+                            >
+                              <span className="about-principle-description">
+                                {item.description}
+                              </span>
+                            </span>
+                          )}
+                        </span>
+                      </button>
+                      {!item.description && <span id={`about-principle-${index}`} />}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         <section className="about-people" id="people" aria-labelledby="people-title">
           <div className="about-container">
             <div className="about-people-header" data-scroll-reveal="people-heading">

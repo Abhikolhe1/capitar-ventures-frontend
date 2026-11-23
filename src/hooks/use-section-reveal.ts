@@ -27,8 +27,9 @@ export function useSectionReveal(
           element,
           { opacity: 0, y: metrics ? 24 : 20 },
           { opacity: 1, y: 0, ...(metrics ? { stagger: 0.1 } : {}), duration: heading ? 0.85 : 0.7, ease: 'power2.out' },
-          start,
-          minDuration
+          // Home proof metrics appear as soon as the row enters the screen (default is 70% down).
+          metrics ? start ?? 'top 92%' : start,
+          metrics ? minDuration ?? 0.8 : minDuration
         ));
       });
     }, scope);

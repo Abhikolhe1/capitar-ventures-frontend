@@ -461,6 +461,11 @@ html[data-motion='reduced'] .vd-signal-number > span {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  /* Keep step labels inside their grid column: wrap instead of overlapping the copy. */
+  min-width: 0;
+}
+.vd-step-number small {
+  overflow-wrap: anywhere;
 }
 .vd-step-number > span {
   font-size: 32px;
@@ -1224,8 +1229,9 @@ html[data-motion='reduced'] .vd-step-detail {
   .vd-process-track[data-mobile-pinned='true'] .vd-step { flex: 1; }
   .vd-process-track[data-mobile-pinned='true'] .vd-step button {
     height: 100%;
-    grid-template-columns: 48px minmax(0, 1fr);
-    column-gap: 12px;
+    /* Wide enough for labels like STRUCTURE; longer CMS labels wrap in-column. */
+    grid-template-columns: 72px minmax(0, 1fr);
+    column-gap: 14px;
     padding: 10px 12px;
     font-size: 16px;
     line-height: 1.15;

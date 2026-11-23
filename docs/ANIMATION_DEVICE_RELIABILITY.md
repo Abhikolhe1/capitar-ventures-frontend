@@ -294,3 +294,27 @@ attributes. Original Figma fallback crops and the motion policy remain intact.
 Portrait alt text uses the member's name, role and Capitar Ventures. Verification
 must inspect fitted image bounds after asynchronous CMS replacement and scroll
 reveals, rather than treating a successful image load as proof of correct display.
+
+## 23 November 2026: About Us Belief pins like With Capitar
+
+The user reported The Belief section did not stay sticky while scrolling. Its
+hook only pinned at `(min-width: 900px) and (min-height: 700px) and (pointer: fine)`
+and also gave up when the content was taller than the viewport, so touch-capable
+laptops, windows under 700px tall and all phones never pinned. Belief now uses
+Venture Debt's With Capitar breakpoints in both JS (`beliefStickyMedia`) and CSS:
+desktop pins at >=900x640 (68px offset), and mobile opts into a compact panel at
+<900px wide and >=600px tall (62px offset, 58px at <=700px wide). Desktop sizes
+scale with `svh` clamps. Mobile shows the intro and every principle title, and
+only the active description expands. Phones up to 720px tall get tighter spacing.
+The ScrollTrigger start now reads the stage's CSS `top`. Native scrolling only;
+no wheel or touch interception was added.
+
+Validation used a fresh Vite server at 127.0.0.1:3042, because 3039 was serving
+an unrelated app. TypeScript and ESLint passed. Seven Belief Playwright checks
+passed in Chrome: wheel forward/reverse under OS reduce, no-preference and system
+settings, plus panel-fit and progression at 1366x640, 768x1024, 390x844 and 320x600.
+Screenshots at 1440x730, 390x844 and 320x600 were inspected. These are automated
+Chrome results only. Firefox/WebKit, the user's own browser and physical phones
+are pending. Unrelated: other About Us specs failed because the live CMS response
+had no Mission section, so they timed out waiting for `#mission` or found 2 of 3
+artwork surfaces.

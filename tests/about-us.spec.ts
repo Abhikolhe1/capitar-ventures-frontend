@@ -372,8 +372,9 @@ for (const preference of ['reduce', 'no-preference', null] as const) {
         'aria-expanded',
         'true'
       );
+      // Mobile pins a compact panel like Venture Debt's With Capitar steps.
       await page.setViewportSize({ width: 390, height: 844 });
-      await expect(stage).toHaveCSS('position', 'relative');
+      await expect(stage).toHaveCSS('position', 'sticky');
       await page.locator('.about-principles button').first().click();
       await expect(page.locator('.about-principles button').first()).toHaveAttribute(
         'aria-expanded',
@@ -386,4 +387,60 @@ for (const preference of ['reduce', 'no-preference', null] as const) {
       await expect(stage).toHaveCSS('position', 'relative');
     }
   );
+}
+
+for (const [width, height, top] of [
+  [1366, 640, 68],
+  [768, 1024, 62],
+  [390, 844, 58],
+  [320, 600, 58],
+] as const) {
+  test(`Belief pinned panel fits ${width}x${height}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: null });
+    await page.setViewportSize({ width, height });
+    await page.goto('/about-us');
+    await expect(page.locator('main')).toHaveAttribute('aria-busy', 'false');
+    const section = page.locator('#belief');
+    await expect(section).toHaveAttribute('data-belief-sticky', 'true');
+    const stage = page.locator('.about-belief-stage');
+    const active = page.locator('.about-principle[data-active=true] .about-principle-number');
+    const start = await section.evaluate(
+      (el, offset) => el.getBoundingClientRect().top + scrollY - offset,
+      top
+    );
+    await page.evaluate((y) => window.scrollTo(0, y), start + 10);
+    await expect
+      .poll(() => stage.evaluate((el) => Math.round(el.getBoundingClientRect().top)))
+      .toBe(top);
+    // Let the 24px entrance reveal settle before checking the panel fits.
+    await expect
+      .poll(() =>
+        page
+          .locator('.about-principles')
+          .evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m42)
+      )
+      .toBe(0);
+    const seen = new Set<string>();
+    for (let i = 0; i < 40 && seen.size < 4; i++) {
+      seen.add(await active.innerText());
+      // The stage and every principle row stay inside the viewport while pinned.
+      const fits = await page.evaluate(() => {
+        const box = document.querySelector('.about-belief-stage')!.getBoundingClientRect();
+        return (
+          box.bottom <= innerHeight + 1 &&
+          [...document.querySelectorAll('.about-principle')].every((row) => {
+            const r = row.getBoundingClientRect();
+            return r.top >= box.top - 1 && r.bottom <= box.bottom + 1;
+          })
+        );
+      });
+      expect(fits).toBe(true);
+      await page.mouse.wheel(0, 120);
+      await page.waitForTimeout(160);
+    }
+    expect([...seen]).toEqual(['01', '02', '03', '04']);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)
+    ).toBe(true);
+  });
 }

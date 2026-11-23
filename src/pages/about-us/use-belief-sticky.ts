@@ -9,6 +9,9 @@ import { scheduleScrollRefresh } from 'src/hooks/scroll-refresh';
 import { createDirectionalReveal } from 'src/hooks/reveal-from-above';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const beliefStickyMedia =
+  '(min-width: 900px) and (min-height: 640px), (max-width: 899px) and (min-height: 600px)';
 export function useBeliefSticky(
   scope: RefObject<HTMLElement | null>,
   version: string,
@@ -35,11 +38,14 @@ export function useBeliefSticky(
         );
       });
       const media = gsap.matchMedia();
-      media.add('(min-width: 900px) and (min-height: 700px) and (pointer: fine)', () => {
-        const inner = section.querySelector<HTMLElement>('.about-belief-inner');
-        if (count < 2 || !inner || inner.offsetHeight + 32 > window.innerHeight - 68)
-          return undefined;
+      // Same breakpoints as Venture Debt's "With Capitar" steps (keep in sync with CSS):
+      // desktop pins at >=900x640, mobile opts into a compact panel at >=600px tall.
+      media.add(beliefStickyMedia, () => {
+        const stage = section.querySelector<HTMLElement>('.about-belief-stage');
+        if (count < 2 || !stage) return undefined;
         section.dataset.beliefSticky = 'true';
+        // The stage's CSS `top` clears the header (68px desktop, 58-62px mobile).
+        const stickyTop = () => Number.parseFloat(getComputedStyle(stage).top) || 0;
         let current = -1;
         const update = (trigger: ScrollTrigger) => {
           const index = Math.min(count - 1, Math.max(0, Math.floor(trigger.progress * count)));
@@ -50,7 +56,7 @@ export function useBeliefSticky(
         };
         controller.current = ScrollTrigger.create({
           trigger: section,
-          start: 'top 68px',
+          start: () => `top ${stickyTop()}px`,
           end: 'bottom bottom',
           invalidateOnRefresh: true,
           onUpdate: update,
