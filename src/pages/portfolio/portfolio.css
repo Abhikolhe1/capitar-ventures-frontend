@@ -250,6 +250,22 @@
   border-radius: 4px;
   object-fit: contain;
   flex-shrink: 0;
+  transition:
+    background-color 0.35s,
+    box-shadow 0.35s;
+}
+/* Highlighted card: the logo sits on a white square tile. The tile is drawn with a
+   box-shadow so the logo keeps its size and position from the resting state. */
+.portfolio-card:focus-within .portfolio-card__logo,
+.portfolio-card[data-selected='true'] .portfolio-card__logo {
+  background-color: #fff;
+  box-shadow: 0 0 0 8px #fff;
+}
+@media (hover: hover) {
+  .portfolio-card:hover .portfolio-card__logo {
+    background-color: #fff;
+    box-shadow: 0 0 0 8px #fff;
+  }
 }
 /* Sits above the full-card highlight toggle so it stays clickable. */
 .portfolio-card__case-study {
