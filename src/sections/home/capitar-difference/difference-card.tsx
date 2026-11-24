@@ -46,6 +46,7 @@ export function DifferenceCard({
       data-difference-card
       sx={{
         position: 'relative',
+        pointerEvents: 'auto',
         isolation: 'isolate',
         color: websiteTokens.white,
         bgcolor: websiteTokens.difference.card,

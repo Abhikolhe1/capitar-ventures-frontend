@@ -236,7 +236,8 @@
     "description": "Combining a founder mindset with custom-\ntailored capital structures.",
     "cta": {
       "label": "About Us",
-      "enabled": false
+      "enabled": true,
+      "href": "/about-us"
     },
     "cardBackground": {
       "url": "/assets/capitar/difference-card-background.svg",

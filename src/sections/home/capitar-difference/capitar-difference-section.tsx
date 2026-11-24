@@ -93,6 +93,8 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
           aria-label={data.sectionLabel}
           sx={{
             position: 'relative',
+            // Let clicks through the empty space between the cards reach the sticky CTA.
+            pointerEvents: 'none',
             zIndex: 2,
             display: 'grid',
             gridTemplateColumns: {
