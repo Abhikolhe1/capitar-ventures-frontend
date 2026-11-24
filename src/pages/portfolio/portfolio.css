@@ -417,6 +417,15 @@
     transparent 98px 165px
   );
 }
+.portfolio-conversation .portfolio-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.portfolio-conversation p {
+  max-width: 640px;
+}
 .portfolio-conversation h2 {
   font-size: 48px;
   font-weight: 400;
