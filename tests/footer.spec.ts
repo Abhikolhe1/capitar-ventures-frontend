@@ -4,21 +4,22 @@ import { test, expect } from '@playwright/test';
 const fallback = JSON.parse(fs.readFileSync(new URL('../src/content/homepage.json', import.meta.url), 'utf8'));
 
 async function mockCms(page: import('@playwright/test').Page, footer = fallback.global.footer) {
+  const origin = process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:3039';
   await page.route('**/api/global', route => {
     const data = structuredClone({ ...fallback.global, footer });
-    data.brandLogo.url = new URL(data.brandLogo.url, 'http://127.0.0.1:3039').href;
+    data.brandLogo.url = new URL(data.brandLogo.url, origin).href;
     if (data.footer) {
       for (const field of ['brandLogo', 'backgroundImage', 'backgroundVideo']) {
-        if (data.footer[field]?.url) data.footer[field].url = new URL(data.footer[field].url, 'http://127.0.0.1:3039').href;
+        if (data.footer[field]?.url) data.footer[field].url = new URL(data.footer[field].url, origin).href;
       }
-      for (const shortcut of data.footer.aiLinks) if (shortcut.icon?.url) shortcut.icon.url = new URL(shortcut.icon.url, 'http://127.0.0.1:3039').href;
+      for (const shortcut of data.footer.aiLinks) if (shortcut.icon?.url) shortcut.icon.url = new URL(shortcut.icon.url, origin).href;
     }
     return route.fulfill({ json: { data } });
   });
   await page.route('**/api/homepage', route => route.fulfill({ json: { data: fallback } }));
 }
 
-test('footer matches the recording dimensions, follows main, and copies contact details', async ({ page, context }) => {
+test('footer keeps its recording width, fits registration content, follows main, and copies contact details', async ({ page, context }) => {
   await mockCms(page);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1441, height: 950 });
@@ -35,7 +36,9 @@ test('footer matches the recording dimensions, follows main, and copies contact 
   expect(dimensions.width).toBe(1441);
   expect(dimensions.height).toBeCloseTo(950, 1);
   expect(dimensions.panelWidth).toBeCloseTo(1324, 1);
-  expect(dimensions.panelHeight).toBeCloseTo(523, 1);
+  // The SEBI registration block adds content; keep the original minimum without clipping it.
+  expect(dimensions.panelHeight).toBeGreaterThanOrEqual(523);
+  expect(dimensions.panelHeight).toBeLessThan(dimensions.height);
   expect(dimensions.left).toBeCloseTo(58.5, 1);
   expect(dimensions.top).toBeCloseTo((950 - dimensions.panelHeight) / 2, 1);
   expect(dimensions.ctaWidth).toBeCloseTo(352, 1);
@@ -48,8 +51,9 @@ test('footer matches the recording dimensions, follows main, and copies contact 
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(fallback.global.footer.email);
   await footer.getByRole('button', { name: 'Copy phone' }).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(fallback.global.footer.phone);
-  await expect(footer.locator('video')).toHaveCount(0);
-  await expect(footer.getByRole('navigation', { name: 'Footer navigation' }).getByRole('link', { name: 'Insights' })).toHaveAttribute('href', '#insights-news');
+  // Full motion remains enabled under either OS preference; unpublished Insights stays hidden.
+  await expect(footer.locator('video')).toHaveCount(2);
+  await expect(footer.getByRole('navigation', { name: 'Footer navigation' }).getByRole('link', { name: 'Insights' })).toHaveCount(0);
   await footer.screenshot({ path: 'test-results/footer-desktop.png' });
 });
 

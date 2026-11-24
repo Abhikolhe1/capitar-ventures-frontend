@@ -19,6 +19,8 @@ export type GlobalContent = {
 };
 export type FooterShortcut = ContentLink & { icon?: Media };
 export type FooterContent = {
+  registrationLabel?: string;
+  registrationDetails?: string;
   enabled: boolean;
   brandLogo?: Media;
   logoMonochrome?: boolean;

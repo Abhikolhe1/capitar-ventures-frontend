@@ -1,0 +1,162 @@
+{
+  "title": "Privacy Policy",
+  "illustration": "/assets/privacy/privacy-illustration.png",
+  "illustrationAlt": "Plants growing from stacks of coins",
+  "sections": [
+    {
+      "heading": "1. Site Provision and Performance",
+      "blocks": [
+        {
+          "kind": "list",
+          "items": [
+            "You acknowledge and agree that this site is provided on an “as is\"and \"as available\" basis. Prime Trigen Wealth Limited (formerly known as Prime Funds Limited), including its subsidiaries and affiliates (collectively referred to as “Prime Trigen Wealth Limited“), does not guarantee the timeliness, accuracy, reliability, completeness, or usefulness of the content on this site.",
+            "Prime Trigen Wealth Limited makes no warranty that this site or its downloadable content will meet your requirements or expectations, or that it will operate uninterrupted, securely, or error-free. It also does not guarantee that the site, its servers, or downloadable files are free from viruses or other harmful components. Prime Trigen Wealth Limited accepts no responsibility for any damage, including viruses or other harmful elements, that may result from your use of this site.",
+            "Periods of unusual or volatile market activity may particularly affect system availability and response times."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "2. Assumption of Risk",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "You expressly agree to assume full responsibility for the quality and performance of this site and for the accuracy, timeliness, and completeness of the content presented. Prime Trigen Wealth Limited disclaims all representations, endorsements, and warranties, whether express or implied, including but not limited to:"
+          ]
+        },
+        {
+          "kind": "list",
+          "items": [
+            "The implied warranties of merchantability, fitness for a particular purpose, and non-infringement of third-party rights.",
+            "Any warranties regarding results obtained from the use of the site."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "3. Connectivity Responsibilities",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "You are solely responsible for ensuring your access to the site, including your hardware, software, Internet service provider, and other third-party tools involved in connecting you to this site. Prime Trigen Wealth Limited is not responsible for any performance issues arising from your means of connection."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "4. Third-Party Damages",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "Prime Trigen Wealth Limited disclaims any responsibility for damages caused to you by third parties using this site, whether such actions are intentional or unintentional. For instance, security breaches by hackers or other unauthorized entities are risks inherent to online platforms, and Prime Trigen Wealth Limited is not liable for related damages."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "5. No Reliance on Data",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "Although Prime Trigen Wealth Limited takes reasonable precautions to ensure the accuracy and completeness of site content, including pricing data and account information, it cannot guarantee these aspects due to the nature of information delivery technologies and reliance on third-party sources.",
+            "All content is provided as of its date of publication and may be outdated or superseded by subsequent events. Prime Trigen Wealth Limited does not undertake any obligation to update the content on this site."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "6. Forward-Looking Statements",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "Any forward-looking statements, including predictions about market trends, economic conditions, or investment performance, involve inherent risks and uncertainties. Actual outcomes may differ significantly due to general business, market, political, or economic factors."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "7. Internet Email",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "Prime Trigen Wealth Limited advises against using email to send sensitive or confidential information. If you choose to do so, whether encrypted or not, you accept the associated risks, including potential lack of confidentiality."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "8. Limitation of Liability",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "Your sole remedy for dissatisfaction with this site is to discontinue its use. Prime Trigen Wealth Limited is not liable for any direct, indirect, incidental, consequential, special, punitive, or exemplary damages, including but not limited to:"
+          ]
+        },
+        {
+          "kind": "list",
+          "items": [
+            "Loss of revenue, anticipated profits, or data.",
+            "Failures in performance, denial of service attacks, interruptions, defects, or delays in operations.",
+            "Damage caused by third parties, such as unauthorized access, hacking, or security breaches."
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "items": [
+            "These limitations apply regardless of:"
+          ]
+        },
+        {
+          "kind": "list",
+          "items": [
+            "The type of liability (negligence, contract, tort, strict liability, etc.).",
+            "Whether Prime Trigen Wealth Limited was aware of or could foresee such damages."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "9. Indemnification",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "You agree to indemnify and hold harmless Prime Trigen Wealth Limited from any claims, damages, losses, or liabilities arising out of:"
+          ]
+        },
+        {
+          "kind": "list",
+          "items": [
+            "Your use of this site.",
+            "Any failure of connectivity, security breaches, or unauthorized access caused by third parties.",
+            "Any legal proceedings or costs incurred due to your violation of applicable laws or these terms of use."
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "items": [
+            "Prime Trigen Wealth Limited makes its best efforts to secure data, but it will not be held liable for any unauthorized access, misuse, or corruption of data due to circumstances beyond its control."
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "10. General Limitations",
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "items": [
+            "The limitations of liability outlined in this disclaimer will remain effective even if any remedy provided fails its essential purpose."
+          ]
+        }
+      ]
+    }
+  ]
+}

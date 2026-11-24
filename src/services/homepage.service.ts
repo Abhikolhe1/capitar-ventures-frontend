@@ -75,6 +75,7 @@ function footer(value: unknown): FooterContent | undefined {
     const item = record(value);
     return {
       enabled: item.enabled !== false, brandLogo: media(item.brandLogo), logoMonochrome: item.logoMonochrome === true,
+      registrationLabel: string(item.registrationLabel), registrationDetails: string(item.registrationDetails),
       address: string(item.address), email: string(item.email), phone: string(item.phone), aiText: string(item.aiText),
       aiLinks: Array.isArray(item.aiLinks) ? item.aiLinks.flatMap(shortcut => {
         try {

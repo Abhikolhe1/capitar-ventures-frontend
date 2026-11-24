@@ -137,10 +137,13 @@
         },
         {
           "label": "PRIVACY",
-          "enabled": false
+          "href": "/privacy-policy",
+          "enabled": true
         }
       ],
       "copyright": "© 2025 — COPYRIGHT",
+      "registrationLabel": "SEBI Registration No.:",
+      "registrationDetails": "Cat II AIF  (VD Fund I & II)  – INR/AIF2/22-23/1134\nCat I AIF – Angel Fund – IN/AIF1/26-27/2194\nCo-Investment Services (Co-PMS) – INP000010308",
       "ctaHeading": "Interested in learning more\nabout us?",
       "cta": {
         "label": "Let’s Connect",

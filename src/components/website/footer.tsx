@@ -524,6 +524,12 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                 </Typography>
               )}
               {!!aiLinks.length && <AiShortcuts items={aiLinks} />}
+              {(data.registrationLabel || data.registrationDetails) && (
+                <Box data-footer-registration sx={{ mt: '18px', display: 'grid', gap: '8px' }}>
+                  {data.registrationLabel && <Typography sx={{ fontSize: 11, lineHeight: 'normal', fontWeight: 700, color: '#999', textTransform: 'uppercase' }}>{data.registrationLabel}</Typography>}
+                  {data.registrationDetails && <Typography sx={{ fontSize: 14, lineHeight: 1.4, color: 'rgba(18,18,18,0.78)', whiteSpace: 'pre-line', overflowWrap: 'anywhere' }}>{data.registrationDetails}</Typography>}
+                </Box>
+              )}
             </Box>
             <Box data-footer-links sx={{ minWidth: 0, pt: { lg: '16px' }, pb: { lg: '64px' } }}>
               <FooterLinkList items={navigation} label="Footer navigation" />
@@ -630,8 +636,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               aria-label="Legal links"
               sx={{ display: 'flex', flexWrap: 'wrap', columnGap: '32px', rowGap: 1 }}
             >
-              {/* Privacy, Disclaimer and Imprint are hidden for now; remove this filter to show them again. */}
-              {data.legalLinks.filter((item) => !/privacy|disclaimer|imprint/i.test(item.label)).map((item, index) => (
+              {/* Keep unpublished legal pages hidden; Privacy now has a real destination. */}
+              {data.legalLinks.filter((item) => !/disclaimer|imprint/i.test(item.label)).map((item, index) => (
                 <Box key={`${index}-${item.label}`} component="span" data-legal-label={item.label.trim().toLowerCase()}><FooterLink item={item} underline /></Box>
               ))}
             </Box>

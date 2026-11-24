@@ -9,10 +9,14 @@ import { SectionBadge } from 'src/components/website/section-badge';
 import { CaseStudyCard } from './case-study-card';
 import { useCaseStudyAnimation } from './use-case-study-animation';
 
+// Desktop shows this many cards at once; extra cards are reached with the arrows.
+const VISIBLE_CARDS = 4;
+
 export function CaseStudySection({ data, variant }: { data?: CaseStudyContent; variant?: 'portfolio' }) {
   const mobile = useMediaQuery('(max-width:599px)');
   const scope = useRef<HTMLElement>(null);
   const [selected, setSelected] = useState(0);
+  const [start, setStart] = useState(0);
   useCaseStudyAnimation(scope, JSON.stringify(data), mobile);
   if (!data?.enabled) return null;
   // Older CMS content only populated Qubehealth; mirror its sample detail fields
@@ -26,7 +30,18 @@ export function CaseStudySection({ data, variant }: { data?: CaseStudyContent; v
       : item
   )) };
   const active = Math.min(selected, Math.max(0, data.items.length - 1));
-  const move = (direction: number) => setSelected((active + direction + data.items.length) % data.items.length);
+  const count = data.items.length;
+  const paged = count > VISIBLE_CARDS;
+  const first = paged ? start % count : 0;
+  // With more than four cards the arrows slide the window by one: the first card
+  // hides, the next one appears, and the open card moves along with it.
+  const move = (direction: number) => {
+    if (paged) setStart((first + direction + count) % count);
+    setSelected((active + direction + count) % count);
+  };
+  const visible = paged
+    ? Array.from({ length: VISIBLE_CARDS }, (_, offset) => (first + offset) % count)
+    : data.items.map((_, index) => index);
   return <Box component="section" className={variant === 'portfolio' ? 'portfolio-stories' : undefined} ref={scope} id="case-study" aria-labelledby="case-study-heading" sx={{ position: 'relative', zIndex: 3, bgcolor: '#FFFFFF', color: '#121212' }}>
     <Box sx={{ maxWidth: 1440, mx: 'auto', px: { xs: '20px', sm: 6, lg: '50px' }, pt: { xs: 6, sm: 6, md: '60px' }, pb: { xs: 6, sm: 6, md: '51px' }, minHeight: { lg: 800 } }}>
       <Box data-case-header sx={{ px: { lg: '10px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0,1fr) minmax(0,1fr) 170px', lg: 'minmax(0,487px) minmax(0,394px) 170px' }, alignItems: 'end', columnGap: { md: 3 }, justifyContent: 'space-between', rowGap: { xs: '12px', md: 3 } }}>
@@ -42,7 +57,7 @@ export function CaseStudySection({ data, variant }: { data?: CaseStudyContent; v
           {data.items.map((item,index) => index !== active && <CaseStudyCard key={item.name+index} item={item} index={index} active={false} onSelect={() => setSelected(index)} />)}
         </Box>
       </> : <Box component="ul" data-case-deck aria-label="Case studies" sx={{ display: { xs: 'grid', md: 'flex' }, gridTemplateColumns: 'repeat(3,minmax(0,1fr))', flexWrap: 'nowrap', gap: { xs: '12px', sm: '20px' }, p: 0, m: 0, mt: { xs: '24px', md: '53.2px' }, minHeight: { md: 484 }, mr: { lg: '10px' } }}>
-        {data.items.map((item,index) => <CaseStudyCard key={item.name + index} item={item} index={index} active={active === index} onSelect={() => setSelected(index)} />)}
+        {visible.map(index => { const item = data.items[index]; return <CaseStudyCard key={item.name + index} item={item} index={index} active={active === index} onSelect={() => setSelected(index)} />; })}
       </Box>}
       <Box role="status" aria-live="polite" sx={{ position: 'absolute', left: 0, top: 0, width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }}>{data.items.length ? data.items[active].name : ''}</Box>
     </Box>

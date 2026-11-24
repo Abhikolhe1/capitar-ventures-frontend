@@ -95,6 +95,7 @@ export const footerMobileStyles = {
     '& [data-footer-social] > p': { fontSize: 16, lineHeight: '24px', mb: '8px' },
     '& [data-footer-ai-copy]': { order: 5, mt: '4px', fontSize: 14, lineHeight: '20px' },
     '& [aria-label="Explore Capitar with AI"]': { order: 6, mt: '-8px' },
+    '& [data-footer-registration]': { order: 7, mt: '2px', gap: '8px' },
     '& [data-footer-legal]': { flexDirection: 'column', alignItems: 'stretch', gap: '8px', mt: '20px', pt: 0, fontSize: 10 },
     '& [data-footer-legal] > p': { textAlign: 'left' },
     '& [data-footer-legal] nav': { display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', columnGap: '12px' },

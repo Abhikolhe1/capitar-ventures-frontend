@@ -21,6 +21,7 @@ export const HomePage = lazy(() => import('src/pages/home/home-page'));
 export const VentureDebtPage = lazy(loadVentureDebtPage);
 export const PortfolioPage = lazy(() => import('src/pages/portfolio/portfolio-page'));
 export const AboutUsPage = lazy(() => import('src/pages/about-us/about-us-page'));
+export const PrivacyPolicyPage = lazy(() => import('src/pages/privacy-policy/privacy-policy-page'));
 export const CaseStudyPage = lazy(() => import('src/pages/case-study/case-study-page'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
@@ -49,6 +50,8 @@ const renderFallback = () => (
 );
 
 export const routesSection: RouteObject[] = [
+  { path: '/privacy-policy', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#FFFFFF' }} />}><PrivacyPolicyPage /></Suspense> },
+  { path: '/privacy', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#FFFFFF' }} />}><PrivacyPolicyPage /></Suspense> },
   { path: '/blog', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><BlogPage /></Suspense> },
   { path: '/portfolio', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><PortfolioPage /></Suspense> },
   { path: '/portfolio/:slug', element: <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: '#111129' }} />}><CaseStudyPage /></Suspense> },

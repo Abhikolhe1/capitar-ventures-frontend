@@ -209,7 +209,6 @@ export default function VentureDebtPage() {
             <div className="vd-scroll-track vd-signals-track" ref={signalsTrack}>
               <div className="vd-signals-grid vd-pinned-panel">
                 <div>
-                  <Badge>{before.signalsLabel}</Badge>
                   <h2>
                     {before.signalsHeading}
                     <span>{before.signalsMutedHeading}</span>

@@ -192,8 +192,9 @@
   gap: clamp(40px, 10vw, 147px);
   align-items: center;
 }
+/* The heading opens the panel now that the signals badge is gone. */
 .vd-signals-grid h2 {
-  margin-top: 40px;
+  margin-top: 0;
 }
 .vd-signals {
   margin-top: 55px;
@@ -375,7 +376,7 @@ html[data-motion='reduced'] .vd-signal-number > span {
   }
   .vd-signals-grid h2 {
     font-size: clamp(32px, 5.5svh, 50px);
-    margin-top: clamp(16px, 3svh, 40px);
+    margin-top: 0;
   }
   .vd-signals {
     margin-top: clamp(20px, 4svh, 55px);
@@ -443,8 +444,9 @@ html[data-motion='reduced'] .vd-signal-number > span {
   border: 0;
   color: inherit;
   display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
-  column-gap: 62px;
+  /* Label column is sized by .vd-step-number below, identically in every row. */
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 40px;
   align-items: center;
   text-align: left;
   width: 100%;
@@ -464,7 +466,16 @@ html[data-motion='reduced'] .vd-signal-number > span {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  /* Keep step labels inside their grid column: wrap instead of overlapping the copy. */
+  /* Room for a 10-character label at the active label size (ch follows this
+     font-size), so words up to 10 characters stay on one line; longer ones wrap
+     inside the column instead of overlapping the copy. */
+  --vd-label-size: 24px;
+  font-size: var(--vd-label-size);
+  /* Same width in active and inactive rows: ch depends on the inherited weight,
+     and the number and label set their own weight and spacing anyway. */
+  font-weight: 400;
+  letter-spacing: 0;
+  width: 10.5ch;
   min-width: 0;
 }
 .vd-step-number small {
@@ -486,12 +497,10 @@ html[data-motion='reduced'] .vd-signal-number > span {
   line-height: 1.4;
   letter-spacing: 0;
   color: rgba(255, 255, 255, 0.8);
-  text-transform: uppercase;
   font-weight: 400;
 }
 .vd-step[data-active='true'] .vd-step-number small {
-  font-size: 24px;
-  text-transform: capitalize;
+  font-size: var(--vd-label-size);
 }
 .vd-step-copy {
   display: flex;
@@ -746,7 +755,7 @@ html[data-motion='reduced'] .vd-signal-number > span {
     margin-left: 54px;
   }
   .vd-step button {
-    grid-template-columns: 85px 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     font-size: 22px;
   }
   .vd-step p {
@@ -840,7 +849,7 @@ html[data-motion='reduced'] .vd-signal-number > span {
     margin-top: 32px;
   }
   .vd-signals-grid h2 {
-    margin-top: 24px;
+    margin-top: 0;
   }
   .vd-signal-art {
     width: 100%;
@@ -854,7 +863,7 @@ html[data-motion='reduced'] .vd-signal-number > span {
     padding-left: 0;
   }
   .vd-step button {
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     column-gap: 20px;
     padding: 24px 16px;
     font-size: 20px;
@@ -993,7 +1002,7 @@ html[data-motion='reduced'] .vd-step-detail {
 
 @media (min-width: 701px) and (max-width: 1199px) {
   .vd-step button {
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr);
     column-gap: 24px;
     padding: 24px;
     font-size: 24px;
@@ -1117,7 +1126,7 @@ html[data-motion='reduced'] .vd-step-detail {
     font-size: clamp(22px, 3.2svh, 28px);
     line-height: 1.05;
     letter-spacing: -0.5px;
-    margin-top: 12px;
+    margin-top: 8px;
   }
   .vd-signals-track[data-mobile-pinned='true'] .vd-signals {
     margin-top: 16px;
@@ -1232,8 +1241,7 @@ html[data-motion='reduced'] .vd-step-detail {
   .vd-process-track[data-mobile-pinned='true'] .vd-step { flex: 1; }
   .vd-process-track[data-mobile-pinned='true'] .vd-step button {
     height: 100%;
-    /* Wide enough for labels like STRUCTURE; longer CMS labels wrap in-column. */
-    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr);
     column-gap: 14px;
     padding: 10px 12px;
     font-size: 16px;
@@ -1243,7 +1251,7 @@ html[data-motion='reduced'] .vd-step-detail {
   .vd-process-track[data-mobile-pinned='true'] .vd-step[data-active='true'] button {
     font-size: 18px;
   }
-  .vd-process-track[data-mobile-pinned='true'] .vd-step-number { gap: 4px; }
+  .vd-process-track[data-mobile-pinned='true'] .vd-step-number { gap: 4px; --vd-label-size: 11px; }
   .vd-process-track[data-mobile-pinned='true'] .vd-step-number > span { font-size: 24px; }
   .vd-process-track[data-mobile-pinned='true'] .vd-step[data-active='true'] .vd-step-number > span {
     font-size: 36px;
@@ -1294,4 +1302,11 @@ html[data-motion='reduced'] .vd-step-detail {
     justify-self: start;
   }
   .vd-practice .vd-outcomes { margin-top: 28px; }
+}
+
+/* Short phones (unpinned): a smaller active label keeps the label column compact. */
+@media (max-width: 700px) {
+  .vd-step-number {
+    --vd-label-size: 16px;
+  }
 }
