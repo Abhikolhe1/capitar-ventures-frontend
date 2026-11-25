@@ -35,12 +35,16 @@ export function CaseStudySection({ data, variant }: { data?: CaseStudyContent; v
   const lastStart = Math.max(0, count - VISIBLE_CARDS);
   const first = paged ? Math.min(start, lastStart) : 0;
   const clamp = (value: number, max: number) => Math.min(Math.max(value, 0), max);
-  // With more than four cards the arrows slide the window by one: the first card
-  // hides, the next one appears, and the open card moves along with it. The
-  // carousel stops at either end instead of looping.
+  // The arrows open the next/previous card one at a time. The four-card window
+  // only slides once the open card would leave it: past the fourth card the first
+  // one hides and the fifth appears (and the reverse going back). The carousel
+  // stops at either end instead of looping.
   const move = (direction: number) => {
-    if (paged) setStart(clamp(first + direction, lastStart));
-    setSelected(clamp(active + direction, count - 1));
+    const next = clamp(active + direction, count - 1);
+    setSelected(next);
+    if (!paged) return;
+    if (next < first) setStart(next);
+    else if (next > first + VISIBLE_CARDS - 1) setStart(clamp(next - VISIBLE_CARDS + 1, lastStart));
   };
   const visible = paged
     ? Array.from({ length: VISIBLE_CARDS }, (_, offset) => first + offset)
