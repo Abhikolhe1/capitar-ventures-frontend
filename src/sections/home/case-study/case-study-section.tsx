@@ -32,22 +32,25 @@ export function CaseStudySection({ data, variant }: { data?: CaseStudyContent; v
   const active = Math.min(selected, Math.max(0, data.items.length - 1));
   const count = data.items.length;
   const paged = count > VISIBLE_CARDS;
-  const first = paged ? start % count : 0;
+  const lastStart = Math.max(0, count - VISIBLE_CARDS);
+  const first = paged ? Math.min(start, lastStart) : 0;
+  const clamp = (value: number, max: number) => Math.min(Math.max(value, 0), max);
   // With more than four cards the arrows slide the window by one: the first card
-  // hides, the next one appears, and the open card moves along with it.
+  // hides, the next one appears, and the open card moves along with it. The
+  // carousel stops at either end instead of looping.
   const move = (direction: number) => {
-    if (paged) setStart((first + direction + count) % count);
-    setSelected((active + direction + count) % count);
+    if (paged) setStart(clamp(first + direction, lastStart));
+    setSelected(clamp(active + direction, count - 1));
   };
   const visible = paged
-    ? Array.from({ length: VISIBLE_CARDS }, (_, offset) => (first + offset) % count)
+    ? Array.from({ length: VISIBLE_CARDS }, (_, offset) => first + offset)
     : data.items.map((_, index) => index);
   return <Box component="section" className={variant === 'portfolio' ? 'portfolio-stories' : undefined} ref={scope} id="case-study" aria-labelledby="case-study-heading" sx={{ position: 'relative', zIndex: 3, bgcolor: '#FFFFFF', color: '#121212' }}>
     <Box sx={{ maxWidth: 1440, mx: 'auto', px: { xs: '20px', sm: 6, lg: '50px' }, pt: { xs: 6, sm: 6, md: '60px' }, pb: { xs: 6, sm: 6, md: '51px' }, minHeight: { lg: 800 } }}>
       <Box data-case-header sx={{ px: { lg: '10px' }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0,1fr) minmax(0,1fr) 170px', lg: 'minmax(0,487px) minmax(0,394px) 170px' }, alignItems: 'end', columnGap: { md: 3 }, justifyContent: 'space-between', rowGap: { xs: '12px', md: 3 } }}>
         <Box><SectionBadge compactMobile text={data.sectionLabel} minWidth={122} fontWeight={500} /><Typography component="h2" id="case-study-heading" sx={{ mt: '20px', fontSize: { xs: 28, sm: 38, lg: 42 }, lineHeight: 1.2, letterSpacing: '-0.02em', fontWeight: 400, whiteSpace: { lg: 'pre-line' } }}>{data.heading}</Typography></Box>
         {data.description && <Typography sx={{ fontSize: { xs: 14, sm: 16 }, lineHeight: 1.5, fontWeight: 400 }}>{data.description}</Typography>}
-        <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px', justifySelf: 'end' }}>{[-1,1].map(direction => <IconButton key={direction} aria-label={direction < 0 ? 'Previous case study' : 'Next case study'} disabled={data.items.length < 2} onClick={() => move(direction)} sx={{ bgcolor: '#0B0F2D', color: '#FFFFFF', width: { xs: 60, md: 80 }, height: 44, borderRadius: direction < 0 ? '50px 0 0 50px' : '0 50px 50px 0', justifyContent: direction < 0 ? 'flex-start' : 'flex-end', px: { xs: '12px', md: '18px' }, '&:hover': { bgcolor: '#193969' }, '&.Mui-focusVisible': { outline: '2px solid #CC2334', outlineOffset: 3 } }}><svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" style={{ transform: direction < 0 ? 'rotate(180deg)' : undefined }}><path d="M3 10h14m-5-4 5 4-5 4" fill="none" stroke="currentColor" strokeWidth="1.2" /></svg></IconButton>)}</Box>
+        <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px', justifySelf: 'end' }}>{[-1,1].map(direction => <IconButton key={direction} aria-label={direction < 0 ? 'Previous case study' : 'Next case study'} disabled={direction < 0 ? active === 0 : active >= count - 1} onClick={() => move(direction)} sx={{ bgcolor: '#0B0F2D', color: '#FFFFFF', width: { xs: 60, md: 80 }, height: 44, borderRadius: direction < 0 ? '50px 0 0 50px' : '0 50px 50px 0', justifyContent: direction < 0 ? 'flex-start' : 'flex-end', px: { xs: '12px', md: '18px' }, '&:hover': { bgcolor: '#193969' }, '&.Mui-disabled': { bgcolor: '#0B0F2D', color: '#FFFFFF', opacity: 0.35 }, '&.Mui-focusVisible': { outline: '2px solid #CC2334', outlineOffset: 3 } }}><svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" style={{ transform: direction < 0 ? 'rotate(180deg)' : undefined }}><path d="M3 10h14m-5-4 5 4-5 4" fill="none" stroke="currentColor" strokeWidth="1.2" /></svg></IconButton>)}</Box>
       </Box>
       {mobile ? <>
         <Box component="ul" data-case-deck aria-label="Selected case study" sx={{ p: 0, m: 0, mt: 3 }}>
