@@ -36,7 +36,7 @@ test('published fourth section resolves its exact assets and fits all seven widt
   expect(geometry.top).toBeCloseTo(geometry.previousBottom,0);
   expect(geometry.overflow).toBeFalsy();
   expect(geometry.clipped).toBeFalsy();
-  if(width===1440){expect(geometry.height).toBeCloseTo(1671.65,0);expect(geometry.cardHeights).toEqual([440,440,440,440]);}
+  if(width===1440){expect(geometry.height).toBeCloseTo(1586.15,0);expect(geometry.cardHeights).toEqual([440,440,440,440]);}
   await section.screenshot({path:`test-results/difference-${width}.png`});
  }
  expect(errors).toEqual([]);
@@ -57,11 +57,11 @@ test(`desktop intro releases after the cards and scrolls out before the next sec
  await page.evaluate(y=>scrollTo(0,y+100),top);
  await expect(heading).toHaveCSS('opacity','1');
  const intro=section.locator('[data-difference-intro]');
- expect((await intro.boundingBox())!.y).toBeCloseTo(0,0);
+ expect((await intro.boundingBox())!.y).toBeCloseTo(85.5,0);
  const first=section.locator('article').first();
  const before=(await first.boundingBox())!.y;
  await page.evaluate(y=>scrollTo(0,y+500),top);
- expect((await intro.boundingBox())!.y).toBeCloseTo(0,0);
+ expect((await intro.boundingBox())!.y).toBeCloseTo(85.5,0);
  expect((await first.boundingBox())!.y).toBeCloseTo(before-400,0);
  await expect(first.locator('h3')).toHaveCSS('opacity','1');
  await page.evaluate(y=>scrollTo(0,y+1300),top);
@@ -78,7 +78,7 @@ test(`desktop intro releases after the cards and scrolls out before the next sec
  expect(releasedIntro.y+releasedIntro.height).toBeLessThanOrEqual(0);
  expect(await page.evaluate(()=>document.elementFromPoint(innerWidth/2,200)?.closest('#case-study')!==null)).toBeTruthy();
  await page.evaluate(y=>scrollTo(0,y+100),top);
- expect((await intro.boundingBox())!.y).toBeCloseTo(0,0);
+ expect((await intro.boundingBox())!.y).toBeCloseTo(85.5,0);
  await expect(heading).toHaveCSS('opacity','1');
  await expect(first.locator('h3')).toHaveCSS('opacity','1');
  await page.evaluate(()=>window.dispatchEvent(new Event('focus')));

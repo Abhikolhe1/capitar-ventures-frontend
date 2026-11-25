@@ -35,9 +35,11 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
         data-difference-intro
         sx={{
           position: { xs: 'relative', lg: 'sticky' },
-          top: 0,
-          minHeight: { lg: 538 },
-          pt: { xs: '48px', sm: '72px', lg: '165.5px' },
+          // Enter 85.5px earlier, then hold at the same final text position:
+          // sticky top (85.5) + padding (80) = the original 165.5px inset.
+          top: { xs: 0, lg: '85.5px' },
+          minHeight: { lg: 452.5 },
+          pt: { xs: '48px', sm: '72px', lg: '80px' },
           pb: { xs: '24px', lg: 0 },
           textAlign: 'center',
           maxWidth: 788,
@@ -117,7 +119,9 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
               key={column}
               role="presentation"
               sx={{
-                display: 'flex',
+                // Phones stack one column: flatten the two desktop columns so cards
+                // can be ordered by their number (CMS numbers them for the zig-zag).
+                display: { xs: 'contents', sm: 'flex' },
                 flexDirection: 'column',
                 gap: { xs: '12px', sm: '24px', lg: column === 0 ? '83.63px' : '67.31px' },
                 pt: { lg: column === 0 ? 0 : '142.7px' },
@@ -128,6 +132,7 @@ export function CapitarDifferenceSection({ data }: { data?: CapitarDifferenceCon
                   key={`${index}-${item.title}`}
                   data={item}
                   background={data.cardBackground}
+                  mobileOrder={Number.parseInt(item.number || '', 10) || column * split + index + 1}
                 />
               ))}
             </Box>

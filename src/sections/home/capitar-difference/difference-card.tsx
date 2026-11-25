@@ -35,9 +35,11 @@ function Illustration({ media }: { media?: Media }) {
 export function DifferenceCard({
   data,
   background,
+  mobileOrder,
 }: {
   data: DifferenceCardContent;
   background?: Media;
+  mobileOrder?: number;
 }) {
   return (
     <Box
@@ -46,6 +48,7 @@ export function DifferenceCard({
       data-difference-card
       sx={{
         position: 'relative',
+        order: { xs: mobileOrder ?? 0, sm: 0 },
         pointerEvents: 'auto',
         isolation: 'isolate',
         color: websiteTokens.white,

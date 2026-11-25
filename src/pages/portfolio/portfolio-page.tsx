@@ -2,7 +2,7 @@ import './portfolio.css';
 
 import { useRef, useState, useEffect } from 'react';
 
-import Pagination from '@mui/material/Pagination';
+import Button from '@mui/material/Button';
 
 import { useHomepage } from 'src/hooks/use-homepage';
 import { usePortfolio } from 'src/hooks/use-portfolio';
@@ -36,8 +36,9 @@ export default function PortfolioPage() {
     sectors,
     stages,
     loading: companiesLoading,
-  } = usePortfolioCompanies({ limit: PAGE_SIZE, skip: (page - 1) * PAGE_SIZE, sector, stage });
-  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    failed: companiesFailed,
+    retry: retryCompanies,
+  } = usePortfolioCompanies({ limit: PAGE_SIZE, skip: (page - 1) * PAGE_SIZE, sector, stage, append: true });
   useEffect(() => {
     const previousTitle = document.title;
     document.title = data.title;
@@ -58,30 +59,12 @@ export default function PortfolioPage() {
   useEffect(() => {
     setSelected((current) => (companies.some((company) => company.key === current) ? current : null));
   }, [companies]);
-  // Companies removed in the CMS can leave the visitor past the last page.
-  useEffect(() => {
-    if (!companiesLoading && page > pageCount) setPage(pageCount);
-  }, [companiesLoading, page, pageCount]);
   useSectionReveal(scope, `${sector}:${stage}:${page}:${JSON.stringify(data)}:${JSON.stringify(companies)}`);
   const reset = () => {
     setSector('');
     setStage('');
     setPage(1);
     setSelected(null);
-  };
-  const changePage = (next: number) => {
-    if (next === page) return;
-    setPage(next);
-    setSelected(null);
-    // Bring the section back into view so the new page is read from the start
-    // (the controls sit under the grid). Leaves ~96px above the section content
-    // for the fixed site header, accounting for the section's own top padding.
-    const section = scope.current;
-    const top = section?.getBoundingClientRect().top;
-    if (section && top !== undefined && top < 0) {
-      const padding = parseFloat(getComputedStyle(section).paddingTop) || 0;
-      window.scrollTo({ top: window.scrollY + top - Math.max(0, 96 - padding) });
-    }
   };
   // const stories = data.featuredStories;
   return (
@@ -174,6 +157,7 @@ export default function PortfolioPage() {
               />
             </div>
             <ul
+              id="portfolio-company-grid"
               className="portfolio-grid"
               aria-label="Portfolio companies"
               aria-busy={companiesLoading}
@@ -265,17 +249,15 @@ export default function PortfolioPage() {
                 </li>
               ))}
             </ul>
-            {pageCount > 1 && (
-              <nav className="portfolio-pagination" aria-label="Portfolio companies pages">
-                <Pagination
-                  count={pageCount}
-                  page={Math.min(page, pageCount)}
-                  onChange={(_, next) => changePage(next)}
-                  shape="rounded"
-                  siblingCount={1}
-                  boundaryCount={1}
-                />
-              </nav>
+            {(companies.length < total || companiesFailed) && (
+              <div className="portfolio-load-more">
+                <Button variant="contained" disabled={companiesLoading}
+                  onClick={() => companiesFailed ? retryCompanies() : setPage(page + 1)}
+                  aria-controls="portfolio-company-grid">
+                  {companiesLoading ? 'Loading…' : 'Load more'}
+                </Button>
+                {companiesFailed && <p role="status">Unable to load more companies. Please try again.</p>}
+              </div>
             )}
             {!companies.length && !companiesLoading && (
               <div className="portfolio-empty">

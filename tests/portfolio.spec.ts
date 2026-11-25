@@ -25,7 +25,7 @@ for (const reducedMotion of ['reduce', 'no-preference', null] as const) {
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       "The founders we've backed"
     );
-    await expect(page.locator('.portfolio-grid > li')).toHaveCount(12);
+    await expect(page.locator('.portfolio-grid > li')).toHaveCount(9);
     const card = page.locator('.portfolio-card').first();
     await card.scrollIntoViewIfNeeded();
     await card.hover();
@@ -41,7 +41,7 @@ for (const reducedMotion of ['reduce', 'no-preference', null] as const) {
     await choose(page, 'Stage at investment', 'Pre Series A');
     await expect(page.getByText('No companies match these filters.')).toBeVisible();
     await page.getByRole('button', { name: 'View all companies' }).click();
-    await expect(page.locator('.portfolio-grid > li')).toHaveCount(12);
+    await expect(page.locator('.portfolio-grid > li')).toHaveCount(9);
     expect(
       await page
         .locator('.portfolio-card__logo')

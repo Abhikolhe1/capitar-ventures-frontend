@@ -29,7 +29,8 @@ export function useProofTextFill(scope: RefObject<HTMLElement | null>, signature
         gsap.to(words, {
           color: websiteTokens.proof.ink,
           duration: 0.15, stagger: 0.12, ease: 'none',
-          scrollTrigger: { trigger: heading, start: 'top 60%', end: 'bottom 35%', scrub: 0.2 },
+          // Fill finishes when the whole section sits centred in the viewport.
+          scrollTrigger: { trigger: heading, start: 'top 85%', endTrigger: scope.current, end: 'center center', scrub: 0.2 },
         });
       });
     }, scope);

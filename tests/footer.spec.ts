@@ -19,12 +19,12 @@ async function mockCms(page: import('@playwright/test').Page, footer = fallback.
   await page.route('**/api/homepage', route => route.fulfill({ json: { data: fallback } }));
 }
 
-test('footer keeps its recording width, fits registration content, follows main, and copies contact details', async ({ page, context }) => {
+test('footer matches the compact Figma frame, fits registration content and copies contact details', async ({ page, context }) => {
   await mockCms(page);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1441, height: 950 });
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await page.goto('/');
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
   const footer = page.getByRole('contentinfo', { name: 'Capitar Ventures footer' });
   await footer.scrollIntoViewIfNeeded();
   const dimensions = await footer.evaluate(element => {
@@ -34,16 +34,24 @@ test('footer keeps its recording width, fits registration content, follows main,
     return { width: outer.width, height: outer.height, panelWidth: panel.width, panelHeight: panel.height, left: panel.left - outer.left, top: panel.top - outer.top, ctaWidth: cta.width, ctaHeight: cta.height, afterMain: element.previousElementSibling?.tagName === 'MAIN' };
   });
   expect(dimensions.width).toBe(1441);
-  expect(dimensions.height).toBeCloseTo(950, 1);
+  expect(dimensions.height).toBeCloseTo(640, 1);
   expect(dimensions.panelWidth).toBeCloseTo(1324, 1);
-  // The SEBI registration block adds content; keep the original minimum without clipping it.
-  expect(dimensions.panelHeight).toBeGreaterThanOrEqual(523);
+  expect(dimensions.panelHeight).toBeCloseTo(523, 1);
   expect(dimensions.panelHeight).toBeLessThan(dimensions.height);
   expect(dimensions.left).toBeCloseTo(58.5, 1);
-  expect(dimensions.top).toBeCloseTo((950 - dimensions.panelHeight) / 2, 1);
+  expect(dimensions.top).toBeCloseTo(68.5, 1);
   expect(dimensions.ctaWidth).toBeCloseTo(352, 1);
   expect(dimensions.ctaHeight).toBe(440);
   expect(dimensions.afterMain).toBeTruthy();
+  for (const height of [600, 730, 1080]) {
+    await page.setViewportSize({ width: 1441, height });
+    expect(await footer.evaluate(element => element.getBoundingClientRect().height)).toBeCloseTo(640, 1);
+    expect(await footer.locator('[data-footer-cta]').evaluate(element => element.getBoundingClientRect().height)).toBe(440);
+  }
+  await page.setViewportSize({ width: 1441, height: 950 });
+  const order = await footer.evaluate(element => ['[data-footer-contact]', '[data-footer-registration]', '[data-footer-ai-copy]'].map(selector => element.querySelector(selector)!.getBoundingClientRect().toJSON()));
+  expect(order[1].top).toBeGreaterThan(order[0].bottom);
+  expect(order[2].top).toBeGreaterThan(order[1].bottom);
   const icons = footer.getByRole('navigation', { name: 'Explore Capitar with AI' }).locator('img');
   await expect(icons).toHaveCount(4);
   await icons.evaluateAll(images => Promise.all(images.map(element => { const image = element as HTMLImageElement; image.loading = 'eager'; return image.decode(); })));
@@ -52,7 +60,7 @@ test('footer keeps its recording width, fits registration content, follows main,
   await footer.getByRole('button', { name: 'Copy phone' }).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(fallback.global.footer.phone);
   // Full motion remains enabled under either OS preference; unpublished Insights stays hidden.
-  await expect(footer.locator('video')).toHaveCount(2);
+  await expect(footer.locator('video')).toHaveCount(1);
   await expect(footer.getByRole('navigation', { name: 'Footer navigation' }).getByRole('link', { name: 'Insights' })).toHaveCount(0);
   await footer.screenshot({ path: 'test-results/footer-desktop.png' });
 });
@@ -65,13 +73,18 @@ test('footer remains readable without page overflow across responsive widths', a
   page.on('pageerror', error => errors.push(error.message));
   for (const width of [1280, 1024, 768, 390, 375, 320]) {
     await page.setViewportSize({ width, height: 950 });
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     const footer = page.locator('#site-footer');
     await footer.scrollIntoViewIfNeeded();
     await expect(footer.getByRole('heading')).toHaveText('Interested in learning more about us?');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     const clipped = await footer.evaluate(element => [...element.querySelectorAll('nav,p,address')].some(item => item.scrollWidth > item.clientWidth + 1));
     expect(clipped).toBeFalsy();
+    const spacing = await footer.evaluate(element => ({
+      aiBottom: element.querySelector('[aria-label="Explore Capitar with AI"]')!.getBoundingClientRect().bottom,
+      legalTop: element.querySelector('[data-footer-legal]')!.getBoundingClientRect().top,
+    }));
+    expect(spacing.legalTop).toBeGreaterThan(spacing.aiBottom);
     await footer.screenshot({ path: `test-results/footer-${width}.png` });
   }
   expect(errors).toEqual([]);
@@ -87,13 +100,13 @@ test('normal motion reuses the hero animation and falls back if the CMS video fa
   const footer = page.locator('#site-footer');
   await footer.scrollIntoViewIfNeeded();
   const videos = footer.locator('video');
-  await expect(videos).toHaveCount(2);
+  await expect(videos).toHaveCount(1);
   await expect(videos.first()).toHaveAttribute('src', '/assets/capitar/hero.mp4');
   await expect.poll(() => videos.first().evaluate((video: HTMLVideoElement) => video.currentTime)).toBeGreaterThan(0);
   for (const video of await videos.all()) {
     expect(await video.evaluate((element: HTMLVideoElement) => element.muted && element.loop && element.playsInline)).toBeTruthy();
   }
-  for (const surface of ['outer', 'cta']) {
+  for (const surface of ['outer']) {
     const background = footer.locator(`[data-footer-background="${surface}"]`);
     // Measure both layers in one frame while smooth scrolling is still settling.
     const { poster, moving } = await background.evaluate(element => ({
@@ -107,7 +120,7 @@ test('normal motion reuses the hero animation and falls back if the CMS video fa
     expect(await background.locator('video').evaluate(element => getComputedStyle(element).objectPosition)).toBe(await background.locator('img').evaluate(element => getComputedStyle(element).objectPosition));
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(videos).toHaveCount(0);
+  await expect(videos).toHaveCount(1);
 });
 
 test('CMS controls links and content; disabled or malformed footer stays hidden', async ({ page }) => {

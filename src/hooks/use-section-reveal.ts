@@ -26,10 +26,10 @@ export function useSectionReveal(
           metrics ? element.querySelectorAll('[data-proof-value]') : element,
           element,
           { opacity: 0, y: metrics ? 24 : 20 },
-          { opacity: 1, y: 0, ...(metrics ? { stagger: 0.1 } : {}), duration: heading ? 0.85 : 0.7, ease: 'power2.out' },
+          { opacity: 1, y: 0, ...(metrics ? { stagger: 0.18 } : {}), duration: heading ? 0.85 : 0.7, ease: 'power2.out' },
           // Home proof metrics appear as soon as the row enters the screen (default is 70% down).
           metrics ? start ?? 'top 92%' : start,
-          metrics ? minDuration ?? 0.8 : minDuration
+          metrics ? minDuration ?? 1.3 : minDuration
         ));
       });
     }, scope);

@@ -66,19 +66,21 @@ export const homepageViewportStyles = {
   },
 };
 
-// Footer lives outside main, so it shares the viewport rule through its own sx.
+// Footer lives outside main and follows the compact Figma frame rather than viewport height.
 export const footerViewportStyles = {
   '@media (min-width:900px)': {
-    height: '100svh', boxSizing: 'border-box', display: 'flex',
-    flexDirection: 'column', justifyContent: 'safe center',
-    '& > div:last-child': { width: '100%', flexShrink: 0, py: 'clamp(20px,5svh,68.5px)' },
-    '& [data-footer-panel]': { minHeight: 'min(523px,calc(100svh - 80px))', p: 'clamp(24px,5svh,40px)' },
-    '& [data-footer-grid]': { gridTemplateColumns: 'minmax(0,342fr) minmax(0,418fr) minmax(0,352fr)', gap: 'clamp(24px,4vw,66px)' },
-    '& [data-footer-grid] > div:first-child, & [data-footer-grid] > div:nth-child(2)': { pb: '64px' },
-    '& [data-footer-cta]': { gridColumn: 'auto', height: 'clamp(300px,calc(100svh - 180px),440px)' },
-    '& [data-footer-legal]': { position: 'absolute', left: 'clamp(24px,5svh,40px)', bottom: 24, mt: 0 },
+    // Figma 977:1494 is 1441 x 640. Footer size must not grow with screen height.
+    height: 'auto', boxSizing: 'border-box',
+    '& > [data-footer-shell]': { width: '100%', pt: '68.5px', pb: '48.5px' },
+    '& [data-footer-panel]': { minHeight: 523, p: '40px', px: '42px' },
+    '& [data-footer-grid]': { gridTemplateColumns: 'minmax(0,342fr) minmax(0,438fr) minmax(0,352fr)', gap: 'clamp(24px,3.75vw,54px)', alignItems: 'start' },
+    '& [data-footer-company]': { mt: '-13px', pb: '36px' },
+    '& [data-footer-links]': { maxWidth: '416.48px', pt: '15.5px', pb: 0 },
+    '& [data-footer-cta]': { gridColumn: 'auto', height: 440 },
+    '& [data-footer-legal]': { position: 'absolute', left: 42, bottom: 24, mt: 0, maxWidth: 'calc(100% - 440px)' },
   },
-  '@media (min-width:1200px)': {
-    '& [data-footer-grid]': { gap: '66px' },
+  '@media (min-width:900px) and (max-width:1199.95px)': {
+    '& [data-footer-company]': { pb: 0 },
+    '& [data-footer-legal]': { position: 'static', mt: '24px', maxWidth: '100%', gap: '16px' },
   },
 };

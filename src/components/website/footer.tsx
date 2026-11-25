@@ -76,20 +76,20 @@ function CopyContact({ label, value, href }: { label: string; value: string; hre
       <Typography
         sx={{
           color: '#9B9BA1',
-          fontSize: 14,
-          lineHeight: '20px',
+          fontSize: 10,
+          lineHeight: '14px',
           textTransform: 'uppercase',
           mb: '6px',
         }}
       >
-        {label === 'Email' ? 'Email:' : 'Phone number:'}
+        {label === 'Email' ? 'Mail ID:' : 'Phone number:'}
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
         <Box
           component="a"
           href={href}
           sx={{
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: 500,
             lineHeight: '22px',
             letterSpacing: '0.04em',
@@ -154,11 +154,11 @@ function FooterLinkList({ items, label }: { items: ContentLink[]; label: string 
             component="li"
             sx={{
               display: 'grid',
-              gridTemplateColumns: '104px minmax(0,1fr)',
+              gridTemplateColumns: '128px minmax(0,1fr)',
               alignItems: 'center',
               minHeight: 36,
               color: '#808080',
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: 500,
               lineHeight: 1.25,
               overflowWrap: 'anywhere',
@@ -209,7 +209,7 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
       onPointerDown={(event: ReactPointerEvent<HTMLElement>) => {
         pointerType.current = event.pointerType;
       }}
-      sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px', mt: '16px' }}
+      sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px', mt: '8px' }}
     >
       {items.map((item, index) => {
         const expanded = active === index || !item.icon;
@@ -339,8 +339,37 @@ function AiShortcuts({ items }: { items: FooterShortcut[] }) {
 
 export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: { url: string } }) {
   const root = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const [panelMask, setPanelMask] = useState<string>();
   const [visible, setVisible] = useState(false);
   const mobile = useMediaQuery('(max-width:599.95px)');
+  useEffect(() => {
+    const panel = panelRef.current;
+    const cta = ctaRef.current;
+    if (!data?.enabled || !panel || !cta || !window.ResizeObserver ||
+      !CSS.supports('mask-image', 'linear-gradient(white,white)') &&
+      !CSS.supports('-webkit-mask-image', 'linear-gradient(white,white)')) return undefined;
+    const update = () => {
+      const bounds = panel.getBoundingClientRect();
+      const card = cta.getBoundingClientRect();
+      if (!bounds.width || !card.width) return;
+      // This mask cuts a layout window into the white panel. The artwork/video
+      // underneath is rendered once, so the card and surrounding footer align.
+      const radius = parseFloat(getComputedStyle(cta).borderTopLeftRadius) || 20;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${bounds.width}" height="${bounds.height}"><defs><mask id="window"><rect width="100%" height="100%" fill="white"/><rect x="${card.left - bounds.left}" y="${card.top - bounds.top}" width="${card.width}" height="${card.height}" rx="${radius}" fill="black"/></mask></defs><rect width="100%" height="100%" fill="white" mask="url(#window)"/></svg>`;
+      setPanelMask(`url("data:image/svg+xml,${encodeURIComponent(svg)}")`);
+    };
+    const observer = new ResizeObserver(update);
+    observer.observe(panel);
+    observer.observe(cta);
+    window.addEventListener('resize', update);
+    update();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [data?.enabled, data, mobile]);
   useEffect(() => {
     const element = root.current;
     if (!element) return undefined;
@@ -365,6 +394,13 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
       : item
   );
   const socialLinks = data.socialLinks.filter((item) => item.label.trim().toLowerCase() !== 'facebook');
+  // Keep the updated legal labels visible; only CMS entries with a URL are links.
+  const legalLinks = ['Disclaimer', 'Privacy Policy', 'Regulatory Disclosure', 'Accessibility'].map((label) => {
+    const configured = data.legalLinks.find((item) =>
+      label === 'Privacy Policy' ? /privacy/i.test(item.label) : item.label.trim().toLowerCase() === label.toLowerCase()
+    );
+    return { ...configured, label: label.toUpperCase(), enabled: configured?.enabled ?? false };
+  });
   const aiLinks = data.aiLinks.map((item) => ({
     ...item,
     icon:
@@ -391,7 +427,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
         sx={{ position: 'absolute', inset: 0, pointerEvents: 'none', bgcolor: '#0B0F2D' }}
       >
         <Box component="img" src={poster} alt="" loading="lazy" sx={mediaFraming} />
-        {visible && !mobile && (
+        {visible && !mobile && !cta && (
           <HeroBackgroundVideo
             retryOnInteraction
             src={src}
@@ -433,10 +469,20 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
         }}
       >
         <Box
+          ref={panelRef}
           data-footer-panel
+          data-footer-shared-background={!!panelMask}
           sx={{
             position: 'relative',
-            bgcolor: 'white',
+            bgcolor: panelMask ? 'transparent' : 'white',
+            isolation: 'isolate',
+            '&::before': {
+              content: '""', position: 'absolute', inset: 0, zIndex: -1,
+              bgcolor: 'white', borderRadius: 'inherit', pointerEvents: 'none',
+              maskImage: panelMask, WebkitMaskImage: panelMask,
+              maskSize: '100% 100%', WebkitMaskSize: '100% 100%',
+              maskRepeat: 'no-repeat', WebkitMaskRepeat: 'no-repeat',
+            },
             borderRadius: '20px',
             minHeight: { lg: 523 },
             p: { xs: 3, sm: 4, lg: '40px' },
@@ -488,8 +534,8 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                   sx={{
                     mt: '12px',
                     color: '#999999',
-                    fontSize: 16,
-                    lineHeight: '24px',
+                    fontSize: 14,
+                    lineHeight: '20px',
                     fontStyle: 'normal',
                     whiteSpace: 'pre-line',
                   }}
@@ -509,13 +555,20 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                   />
                 )}
               </Box>
+              {(data.registrationLabel || data.registrationDetails) && (
+                <Box data-footer-registration sx={{ mt: '18px', display: 'grid', gap: '8px' }}>
+                  {data.registrationLabel && <Typography sx={{ fontSize: 10, lineHeight: '14px', fontWeight: 400, color: '#999', textTransform: 'uppercase' }}>{data.registrationLabel}</Typography>}
+                  {data.registrationDetails && <Typography sx={{ fontSize: 12, lineHeight: 1.4, color: 'rgba(18,18,18,0.78)', whiteSpace: 'pre-line', overflowWrap: 'anywhere' }}>{data.registrationDetails}</Typography>}
+                </Box>
+              )}
               {data.aiText && (
                 <Typography
                   data-footer-ai-copy
                   sx={{
-                    mt: '32px',
-                    fontSize: 16,
-                    lineHeight: '24px',
+                    mt: '18px',
+                    fontSize: 10,
+                    lineHeight: '14px',
+                    textTransform: 'uppercase',
                     whiteSpace: 'pre-line',
                     color: '#65656D',
                   }}
@@ -524,12 +577,6 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                 </Typography>
               )}
               {!!aiLinks.length && <AiShortcuts items={aiLinks} />}
-              {(data.registrationLabel || data.registrationDetails) && (
-                <Box data-footer-registration sx={{ mt: '18px', display: 'grid', gap: '8px' }}>
-                  {data.registrationLabel && <Typography sx={{ fontSize: 11, lineHeight: 'normal', fontWeight: 700, color: '#999', textTransform: 'uppercase' }}>{data.registrationLabel}</Typography>}
-                  {data.registrationDetails && <Typography sx={{ fontSize: 14, lineHeight: 1.4, color: 'rgba(18,18,18,0.78)', whiteSpace: 'pre-line', overflowWrap: 'anywhere' }}>{data.registrationDetails}</Typography>}
-                </Box>
-              )}
             </Box>
             <Box data-footer-links sx={{ minWidth: 0, pt: { lg: '16px' }, pb: { lg: '64px' } }}>
               <FooterLinkList items={navigation} label="Footer navigation" />
@@ -543,13 +590,15 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
               )}
             </Box>
             <Box
+              ref={ctaRef}
               data-footer-cta
               sx={{
                 position: 'relative',
+                boxSizing: 'border-box',
                 height: { xs: 360, lg: 440 },
                 borderRadius: '20px',
                 overflow: 'hidden',
-                bgcolor: '#0B0F2D',
+                bgcolor: panelMask ? 'transparent' : '#0B0F2D',
                 p: '24px',
                 display: 'flex',
                 flexDirection: 'column',
@@ -557,7 +606,7 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
                 gridColumn: { sm: '1 / -1', lg: 'auto' },
               }}
             >
-              {background(true)}
+              {!panelMask && background(true)}
               <Typography
                 component="h2"
                 sx={{
@@ -614,14 +663,14 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
             sx={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: { xs: '16px', lg: '96px' },
+              gap: { xs: '16px', lg: '100px' },
               alignItems: 'center',
               mt: { xs: '32px', lg: '0px' },
               position: { lg: 'absolute' },
               left: { lg: 40 },
               bottom: { lg: 24 },
               maxWidth: { lg: 'calc(100% - 440px)' },
-              fontSize: 14,
+              fontSize: 12,
               lineHeight: 1.4,
               color: '#8D8D97',
             }}
@@ -634,10 +683,9 @@ export function Footer({ data, brandLogo }: { data?: FooterContent; brandLogo?: 
             <Box
               component="nav"
               aria-label="Legal links"
-              sx={{ display: 'flex', flexWrap: 'wrap', columnGap: '32px', rowGap: 1 }}
+              sx={{ display: 'flex', flexWrap: 'wrap', columnGap: '20px', rowGap: 1 }}
             >
-              {/* Keep unpublished legal pages hidden; Privacy now has a real destination. */}
-              {data.legalLinks.filter((item) => !/disclaimer|imprint/i.test(item.label)).map((item, index) => (
+              {legalLinks.map((item, index) => (
                 <Box key={`${index}-${item.label}`} component="span" data-legal-label={item.label.trim().toLowerCase()}><FooterLink item={item} underline /></Box>
               ))}
             </Box>

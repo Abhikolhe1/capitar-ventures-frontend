@@ -28,7 +28,8 @@ for (const [width, preference] of [[320, 'no-preference'], [393, 'reduce'], [599
     expect(geometry.marker.x).toBeLessThan(geometry.link.x);
     expect(geometry.clipped).toBe(false);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
-    await expect(footer.locator('[data-footer-background="cta"]')).toHaveCSS('display', 'block');
+    await expect(footer.locator('[data-footer-panel]')).toHaveAttribute('data-footer-shared-background', 'true');
+    await expect(footer.locator('[data-footer-background="cta"]')).toHaveCount(0);
     for (const image of await footer.locator('img').all()) {
       await expect.poll(() => image.evaluate((e: HTMLImageElement) => e.complete && e.naturalWidth > 0)).toBe(true);
     }

@@ -15,13 +15,15 @@ test('all case cards show details and consistent expanded and collapsed logo bac
   await expect(active.locator('h3')).toHaveText(name);
   await expect(active.locator('[data-case-caption] > p')).toHaveText(fallback.caseStudy.items[0].description);
   await expect(active.locator('[data-case-metric]')).toContainText(fallback.caseStudy.items[0].metricValue);
-  await expect(active.locator('[data-case-logo=expanded]')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(active.locator('[data-case-logo=expanded]')).toHaveCount(0);
+  await expect(active.locator('[data-case-logo=collapsed]')).toHaveCSS('opacity', '0');
+  await expect(active.locator('[data-case-number]')).toHaveCSS('opacity', '1');
   for (const logo of await section.locator('[data-case-card][data-active=false] [data-case-logo=collapsed]').all()) {
    await expect(logo).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   }
  }
  const settled = section.locator('[data-case-card][data-active=true]');
- await expect(settled.locator('[data-case-logo=expanded]')).toHaveCSS('opacity', '1');
+ await expect(settled.locator('[data-case-number]')).toHaveCSS('opacity', '1');
  await expect(settled.locator('[data-case-caption]')).toHaveCSS('opacity', '1');
  await expect(settled.locator('[data-case-image-button]')).toHaveCSS('height', '385px');
  await section.screenshot({ path: 'test-results/case-study-logo-treatment.png' });

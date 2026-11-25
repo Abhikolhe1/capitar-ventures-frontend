@@ -11,9 +11,24 @@ export const teamMobileStyles = {
     '& h2': { fontSize: 28, lineHeight: 1.2 },
     '& .team-heading-row h2 + p': { fontSize: 14, lineHeight: '20px' },
     '& [aria-label="Team carousel controls"]': { display: 'none' },
-    '& ul': { '--team-card-width': 'calc(100vw - 40px)', pl: '20px', pr: '20px', pb: 0, gap: '12px', scrollPaddingInlineStart: '20px' },
-    '& article': { aspectRatio: '400 / 478.07764' },
-    '& [data-team-linkedin]': { display: 'grid' },
+    // Phones: a two-column grid instead of the side-scrolling row. Cards fill
+    // left to right, two per row, so an odd last card sits on the left.
+    '& ul': {
+      display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '12px',
+      pl: '20px', pr: '20px', pb: 0,
+      overflowX: 'visible', scrollSnapType: 'none',
+    },
+    '& ul > li': { flex: 'none', scrollSnapAlign: 'none' },
+    '& article': { aspectRatio: '400 / 478.07764', borderRadius: '14px' },
+    // Half-width cards: smaller caption anchored to the bottom edge. The biography
+    // panel is too small to read at this width, so the caption stays put on tap.
+    '& .about-team-caption': { top: 'auto', bottom: '10px', left: '8%', right: '4%', transform: 'none !important' },
+    '& .about-team-identity': { gap: '4px' },
+    '& .about-team-name': { fontSize: 15, lineHeight: 1.1 },
+    '& .about-team-role': { fontSize: 11, lineHeight: 1.2, mt: '4px' },
+    '& .about-team-bio': { display: 'none' },
+    '& [data-team-linkedin]': { display: 'grid', width: 32, height: 32 },
+    '& [data-team-linkedin] img': { width: 14, height: 14 },
   },
 };
 
@@ -73,7 +88,7 @@ export const testimonialsMobileStyles = {
 export const footerMobileStyles = {
   [mobile]: {
     '& > [data-footer-shell]': { px: '10px', pt: '12px', pb: '10px' },
-    '& [data-footer-panel]': { display: 'flex', flexDirection: 'column', borderRadius: '20px', px: '20px', pt: '10px', pb: '20px', minHeight: 910 },
+    '& [data-footer-panel]': { display: 'flex', flexDirection: 'column', borderRadius: '20px', px: '20px', pt: '10px', pb: '20px', minHeight: 0 },
     '& [data-footer-grid]': { gridTemplateColumns: 'minmax(0,1fr)', gap: '16px' },
     '& [data-footer-company]': { display: 'contents' },
     '& [data-footer-cta]': { order: 0, height: 200, p: '14px', mx: '-10px', borderRadius: '16px', boxSizing: 'border-box' },
