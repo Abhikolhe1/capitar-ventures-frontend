@@ -403,7 +403,7 @@ html[data-motion='reduced'] .vd-signal-number > span {
   }
   .vd-process-grid > div:first-child {
     /* Lift the intro clear of the wave artwork without shifting the steps. */
-    top: calc(-1 * clamp(24px, 4.5svh, 44px));
+    top: calc(-1 * clamp(48px, 7.5svh, 72px));
   }
 }
 .vd-process-grid {
