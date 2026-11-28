@@ -25,7 +25,7 @@ export const homepageViewportStyles = {
       height: '100svh', '--case-card-height': 'clamp(200px,calc(100svh - 300px),484px)',
       '& > div': { height: '100%', minHeight: 0, py: 'clamp(18px,4svh,60px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' },
       '& h2': { fontSize: 'clamp(28px,4.7svh,42px)', mt: 'clamp(12px,2.2svh,20px)' },
-      '& [data-case-header] > p': { fontSize: 'clamp(14px,1.8svh,16px)' },
+      '& [data-case-header] > p': { fontSize: 'calc(clamp(14px,1.8svh,16px) + 2px)' },
       '& [data-case-deck]': { minHeight: 'var(--case-card-height)', mt: 'clamp(20px,4.5svh,53px)' },
       '& [data-case-image-button]': { height: 'var(--case-card-height)' },
       '& [data-case-card][data-active=true] [data-case-image-button]': { height: 'calc(var(--case-card-height) - 99px)' },

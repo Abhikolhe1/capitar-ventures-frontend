@@ -168,7 +168,7 @@ function FooterLinkList({ items, label }: { items: ContentLink[]; label: string 
               'html[data-motion="reduced"] &': { transition: 'none' },
             }}
           >
-            <Box aria-hidden="true" sx={{ width: 7, height: 7, ml: '2px', bgcolor: '#CC2334', transform: 'rotate(45deg)' }} />
+            <Box aria-hidden="true" sx={{ width: 5, height: 5, ml: '2px', bgcolor: '#CC2334', transform: 'rotate(45deg)' }} />
             <FooterLink item={item} />
           </Box>
         ))}

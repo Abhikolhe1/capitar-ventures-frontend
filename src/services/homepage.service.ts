@@ -140,9 +140,9 @@ export function normalizeContent(globalValue: unknown, homepageValue: unknown): 
                   name,
                   logo,
                   height:
-                    typeof item.height === 'number' ? Math.max(10, Math.min(100, item.height)) : 40,
+                    typeof item.height === 'number' ? Math.max(1, item.height) : 40,
                   width:
-                    typeof item.width === 'number' ? Math.max(20, Math.min(200, item.width)) : 120,
+                    typeof item.width === 'number' ? Math.max(1, item.width) : 120,
                 },
               ]
             : [];

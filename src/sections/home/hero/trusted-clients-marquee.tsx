@@ -22,11 +22,12 @@ export function TrustedClientsMarquee({ clients }: { clients: HeroContent['trust
       <Box
         sx={{
           display: 'flex',
-          width: '100%',
+          width: 'max-content',
+          minWidth: '200%',
           animation: `trusted-clients-scroll ${logos.length * 3.5}s linear infinite`,
           '@keyframes trusted-clients-scroll': {
             from: { transform: 'translateX(0)' },
-            to: { transform: `translateX(-${logos.length * 25}%)` },
+            to: { transform: 'translateX(-50%)' },
           },
         }}
       >
@@ -38,7 +39,7 @@ export function TrustedClientsMarquee({ clients }: { clients: HeroContent['trust
             sx={{
               display: 'flex',
               alignItems: 'center',
-              flex: `0 0 ${logos.length * 25}%`,
+              flex: '1 0 auto',
               listStyle: 'none',
               p: 0,
               m: 0,
@@ -50,8 +51,7 @@ export function TrustedClientsMarquee({ clients }: { clients: HeroContent['trust
                 key={`${client.name}-${index}`}
                 aria-hidden={index >= clients.length ? true : undefined}
                 sx={{
-                  flex: `0 0 ${100 / logos.length}%`,
-                  minWidth: 0,
+                  flex: '1 0 auto',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -67,9 +67,10 @@ export function TrustedClientsMarquee({ clients }: { clients: HeroContent['trust
                   height={client.height || 40}
                   sx={{
                     display: 'block',
-                    width: client.width,
-                    maxWidth: '100%',
-                    height: { xs: 28, sm: 40 },
+                    // CMS dimensions define the logo box; compact screens use the same 70% scale.
+                    width: { xs: client.width * 0.7, sm: client.width },
+                    maxWidth: 'none',
+                    height: { xs: (client.height || 40) * 0.7, sm: client.height || 40 },
                     objectFit: 'contain',
                   }}
                 />

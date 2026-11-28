@@ -11,7 +11,7 @@ for (const [width, preference] of [[320, 'no-preference'], [393, 'reduce'], [599
     const footer = page.locator('#site-footer');
     await footer.scrollIntoViewIfNeeded();
     const geometry = await footer.evaluate(el => {
-      const selectors = ['[data-footer-cta]', '[data-footer-brand]', 'address', '[data-footer-contact]', '[data-footer-links]', '[data-footer-ai-copy]', '[aria-label="Explore Capitar with AI"]', '[data-footer-legal]'];
+      const selectors = ['[data-footer-cta]', '[data-footer-brand]', 'address', '[data-footer-contact]', '[data-footer-links]', '[data-footer-registration]', '[data-footer-ai-copy]', '[aria-label="Explore Capitar with AI"]', '[data-footer-legal]'];
       return {
         items: selectors.map(s => el.querySelector(s)!.getBoundingClientRect().toJSON()),
         panel: el.querySelector('[data-footer-panel]')!.getBoundingClientRect().toJSON(),
